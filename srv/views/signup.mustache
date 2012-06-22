@@ -1,0 +1,51 @@
+<div class="container signup">
+  <div class="form-box span4 offset4">
+    <form action="/signup" method="post" id="signup-form">
+      <h4>Sign up with your email</h4>
+      <div>
+        {{^success}}
+          {{^beta}}
+            {{#exists}}
+              <p class="notice error"><span class="pictos">A</span> This email is already signed up.</p>
+            {{/exists}}
+            {{#emailuse}}
+              <p class="notice error"><span class="pictos">A</span> Wrong email</p>
+            {{/emailuse}}
+            {{#fail}}
+              <p class="notice error"><span class="pictos">A</span> Something went wrong.</p>
+            {{/fail}}
+            <p><input type="text" id="email" name="email" placeholder="Email" value="{{email}}"></p>
+            <p><button id="signup-button" type="submit" class="btn btn-primary btn-large" disabled="disabled">Sign Up</button></p>
+          {{/beta}}
+          {{#beta}}
+            <p class="notice txt">
+              Sorry, we are currently in <strong>private beta</strong>.<br />
+    	        Visit our <a href="http://teleportd.com/">home page</a> to sign up for early access.
+    	      </p>
+          {{/beta}}
+        {{/success}}
+        {{#success}}
+          <p class="notice txt success"><span class="pictos">q</span> We just sent you an email to confirm your account.</p>
+        {{/success}}
+      </div>
+    </form>
+  </div>
+  <script>
+    {{#email}}
+      $('#signup-button').removeAttr('disabled');
+    {{/email}}
+    $('#email').bind('change blur keyup mouseup', function() {
+      var email_r = /^[a-zA-Z0-9\._\-\+]+@[a-z0-9\._\-]{2,}\.[a-z]{2,4}$/;
+
+      if (email_r.exec($(this).val())) {
+        $('#signup-button').removeAttr('disabled');
+      } else {
+        $('#signup-button').attr('disabled', 'disabled');
+      }
+    });
+
+    TL.analytics.track_forms('#signup-form', 'signup', {
+      email: $('#email').val()
+    });
+  </script>
+</div>
