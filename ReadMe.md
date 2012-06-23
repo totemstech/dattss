@@ -4,6 +4,12 @@ DaTtSs helps aggregating and displaying server-side statistics in realtime to be
 servers and infrastructure behaviours. It is inspired by the idea that 
 "You Can't Fix what you Can't Track".
 
+Building a server-side statistics aggregation service is not that easy since the service 
+must not overhelm the servers that are being tracked. For that reason, pre-aggregation must 
+happen client-side and partial-aggregates only should be transmitted over the network with the
+right amount of aggregation so that it is well compressed but not too much so that global
+aggregated values can also be infered (approximatively but easily) from these partial aggregates.
+
 #### Features
 
 - Counter, Timers, Gauges aggregation and display (val, 1mn mvg avg)
@@ -39,11 +45,11 @@ see also:
 
 ##### Storage
 
-`EMAIL/WEEK_DAY/APP:COUNTER` countains max 1440 lines (one for each minute of the day).
+`EMAIL/WEEK_DAY/PROC/COUNTER` countains max 1440 lines (one for each minute of the day).
 Each line represents the `SUM, COUNT, MAX, MIN, BOT10, TOP90` values for that minute. Each
 of these lines is what we call a "partial aggregate"
 
-`EMAIL/current` countains the latest state of all the live counters. 
+`EMAIL/current/PROC` countains the latest state of all the live counters. 
 
 `EMAIL/errors` last 100 errors
 `EMAIL/warnings` last 100 warnings
