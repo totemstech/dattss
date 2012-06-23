@@ -20,3 +20,12 @@ config['DATTSS_MAIL_FROM'] = 'dattss@teleportd.com';
 config['DATTSS_MAIL_USER'] = 'dummy-env';
 config['DATTSS_MAIL_PASS'] = 'dummy-env';
 
+config['DATTSS_PUBLIC_ENDPTS'] = ['/favicon.ico',
+                                  '/login',
+                                  '/signup',
+                                  '/reset',
+                                  '/oauth',
+                                  '/404',
+                                  '/500',
+                                  '/503'];
+

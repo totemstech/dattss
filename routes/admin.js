@@ -23,8 +23,7 @@ exports.post_login = function(req, res, next) {
 
   var user = require('../lib/user.js').user({ email: email,
                                               mongo: req.store.mongo,
-                                              cfg: req.store.cfg,
-                                              status: req.store.status });
+                                              cfg: req.store.cfg });
   user.login(pass, function(err) {
     if(err) {
       res.render('login', {locals: { fail: true, email: email } });
@@ -73,8 +72,7 @@ exports.post_signup = function(req, res, next) {
     
     var user = require('../lib/user.js').user({ email: email,
                                                 mongo: req.store.mongo,
-                                                cfg: req.store.cfg,
-                                                status: req.store.status });
+                                                cfg: req.store.cfg });
     user.get(function(err, usr) {
       if(err) {
         res.redirect('/500');
@@ -121,8 +119,7 @@ exports.post_password = function(req, res, next) {
   
   var user = require('../lib/user.js').user({email: email,
                                              mongo: req.store.mongo,
-                                             cfg: req.store.cfg,
-                                             status: req.store.status });
+                                             cfg: req.store.cfg });
   user.finalize(key, pass, function(err) {
     if(err) {
       res.render('password', {locals: { fail: true } });
@@ -142,8 +139,7 @@ exports.get_signout = function(req, res, next) {
   if(email) {
     req.session.destroy(function(err) {
       if(err) {
-        req.store.status.error(err, 'req.session.destroy');
-        res.redirect('/500');
+        res.redirect('/500?error=' + err.message);
       }
       else {
         res.redirect('/');
@@ -175,8 +171,7 @@ exports.post_reset = function(req, res, next) {
   
   var user = require('../lib/user.js').user({ email: email,
                                               mongo: req.store.mongo,
-                                              cfg: req.store.cfg,
-                                              status: req.store.status });
+                                              cfg: req.store.cfg });
   user.reset(function(err) {
     if(err) {
       res.render('reset', {locals: { fail: true } });

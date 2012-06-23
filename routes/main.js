@@ -18,6 +18,7 @@ exports.get_home = function(req, res, next) {
   res.render('home', { locals: { user: { email: email } } });
 };
 
+
 /**
  * @path GET /404
  */
@@ -30,4 +31,11 @@ exports.get_notfound = function(req, res, next) {
  * @path GET /500
  */
 exports.get_error = function(req, res, next) {
+};
+
+
+/**
+ * @path GET /503
+ */
+exports.get_forbidden = function(req, res, next) {
 };

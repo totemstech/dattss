@@ -59,11 +59,8 @@ app.configure('production', function(){
 app.get( '/',                                 require('./routes/main.js').get_index);
 app.get( '/404',                              require('./routes/main.js').get_notfound);
 app.get( '/500',                              require('./routes/main.js').get_error);
+app.get( '/503',                              require('./routes/main.js').get_forbidden);
 app.get( '/home',                             require('./routes/main.js').get_home);
-
-// AGGREGATE
-
-app.put( '/agg',                              require('./routes/aggregate.js').put_agg); 
 
 
 // ADMIN
@@ -77,6 +74,28 @@ app.post('/password/:email',                  require('./routes/admin.js').post_
 app.get( '/reset',                            require('./routes/admin.js').get_reset);
 app.post('/reset',                            require('./routes/admin.js').post_reset);
 app.get( '/signout',                          require('./routes/admin.js').get_signout);
+
+
+// AGGREGATE
+
+app.put( '/agg',                              require('./routes/engine.js').put_agg); 
+app.put( '/error',                            require('./routes/engine.js').put_error);
+app.put( '/warning',                          require('./routes/engine.js').put_warning);
+app.get( '/config',                           require('./routes/engine.js').get_config);
+
+
+// CLIENT
+
+app.get( '/counter',                          require('./routes/client.js').get_counter);
+app.get( '/currents',                         require('./routes/client.js').get_currents);
+app.get( '/errors',                           require('./routes/client.js').get_errors);
+app.get( '/warnings',                         require('./routes/client.js').get_warnings);
+app.get( '/config',                           require('./routes/client/js').get_config);
+app.put( '/config/:app/:key',                 require('./routes/client/js').put_config);
+
+
+
+// SOCKET.IO
 
 
 app.listen(8080);
