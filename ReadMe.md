@@ -18,8 +18,9 @@ DaTtSs is an acronym for `statsd`: the whole project is inpsired by the work pro
 Flickr (perl + RDDTool) [https://github.com/iamcal/Flickr-StatsD] and later on Etsy (nodeJS + Graphite) 
 [https://github.com/etsy/statsd] 
 
-see [http://code.flickr.com/blog/2008/10/27/counting-timing/] and
-[http://codeascraft.etsy.com/2011/02/15/measure-anything-measure-everything/]
+see also: 
+- http://code.flickr.com/blog/2008/10/27/counting-timing/
+- http://codeascraft.etsy.com/2011/02/15/measure-anything-measure-everything/
 
 #### Example Usage
 
