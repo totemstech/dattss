@@ -86,8 +86,8 @@ app.get( '/config',                           require('./routes/engine.js').get_
 
 // CLIENT
 
-app.get( '/counter',                          require('./routes/client.js').get_counter);
 app.get( '/currents',                         require('./routes/client.js').get_currents);
+app.get( '/counter',                          require('./routes/client.js').get_counter);
 app.get( '/errors',                           require('./routes/client.js').get_errors);
 app.get( '/warnings',                         require('./routes/client.js').get_warnings);
 app.get( '/config',                           require('./routes/client/js').get_config);

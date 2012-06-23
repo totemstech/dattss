@@ -2,7 +2,7 @@
 
 DaTtSs helps aggregating and displaying server-side statistics in realtime to better track
 servers and infrastructure behaviours. It is inspired by the idea that 
-"You Can't Fix what you Can' Track".
+"You Can't Fix what you Can't Track".
 
 #### Features
 
@@ -10,13 +10,13 @@ servers and infrastructure behaviours. It is inspired by the idea that
 - Process statistics (uptime, mem, cpu, errors & warnings counts)
 - Daily against Week plot of MIN, MAX, AVG, BOT10, TOP90, COUNT, SUM
 - Errors and Warnings Streaming and reporting
-- Alerts [Email, SMS, Phone] (Above/Below Limits, Stopped Working, Stopped Responding) 
+- Alerts Email, SMS, Phone (Above/Below Limits, Stopped Working, Stopped Responding) 
 
 #### Inspiration
 
 DaTtSs is an acronym for `statsd`: the whole project is inpsired by the work proposed by 
-Flickr (perl + RDDTool) [https://github.com/iamcal/Flickr-StatsD] and later on Etsy (nodeJS + Graphite) 
-[https://github.com/etsy/statsd] 
+Flickr (perl + RDDTool) https://github.com/iamcal/Flickr-StatsD and later on Etsy (nodeJS + Graphite) 
+https://github.com/etsy/statsd 
 
 see also: 
 - http://code.flickr.com/blog/2008/10/27/counting-timing/
