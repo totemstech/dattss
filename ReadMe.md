@@ -50,8 +50,12 @@ of these lines is what we call a "partial aggregate"
 
 ##### Architecture
 
-All current state and partial (minute) aggregates are kept in memory and written back to disk
-every minute. Which means that memory must be big enough to handle all live data for all current
+Client side code, generates 5s-partial aggregates that are kept in a rolling 1mn array serer side.
+Each minute, an approximate 1m-partial aggregate is calculated from this array and stored to disk.
+Additionally, a current state is kept in memory and a 1mn mvg average calculated for each counter
+from the 5s-partial aggregates array as well.
+
+This means that memory must be big enough to handle all live data for all current
 users of DaTtSs. This infrastructure can be easily scaled by splitting data servers with a
 sharding solution based on user emails. 
 
