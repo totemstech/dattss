@@ -18,6 +18,10 @@ config['DATTSS_MONGO_PASS'] = 'dummy-env';
 config['DATTSS_MONGO_DB'] = 'dattss';
 config['DATTSS_MONGO_RECONNECT'] = true;
 
+config['DATTSS_REDIS_HOST'] = 'dummy-env';
+config['DATTSS_REDIS_PORT'] = 'dummy-env';
+config['DATTSS_REDIS_AUTH'] = 'dummy-env';
+
 config['DATTSS_MAIL_HOST'] = 'smtp.sendgrid.net';
 config['DATTSS_MAIL_PORT'] = '587';
 config['DATTSS_MAIL_DOMAIN'] = 'teleprotd.com';
@@ -34,3 +38,4 @@ config['DATTSS_PUBLIC_ENDPTS'] = ['/favicon.ico',
                                   '/500',
                                   '/503'];
 
+exports.config = config;
