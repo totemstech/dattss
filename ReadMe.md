@@ -14,7 +14,7 @@ aggregated values can also be infered (approximatively but easily) from these pa
 
 - Counter, Timers, Gauges aggregation and display (val, 1mn mvg avg)
 - Process statistics (uptime, mem, cpu, errors & warnings counts)
-- Daily against Week plot of MIN, MAX, AVG, BOT10, TOP90, COUNT, SUM
+- Daily against Week plot of MIN, MAX, AVG, BOT10, TOP10, COUNT, SUM
 - Errors and Warnings Streaming and reporting
 - Alerts Email, SMS, Phone (Above/Below Limits, Stopped Working, Stopped Responding) 
 
@@ -46,7 +46,7 @@ see also:
 ##### Storage
 
 `EMAIL/WEEK_DAY/PROC/COUNTER` countains max 1440 lines (one for each minute of the day).
-Each line represents the `SUM, COUNT, MAX, MIN, BOT10, TOP90` values for that minute. Each
+Each line represents the `SUM, COUNT, MAX, MIN, BOT10, TOP10` values for that minute. Each
 of these lines is what we call a "partial aggregate"
 
 `EMAIL/current/PROC` countains the latest state of all the live counters. 
