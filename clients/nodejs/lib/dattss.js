@@ -55,6 +55,7 @@ var dattss = function(spec, my) {
   my.pct  = spec.pct  || parseFloat(exports.CONFIG['DATTSS_PERCENTILE']);
 
   my.name = spec.name || 'noname';
+  my.start = Date.now();
 
   // accumulators
   my.acc = { 'c': {},
@@ -135,9 +136,13 @@ var dattss = function(spec, my) {
    * every DATTSS_PUSH_PERIOD (5s by default)
    */
   do_commit = function() {
-    var partials = make_partials();
+    var commit = { nam: my.name,
+                   upt: process.uptime(),
+                   mem: process.memoryUsage().rss,
+                   prt: make_partials() };
     console.log('========================================');
-    console.log(util.inspect(partials, false, 10));
+    console.log(util.inspect(commit, false, 10));
+    console.log('=++++++++++++++++++++++++++++++++++++++=');
   };
 
 
