@@ -31,14 +31,18 @@ see also:
 #### Example Usage
 
 ```
- var dt = require('dattss').init('post');
+ var dts = require('dattss').process({ name: 'api',
+                                       user: 'spolu',
+                                       auth: '1ba...' });
+ // or
+ var dts = require('dattss').process('api');
 
  //...
 
- dt.agg('new', '1c',  true);
- dt.agg('merge', '2c');
- dt.agg('query', '153ms');
- dt.agg('live', '23g');
+ dts.agg('new', '1c');
+ dts.agg('merge', '2c');
+ dts.agg('query', '153ms');
+ dts.agg('live', '23g');
 ```
 
 #### Technical Notes

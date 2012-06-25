@@ -80,8 +80,6 @@ app.configure('production', function(){
 
 app.get( '/',                                 require('./routes/main.js').get_index);
 app.get( '/404',                              require('./routes/main.js').get_notfound);
-app.get( '/500',                              require('./routes/main.js').get_error);
-app.get( '/503',                              require('./routes/main.js').get_forbidden);
 app.get( '/home',                             require('./routes/main.js').get_home);
 
 

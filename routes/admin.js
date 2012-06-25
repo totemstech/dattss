@@ -75,7 +75,7 @@ exports.post_signup = function(req, res, next) {
                                                 cfg: req.store.cfg });
     user.get(function(err, usr) {
       if(err) {
-        res.redirect('/500');
+        res.send(err.message, 500);
       }
       else if(usr && usr.pwd) {      
         res.render('signup', { locals: { exists: true } });
@@ -139,7 +139,7 @@ exports.get_signout = function(req, res, next) {
   if(email) {
     req.session.destroy(function(err) {
       if(err) {
-        res.redirect('/500?error=' + err.message);
+        res.send(err.message, 500);
       }
       else {
         res.redirect('/');

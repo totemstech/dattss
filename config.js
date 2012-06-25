@@ -34,8 +34,6 @@ config['DATTSS_PUBLIC_ENDPTS'] = ['/favicon.ico',
                                   '/signup',
                                   '/reset',
                                   '/oauth',
-                                  '/404',
-                                  '/500',
-                                  '/503'];
+                                  '/404'];
 
 exports.config = config;
