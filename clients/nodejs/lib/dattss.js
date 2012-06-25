@@ -141,8 +141,27 @@ var dattss = function(spec, my) {
                    mem: process.memoryUsage().rss,
                    prt: make_partials() };
     console.log('========================================');
-    console.log(util.inspect(commit, false, 10));
+    console.log(JSON.stringify(commit));
     console.log('=++++++++++++++++++++++++++++++++++++++=');
+    
+    if(my.creq)
+      my.creq.abort();
+
+    var options = {
+      host: my.host, 
+      port: my.port,
+      method: 'PUT',
+      path: '/agg?user=' + my.user + '&auth=' + my.auth
+    };
+    my.creq = http.request(options, function(res) {
+      console.log('/agg ' + res.statusCode);
+      delete my.commit_req;
+    });
+    my.creq.on('error', function(err) {
+      console.log('/agg error');
+    });
+    my.creq.write(JSON.stringify(commit));
+    my.creq.end();
   };
 
 

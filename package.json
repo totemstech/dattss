@@ -6,6 +6,7 @@
     "start": "./app.js"
   },
   "dependencies": {
+    "connect": "1.8.x",
     "connect-redis": "1.2.x",
     "express": "2.5.9",
     "fwk": "0.1.x",

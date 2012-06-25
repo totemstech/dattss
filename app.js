@@ -11,11 +11,8 @@ var redis = require('redis');
 var Mu = require('mu');
 var mongodb = require('mongodb');
 
-var RedisStore = require('connect-redis')(express);
 var app = module.exports = express.createServer();
-
-app.enable("jsonp callback");
-
+var RedisStore = require('connect-redis')(express);
 
 // cfg
 var cfg = fwk.populateConfig(require("./config.js").config);
@@ -44,7 +41,6 @@ var access = require('./lib/access.js').access({ cfg: cfg,
                                                  redis: redis,
                                                  engine: engine });
 
-
 // Configuration
 
 app.configure(function(){
@@ -59,9 +55,8 @@ app.configure(function(){
                           }) );
   app.use(express.static(__dirname + '/public'));
   app.use(express.bodyParser());
-  app.use(access.verify);
   app.use(express.methodOverride());
-  app.use(app.router);
+  //app.use(access.verify);
 });
 
 app.configure('development', function(){

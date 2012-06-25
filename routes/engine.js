@@ -5,24 +5,21 @@
 exports.put_agg = function(req, res, next) {
   var email = req.param('user');
 
-  var user = require('../lib/user.js').user({ email: email,
-                                              mongo: req.store.mongo,
-                                              cfg: req.store.cfg });
+  // if this code is executed, it means that the user has been 
+  // verified with a correct auth. No need to check existence.
 
-  user.exist(function(err, exist) {
-    if(exist) {
-      var engine = req.store.engine;
-      var res = engine.agg(req.param('user'), 
-                           req.body);
-      if(res) {
-        res.json({ ok: true });
-      }
-      else {
-        res.json('Malformed Request', 500);
-      }
-    }
-    else {
-      res.json('User not found', 500);
-    }
+  req.on('data', function(chunk) {
+    console.log('DATA: ' + chunk);
   });
+  console.log('BODY: ' + JSON.stringify(req.body));
+
+  var engine = req.store.engine;
+  var succ = engine.agg(req.param('user'), 
+                        req.body);
+  if(succ) {
+    res.json({ ok: true });
+  }
+  else {
+    res.json('Malformed Request', 500);
+  }
 };
