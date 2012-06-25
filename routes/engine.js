@@ -3,8 +3,7 @@
  * @path PUT /agg
  */
 exports.put_agg = function(req, res, next) {
-  var email = req.param('email');
-  var process = req.param('process');
+  var email = req.param('user');
 
   var user = require('../lib/user.js').user({ email: email,
                                               mongo: req.store.mongo,
@@ -13,8 +12,7 @@ exports.put_agg = function(req, res, next) {
   user.exist(function(err, exist) {
     if(exist) {
       var engine = req.store.engine;
-      var res = engine.agg(req.param('email'), 
-                           req.param('process'), 
+      var res = engine.agg(req.param('user'), 
                            req.body);
       if(res) {
         res.json({ ok: true });

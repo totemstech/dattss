@@ -49,11 +49,11 @@ see also:
 
 ##### Storage
 
-`EMAIL/WEEK_DAY/PROC/COUNTER` countains max 1440 lines (one for each minute of the day).
+`EMAIL/WEEK_DAY/PROC/CTYPE_CNAME.prt` countains max 1440 lines (one for each minute of the day).
 Each line represents the `SUM, COUNT, MAX, MIN, BOT10, TOP10` values for that minute. Each
 of these lines is what we call a "partial aggregate"
 
-`EMAIL/current/PROC` countains the latest state of all the live counters. 
+`EMAIL/current/PROC.cur` countains the latest state of all the live counters. 
 
 `EMAIL/errors` last 100 errors
 `EMAIL/warnings` last 100 warnings
