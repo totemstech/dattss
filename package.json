@@ -17,7 +17,8 @@
     "mongodb": "0.9.x",
     "stache": "0.1.x",
     "mailer": "0.6.x",
-    "oauth": "0.9.x"
+    "oauth": "0.9.x",
+    "mkdirp": "0.3.x"
   },
   "analyze": false,
   "engines": {

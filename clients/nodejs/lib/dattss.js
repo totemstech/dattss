@@ -151,7 +151,8 @@ var dattss = function(spec, my) {
       host: my.host, 
       port: my.port,
       method: 'PUT',
-      path: '/agg?user=' + my.user + '&auth=' + my.auth
+      path: '/agg?user=' + my.user + '&auth=' + my.auth,
+      headers: { "content-type": 'application/json' }
     };
     my.creq = http.request(options, function(res) {
       console.log('/agg ' + res.statusCode);

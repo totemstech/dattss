@@ -56,7 +56,7 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  //app.use(access.verify);
+  app.use(access.accessVerifier);
 });
 
 app.configure('development', function(){

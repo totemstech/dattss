@@ -8,11 +8,6 @@ exports.put_agg = function(req, res, next) {
   // if this code is executed, it means that the user has been 
   // verified with a correct auth. No need to check existence.
 
-  req.on('data', function(chunk) {
-    console.log('DATA: ' + chunk);
-  });
-  console.log('BODY: ' + JSON.stringify(req.body));
-
   var engine = req.store.engine;
   var succ = engine.agg(req.param('user'), 
                         req.body);
