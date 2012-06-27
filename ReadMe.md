@@ -1,4 +1,4 @@
-### DaTtSs: Realtime Server Statistics Aggregation as a Service
+### DaTtSs: Realtime Server Statistics Aggregation Service
 
 DaTtSs helps aggregating and displaying server-side statistics in realtime to better track
 servers and infrastructure behaviours. It is inspired by the idea that 
