@@ -94,20 +94,10 @@ app.get( '/signout',                          require('./routes/admin.js').get_s
 // AGGREGATE
 
 app.put( '/agg',                              require('./routes/engine.js').put_agg); 
-app.put( '/error',                            require('./routes/engine.js').put_error);
-app.put( '/warning',                          require('./routes/engine.js').put_warning);
-app.get( '/config',                           require('./routes/engine.js').get_config);
-
 
 // CLIENT
-/*
-app.get( '/currents',                         require('./routes/client.js').get_currents);
+app.get( '/current',                          require('./routes/client.js').get_current);
 app.get( '/counter',                          require('./routes/client.js').get_counter);
-app.get( '/errors',                           require('./routes/client.js').get_errors);
-app.get( '/warnings',                         require('./routes/client.js').get_warnings);
-app.get( '/config',                           require('./routes/client.js').get_config);
-app.put( '/config/:app/:key',                 require('./routes/client.js').put_config);
-*/
 
 
 // SOCKET.IO

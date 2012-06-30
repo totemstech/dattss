@@ -94,6 +94,7 @@ var dattss = function(spec, my) {
           // prepare the partial
           var p = { typ: typ,
                     nam: st,
+                    pct: my.pct,
                     sum: 0,
                     cnt: 0 };
 

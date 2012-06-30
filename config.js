@@ -6,7 +6,7 @@ config['DATTSS_SECRET'] = "8bbcd93ce09c5b040a83f13fceae21f8";
 config['DATTSS_STORAGE_PATH'] = '/Users/spolu/dattss/data';
 
 config['DATTSS_USER_CROND_PERIOD'] = 5 * 1000;
-config['DATTSS_USER_EVICTION_PERIOD'] = 10 * 1000; 
+config['DATTSS_USER_EVICTION_PERIOD'] = 10 * 1000;
 
 config['DATTSS_COOKIE_AGE'] = 1000 * 60 * 60 * 24 * 365;
 
