@@ -95,9 +95,12 @@ app.get( '/signout',                          require('./routes/admin.js').get_s
 
 app.put( '/agg',                              require('./routes/engine.js').put_agg); 
 
+
 // CLIENT
+
 app.get( '/current',                          require('./routes/client.js').get_current);
-app.get( '/counter',                          require('./routes/client.js').get_counter);
+app.get( '/stat',                             require('./routes/client.js').get_stat);
+
 
 
 // SOCKET.IO

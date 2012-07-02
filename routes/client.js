@@ -5,31 +5,44 @@
  * @path GET /current
  */
 exports.get_current = function(req, res, next) {
-  var email = req.param('user');
-
-  var engine = req.store.engine;
-  engine.current(email, function(err, cur) {
-    if(err) {
-      res.send(err.message, 500);
-    }
-    else {
-      res.json({ ok: true,
-                 cur: cur });
-    }
-  });
+  var email = req.session.email || null;
+  if(email) {
+    var engine = req.store.engine;
+    engine.current(email, function(err, cur) {
+      if(err) {
+        res.send(err.message, 500);
+      }
+      else {
+        res.json({ ok: true,
+                   current: cur });
+      }
+    });
+  }
+  else {
+    res.redirect('/login');
+  }
 };
 
 
 /**
- * @path GET /counter
+ * @path GET /stat
  */
-exports.get_counter = function(req, res, next) {
-  var email = req.param('user');
+exports.get_stat = function(req, res, next) {
+  var email = req.session.email || null;
+
+  var process = req.param('process');
   var type = req.param('type');
   var name = req.param('name');
 
-  var entine = req.store.engine;
-  engine.counter(email, type, name, function(err, cur) {
-
-  });
+  if(email) {
+    var engine = req.store.engine;
+    engine.stat(email, process, type, name, function(err, st, took) {
+      res.json({ ok: true,
+                 took: took,
+                 stat: st });
+    });
+  }
+  else {
+    res.redirect('/login');
+  }
 };

@@ -7,7 +7,7 @@ exports.get_index = function(req, res, next) {
   if(email)
     res.redirect('/home');
   else
-    res.render('index');
+    res.redirect('/login');
 };
 
 /**

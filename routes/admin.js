@@ -41,22 +41,12 @@ exports.post_login = function(req, res, next) {
 exports.get_signup = function(req, res, next) {
   var user = req.session.email || null;
   var email = req.param('email') || null;
-  var verif = req.param('verification');
-  var key = (verif === '' ? '0' : '');
   
-  if(verif && email) {
-    var hmac = require('crypto').createHash('md5');
-    hmac.update(email);
-    var key = hmac.digest('hex');
-  }
-
   if(user) {
     res.redirect('/home');
   }
-  else if(verif === key) {
+  else {
     res.render('signup', { locals: { email: email } });
-  } else {
-    res.render('signup', { locals: { beta: true } });
   }
 };
 
