@@ -15,7 +15,7 @@
     -->
 
     <!-- Styles -->
-    <link href="//capsules.teleportd.com/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/bootstrap.min.css" rel="stylesheet">
     <link href="//capsules.teleportd.com/assets/css/common.css" rel="stylesheet">
     <link href="/assets/css/dattss.css" rel="stylesheet">
     
@@ -27,13 +27,11 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
     <!-- Libs -->
-    <script src="//capsules.teleportd.com/assets/js/lib/jquery-1.7.1.min.js"></script>
-    <script src="//capsules.teleportd.com/assets/js/lib/jquery-cookie.js"></script>
-    <script src="//capsules.teleportd.com/assets/js/lib/spin.min.js"></script>
-    <script src="//capsules.teleportd.com/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/lib/jquery-1.7.2.min.js"></script>
+    <script src="/lib/cell-0.3.min.js"></script>
+    <script src="/lib/bootstrap.min.js"></script>
     
-    <!-- FWKs -->
-    <script src="//capsules.teleportd.com/assets/js/CELL/cell-0.3.min.js"></script>
   </head>
   <body>
     
@@ -49,7 +47,16 @@
             <div class="container-fluid">
               <a class="brand" href="/"></a>
               <div class="nav-collapse">
-                <div id="page-title"></div>
+                {{#home}}
+                <ul class="nav">
+                  <li class="active">
+                    <a href="#" data-toggle="tab" data-target="#stats-container">
+                      <span class="pictos">H</span> Statistics 
+                    </a>
+                  </li>
+                  <!-- Menu Items to be added -->
+                </ul>
+                {{/home}}
                 <ul class="nav pull-right">
                   {{#user}}
                     <li class="dropdown">

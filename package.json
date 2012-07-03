@@ -9,6 +9,7 @@
     "connect": "1.8.x",
     "connect-redis": "1.2.x",
     "express": "2.5.9",
+    "socket.io": "0.8.x",
     "fwk": "0.1.x",
     "hiredis": "0.1.x",
     "redis": "0.7.x",

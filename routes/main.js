@@ -15,7 +15,8 @@ exports.get_index = function(req, res, next) {
  */
 exports.get_home = function(req, res, next) {
   var email = req.session.email;
-  res.render('home', { locals: { user: { email: email } } });
+  res.render('home', { locals: { user: { email: email },
+                                 home: true } });
 };
 
 

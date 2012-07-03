@@ -13,6 +13,7 @@ var mongodb = require('mongodb');
 
 var app = module.exports = express.createServer();
 var RedisStore = require('connect-redis')(express);
+var io = require('socket.io').listen(app);
 
 // cfg
 var cfg = fwk.populateConfig(require("./config.js").config);
@@ -104,6 +105,18 @@ app.get( '/stat',                             require('./routes/client.js').get_
 
 
 // SOCKET.IO
+
+io.sockets.on('connection', function (socket) {
+
+  // Emit a message to send it to the client.
+  socket.emit('ping', { msg: 'Hello. I know socket.io.' });
+
+  // Print messages from the client.
+  socket.on('pong', function (data) {
+    console.log(data.msg);
+  });
+
+});
 
 
 // Db Authentication & Start

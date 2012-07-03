@@ -7,7 +7,7 @@ body {
 
 .navbar .brand {
   background: none;
-  width: 10px;
+  width: 1px;
 }
 
 .navbar > .navbar-inner {
@@ -16,3 +16,70 @@ body {
 }
 
 /* @end topbar */
+
+/* @begin process */
+
+.dattss-current {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.dattss-process .top {
+}
+
+.dattss-process .name {
+  padding-left: 10px;
+  padding-right: 20px;
+  color: white;
+  font-weight: 900;
+}
+
+.dattss-process td {
+  padding-left: 10px;
+  min-width: 50px;
+}
+
+.dattss-process .st-type {
+  color: #aaa;
+  padding-right: 20px;
+  min-width: 30px;
+}
+
+.dattss-process .st-main {
+  color: green;
+}
+.dattss-process .st-main-avg {
+  color: #aaa;
+}
+.dattss-process .st-warn {
+  color: orange;
+}
+.dattss-process .st-warn-avg {
+  color: #aaa;
+}
+.dattss-process .st-err {
+  color: red;
+}
+.dattss-process .st-err-avg {
+  color: #aaa;
+}
+
+.dattss-process .c.st-sum {
+}
+.dattss-process .c.st-avg {
+  color: #aaa;
+}
+
+.dattss-process .g.st-lst {
+}
+.dattss-process .g.st-dlt {
+  color: #aaa;
+}
+
+.dattss-process .ms.st-avg {
+}
+.dattss-process .ms.st-minmax {
+  color: #aaa;
+}
+
+/* @end process */
