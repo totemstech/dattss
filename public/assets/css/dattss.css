@@ -1,0 +1,18 @@
+body {
+  background: #333;
+  color: white;
+}
+
+/* @begin topbar */
+
+.navbar .brand {
+  background: none;
+  width: 10px;
+}
+
+.navbar > .navbar-inner {
+  background: #eee;
+  -webkit-box-shadow: none;
+}
+
+/* @end topbar */

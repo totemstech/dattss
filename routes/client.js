@@ -8,12 +8,13 @@ exports.get_current = function(req, res, next) {
   var email = req.session.email || null;
   if(email) {
     var engine = req.store.engine;
-    engine.current(email, function(err, cur) {
+    engine.current(email, function(err, cur, took) {
       if(err) {
         res.send(err.message, 500);
       }
       else {
         res.json({ ok: true,
+                   took: took,
                    current: cur });
       }
     });
