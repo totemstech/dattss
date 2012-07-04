@@ -17,12 +17,24 @@ body {
 
 /* @end topbar */
 
-/* @begin process */
+/* @begin current */
 
 .dattss-current {
-  margin-top: 10px;
-  margin-left: 10px;
 }
+
+/* @end current */
+
+/* @begin board */
+
+.dattss-board {
+  margin-top: 20px;
+  min-height: 500px;
+  background-color: #222;
+}
+
+/* @end board */
+
+/* @begin process */
 
 .dattss-process .top {
 }
@@ -80,5 +92,20 @@ body {
   cursor: pointer;
 }
 
-
 /* @end process */
+
+/* @begin graph */
+
+.dattss-graph {
+  border: 1px solid #444;
+  min-height: 150px;
+}
+
+.dattss-graph path {
+  stroke: steelblue;
+  stroke-width: 1;
+  fill: none; 
+}
+
+
+/* @end graph */

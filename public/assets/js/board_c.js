@@ -25,12 +25,12 @@ var board_c = function(spec, my) {
    * @return graph the graph cell
    */
   graph = function(process, type, stat) {
-    var idx = process + '_' + type + '_' + name; // small risk of collision
+    var idx = process + '_' + type + '_' + stat; // small risk of collision
     if(!my.graph[idx]) {
       if(type === 'c') {
         my.graph[idx] = c_graph_c({ path: my.path + '/' + idx,
                                     container: my.container,
-                                    proces: process,
+                                    process: process,
                                     type: type,
                                     stat: stat });
       }
@@ -77,8 +77,9 @@ var board_c = function(spec, my) {
   refresh = function(json) {
     my.element.empty();
 
-    json.forEach(function(g) {
-      var gr = graph(g.process, g.type, g.stat);
+    json.stack.forEach(function(idx) {
+      var st = json[idx];
+      var gr = graph(st.process, st.type, st.stat);
       my.element.append(gr.element());
     });
 
