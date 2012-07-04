@@ -20,6 +20,7 @@ var current_c = function(spec, my) {
    * Retrives a process cell from the local object cache or construct
    * it if not found
    * @param name the process name
+   * @return process the process cell
    */
   process = function(name) {
     if(!my.process[name]) {

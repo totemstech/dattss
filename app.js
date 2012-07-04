@@ -110,6 +110,9 @@ app.get( '/stat',                             require('./routes/client.js').get_
 
 // SOCKET.IO
 
+// log level
+io.set('log level', 0);
+
 // authorization
 io.set('authorization', function(data, accept) {
   if(!data.headers.cookie) {
