@@ -139,7 +139,6 @@ var dattss = function(spec, my) {
   do_commit = function() {
     var commit = { nam: my.name,
                    upt: process.uptime(),
-                   mem: process.memoryUsage().rss,
                    prt: make_partials() };
     console.log('========================================');
     console.log(JSON.stringify(commit));

@@ -42,38 +42,24 @@ var process_c = function(spec, my) {
       json.sts[typ].forEach(function(st) {
         var row_html = '';
 
+        // TITLE
         if(row === 0) {
           row_html += '<tr>';
-          row_html += '  <td class="name">' + my.name + '</td>';
-          row_html += '  <td class="status">on</td>';
-          row_html += '  <td class="mem">' + (json.mem / (1024 * 1024)).toFixed(0) + 'm' + '</td>';
-          row_html += '</tr>';
-
-          row_html += '<tr>';
-          row_html += '  <td/>'
-          row_html += '  <td class="st-type">e</td>';
-          row_html += '  <td class="st-name">errors</td>';
-          row_html += '  <td class="st-err">671</td>';
-          row_html += '  <td class="st-err-avg">[0.03]</td>';
-          row_html += '  <td class="st-more">&raquo;</td>';
-          row_html += '</tr>';
-
-          row_html += '<tr>';
-          row_html += '  <td/>'
-          row_html += '  <td class="st-type">w</td>';
-          row_html += '  <td class="st-name">warns</td>';
-          row_html += '  <td class="st-warn">543</td>';
-          row_html += '  <td class="st-warn-avg">[0.13]</td>';
-          row_html += '  <td class="st-more">&raquo;</td>';
+          row_html += '  <td class="name">' + my.name.toUpperCase() + '</td>';
+          if(json.lst <= 10000) {
+            row_html += '  <td class="status on">on</td>';
+          }
+          else {
+            row_html += '  <td class="status off">off</td>';
+          }
+          row_html += '  <td class="uptime">' + json.upt + 's </td>';
           row_html += '</tr>';
         }
           
-        row_html +=   '<tr><td/>';
-
-
-        // MAIN STATS
-
         // STATS
+        row_html +=   '<tr><td/>';
+        
+        // type
         if(first) {
           row_html += '  <td class="st-type">' + typ + '</td>';
           first = false;
@@ -81,25 +67,28 @@ var process_c = function(spec, my) {
         else {
           row_html += '  <td/>';
         }
+
+        // name
         row_html += '    <td class="st-name">' + st.nam + '</td>';
 
+        // value
         if(typ === 'c') {
           row_html += '  <td class="c st-sum">' + st.sum + '</td>';
           row_html += '  <td class="c st-avg">[' + st.avg + ']</td>';
         }
         if(typ === 'g') {
           row_html += '  <td class="g st-lst">' + st.lst + '</td>';
-          row_html += '  <td class="g st-dlt">[' + st.dlt + ']</td>';
+          row_html += '  <td class="g st-dlt">[' + ((st.dlt > 0) ? '+' : '') + st.dlt + ']</td>';
         }
         if(typ === 'ms') {
           row_html += '  <td class="ms st-avg">' + st.avg + '</td>';
           row_html += '  <td class="ms st-minmax">[' + st.min + ', ' + st.max + ']</td>';
         }
-        row_html += '  <td class="st-more">&raquo;</td>';
+        row_html += '  <td class="st-more"><a href="#">&raquo;</a></td>';
 
         row_html +=   '</tr>';
-        row ++;
 
+        row ++;
         my.element.append($(row_html));
       });
     });

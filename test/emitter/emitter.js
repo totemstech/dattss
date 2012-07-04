@@ -22,6 +22,10 @@ setInterval(function() {
 }, 10);
 
 setInterval(function() {
+  dts.agg('rss', process.memoryUsage().rss+'g');
+}, 1000);
+
+setInterval(function() {
   var min = 0;
   var max = 10;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;

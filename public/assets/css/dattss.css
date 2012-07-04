@@ -27,17 +27,31 @@ body {
 .dattss-process .top {
 }
 
-.dattss-process .name {
+.dattss-process td {
+  padding-left: 10px;
+  min-width: 40px;
+}
+
+.dattss-process td.name {
   padding-left: 10px;
   padding-right: 20px;
   color: white;
   font-weight: 900;
 }
 
-.dattss-process td {
-  padding-left: 10px;
-  min-width: 50px;
+.dattss-process td.status {
+  font-weight: 900;
+  color: red;
 }
+.dattss-process td.status.on {
+  color: green;
+}
+
+.dattss-process td.uptime {
+  color: #777;
+}
+
+
 
 .dattss-process .st-type {
   color: #aaa;
@@ -45,18 +59,21 @@ body {
   min-width: 30px;
 }
 
+/* main stat */
 .dattss-process .st-main {
   color: green;
 }
 .dattss-process .st-main-avg {
   color: #aaa;
 }
+/* warning */
 .dattss-process .st-warn {
   color: orange;
 }
 .dattss-process .st-warn-avg {
   color: #aaa;
 }
+/* errors */
 .dattss-process .st-err {
   color: red;
 }
