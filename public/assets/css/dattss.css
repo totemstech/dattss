@@ -101,8 +101,14 @@ body {
   min-height: 150px;
 }
 
-.dattss-graph path {
+.dattss-graph path.today {
   stroke: steelblue;
+  stroke-width: 1;
+  fill: none; 
+}
+
+.dattss-graph path.past {
+  stroke: #666;
   stroke-width: 1;
   fill: none; 
 }

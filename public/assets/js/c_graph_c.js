@@ -47,6 +47,7 @@ var c_graph_c = function(spec, my) {
   refresh = function(json) {
     if(my.last_recv !== json.recv) {
       my.last_recv = json.recv;
+      $('#dattss-graph-' + my.idx).empty();
 
       var today = [];
       json.data.today.forEach(function(d) {
@@ -74,8 +75,8 @@ var c_graph_c = function(spec, my) {
         .x(function(d, i) { return x(i); })
         .y(function(d) { return -1 * y(d); });
 
-      g.append('svg:path').attr('d', line(today));
-      g.append('svg:path').attr('d', line(past));
+      g.append('svg:path').attr('d', line(today)).attr('class', 'today');
+      g.append('svg:path').attr('d', line(past)).attr('class', 'past');
     }
 
     _super.refresh(json);
