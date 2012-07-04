@@ -10,6 +10,8 @@ var http = require('http');
 var redis = require('redis');
 var Mu = require('mu');
 var mongodb = require('mongodb');
+var connect = require('express/node_modules/connect');
+var parseCookie = connect.utils.parseCookie;
 
 var app = module.exports = express.createServer();
 var RedisStore = require('connect-redis')(express);
@@ -41,6 +43,8 @@ var access = require('./lib/access.js').access({ cfg: cfg,
                                                  mongo: mongo,
                                                  redis: redis,
                                                  engine: engine });
+// store
+var store = new RedisStore({client: redis});
 
 // Configuration
 
@@ -50,7 +54,7 @@ app.configure(function(){
   app.register(".mustache", require('stache'));
   app.use(express.cookieParser());
   app.use(express.session({ secret: cfg['DATTSS_SECRET'],
-                            store: new RedisStore({client: redis}),
+                            store: store,
                             key: 'dattss.sid',
                             cookie: { maxAge: cfg['DATTSS_COOKIE_AGE'] }
                           }) );
@@ -106,16 +110,38 @@ app.get( '/stat',                             require('./routes/client.js').get_
 
 // SOCKET.IO
 
-io.sockets.on('connection', function (socket) {
+// authorization
+io.set('authorization', function(data, accept) {
+  if(!data.headers.cookie) {
+    return accept('No cookie transmitted.', false);
+  }
+  data.cookie = parseCookie(data.headers.cookie);
+  data.sessionID = data.cookie['dattss.sid'];
 
-  // Emit a message to send it to the client.
-  socket.emit('ping', { msg: 'Hello. I know socket.io.' });
+  store.load(data.sessionID, function(err, session) {
+    if (err) 
+      return accept('Error: ' + err.message, false);
+    if(!session || typeof session.email !== 'string')
+      return accept('Not authorized', false);
 
-  // Print messages from the client.
-  socket.on('pong', function (data) {
-    console.log(data.msg);
+    data.session = session;
+    return accept(null, true);
   });
+});
 
+io.sockets.on('connection', function (socket) {
+  var session = socket.handshake.session;
+
+  console.log('CONNECTION: ' + session.email);
+  var update_handler = function(process, current) {
+    socket.emit('update', { cur: current });
+  };
+  engine.on(session.email, update_handler);
+
+  socket.on('disconnect', function() {
+    engine.removeListener(session.email, update_handler);
+    console.log('DISCONNECTION: ' + session.email);
+  });
 });
 
 

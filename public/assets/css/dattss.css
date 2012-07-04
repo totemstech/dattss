@@ -52,51 +52,28 @@ body {
 }
 
 
-
 .dattss-process .st-type {
   color: #aaa;
   padding-right: 20px;
   min-width: 30px;
 }
 
-/* main stat */
-.dattss-process .st-main {
-  color: green;
+.dattss-process tr.top {
+  background-color: #3a3a3a;
 }
-.dattss-process .st-main-avg {
-  color: #aaa;
-}
-/* warning */
-.dattss-process .st-warn {
-  color: orange;
-}
-.dattss-process .st-warn-avg {
-  color: #aaa;
-}
-/* errors */
-.dattss-process .st-err {
-  color: red;
-}
-.dattss-process .st-err-avg {
-  color: #aaa;
+.dattss-process tr.highlight {
+  background-color: #333636;
 }
 
-.dattss-process .c.st-sum {
-}
-.dattss-process .c.st-avg {
-  color: #aaa;
+.dattss-process td.st-name {
 }
 
-.dattss-process .g.st-lst {
+.dattss-process td.st-val {
+  color: #bbb;
 }
-.dattss-process .g.st-dlt {
-  color: #aaa;
+.dattss-process td.st-dyn {
+  color: #666;
 }
 
-.dattss-process .ms.st-avg {
-}
-.dattss-process .ms.st-minmax {
-  color: #aaa;
-}
 
 /* @end process */

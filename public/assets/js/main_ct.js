@@ -56,6 +56,13 @@ var main_ct = function(spec, my) {
       .error(function(err) {
         that.error(err);
       });
+    
+    my.socket = io.connect('/');
+    my.socket.on('update', function (data) {
+      //console.log(data);
+      my.json.current[data.cur.nam] = data.cur;
+      that.refresh();
+    });
   };
 
   /**
