@@ -94,7 +94,11 @@ var process_c = function(spec, my) {
         }
 
         // show
-        //row_html += '  <td class="st-more"><a href="#" class="pictos">p</a></td>';
+        row.append($('<td/>').addClass('st-graph')
+          .append($('<a/>').addClass('pictos').html('p').click(function() {
+            that.emit('graph', my.name, typ, st.nam);
+          }))
+        );
 
         //row_html +=   '</tr>';
 

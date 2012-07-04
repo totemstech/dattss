@@ -74,9 +74,10 @@ body {
   color: #666;
 }
 
-.dattss-process td.st-more {
+.dattss-process td.st-graph {
   padding-left: 30px;
   opacity: 0.5;
+  cursor: pointer;
 }
 
 
