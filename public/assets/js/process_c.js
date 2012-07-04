@@ -47,12 +47,9 @@ var process_c = function(spec, my) {
         if(row === 0) {
           row_html += '<tr><td>&nbsp;</td></td><tr class="top">';
           row_html += '  <td class="name">' + my.name.toUpperCase() + '</td>';
-          if(json.lst <= 10000) {
-            row_html += '  <td class="status on">on</td>';
-          }
-          else {
-            row_html += '  <td class="status off">off</td>';
-          }
+          row_html += '  <td class="status ' + (json.lst <= 10000 ? 'on' : 'off') + '">';
+          row_html += '    <span class="pictos">r</span>';
+          row_html += '  </td>';
           row_html += '  <td class="uptime">' + json.upt + 's </td>';
           row_html += '  <td colspan="3"/>';
           row_html += '</tr>';
@@ -65,7 +62,9 @@ var process_c = function(spec, my) {
         
         // type
         if(first) {
-          row_html += '  <td class="st-type">' + typ + '</td>';
+          row_html += '  <td class="st-type">';
+          row_html += '    <span class="pictos">' + typ[0] + '</span>';
+          row_html += '  </td>';
           first = false;
         }
         else {
@@ -88,7 +87,7 @@ var process_c = function(spec, my) {
           row_html += '  <td class="st-dyn">[' + st.min + ', ' + st.max + ']</td>';
         }
         // show
-        row_html += '  <td class="st-more"><a href="#">&raquo;</a></td>';
+        row_html += '  <td class="st-more"><a href="#" class="pictos">p</a></td>';
 
         row_html +=   '</tr>';
 

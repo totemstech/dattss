@@ -52,10 +52,9 @@ body {
 }
 
 
-.dattss-process .st-type {
-  color: #aaa;
-  padding-right: 20px;
-  min-width: 30px;
+.dattss-process .st-type .pictos {
+  font-size: 20px;
+  color: #555;
 }
 
 .dattss-process tr.top {
@@ -73,6 +72,11 @@ body {
 }
 .dattss-process td.st-dyn {
   color: #666;
+}
+
+.dattss-process td.st-more {
+  padding-left: 30px;
+  opacity: 0.5;
 }
 
 
