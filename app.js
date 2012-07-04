@@ -10,7 +10,7 @@ var http = require('http');
 var redis = require('redis');
 var Mu = require('mu');
 var mongodb = require('mongodb');
-var connect = require('express/node_modules/connect');
+var connect = require('connect');
 var parseCookie = connect.utils.parseCookie;
 
 var app = module.exports = express.createServer();
