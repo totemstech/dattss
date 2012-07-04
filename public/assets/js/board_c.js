@@ -19,26 +19,33 @@ var board_c = function(spec, my) {
   /**
    * Retrieves a graph cell from the local object cache or construct
    * it if not found
+   * @param process the stat process
    * @param type the stat type
    * @param name the stat name
    * @return graph the graph cell
    */
-  graph = function(type, name) {
-    var idx = type + '_' + name; // small risk of collision
+  graph = function(process, type, stat) {
+    var idx = process + '_' + type + '_' + name; // small risk of collision
     if(!my.graph[idx]) {
       if(type === 'c') {
         my.graph[idx] = c_graph_c({ path: my.path + '/' + idx,
                                     container: my.container,
-                                    name: name });
+                                    proces: process,
+                                    type: type,
+                                    stat: stat });
       }
       if(type === 'g') {
         my.graph[idx] = g_graph_c({ path: my.path + '/' + idx,
                                     container: my.container,
-                                    name: name });
+                                    process: process,
+                                    type: type,
+                                    stat: stat });
       }
       if(type === 'ms') {
         my.graph[idx] = ms_graph_c({ path: my.path + '/' + idx,
                                      container: my.container,
+                                     process: process,
+                                     type: type,
                                      name: name });
       }
       my.children[idx] = my.graph[idx];
@@ -71,7 +78,7 @@ var board_c = function(spec, my) {
     my.element.empty();
 
     json.forEach(function(g) {
-      var gr = graph(g.type, g.name);
+      var gr = graph(g.process, g.type, g.stat);
       my.element.append(gr.element());
     });
 

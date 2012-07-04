@@ -36,63 +36,70 @@ var process_c = function(spec, my) {
     //console.log(json);
     my.element.empty();
 
-    var row = 0;
+    var row_cnt = 0;
     var block = 0;
     ['c', 'g', 'ms'].forEach(function(typ) {
       var first = true;
       json.sts[typ].forEach(function(st) {
-        var row_html = '';
+        
+        var row;
 
         // TITLE
-        if(row === 0) {
-          row_html += '<tr><td>&nbsp;</td></td><tr class="top">';
-          row_html += '  <td class="name">' + my.name.toUpperCase() + '</td>';
-          row_html += '  <td class="status ' + (json.lst <= 10000 ? 'on' : 'off') + '">';
-          row_html += '    <span class="pictos">r</span>';
-          row_html += '  </td>';
-          row_html += '  <td class="uptime">' + json.upt + 's </td>';
-          row_html += '  <td colspan="3"/>';
-          row_html += '</tr>';
+        if(row_cnt === 0) {
+          row = $('<tr/>');
+          row.append($('<td/>').html('&nbsp;'));
+          my.element.append(row);
+
+          row = $('<tr/>').addClass('top');
+          row.append($('<td/>').addClass('name').html(my.name.toUpperCase()));
+          row.append($('<td/>').addClass('status').addClass(json.lst <= 10000 ? 'on' : 'off')
+            .append($('<span/>').addClass('pictos').html('r'))
+          );
+          row.append($('<td/>').addClass('uptime').html(json.upt + 's'));
+          row.append($('<td/>').attr('colspan', 3));
+          my.element.append(row);
         }
           
         // STATS
         if(first) { block++; }
-        row_html +=   '<tr class="' + ((block % 2) !== 0 ? 'highlight' : '') +'">';
-        row_html +=   '  <td/>';
-        
+        row = $('<tr/>').addClass(((block % 2) !== 0 ? 'highlight' : ''));
+        row.append($('<td/>'));
+
         // type
         if(first) {
-          row_html += '  <td class="st-type">';
-          row_html += '    <span class="pictos">' + typ[0] + '</span>';
-          row_html += '  </td>';
           first = false;
+          row.append($('<td/>').addClass('st-type')
+            .append($('<span/>').addClass('pictos').html(typ[0]))
+          );
         }
         else {
-          row_html += '  <td/>';
+          row.append($('<td/>'));
         }
 
         // name
-        row_html += '    <td class="st-name">' + st.nam + '</td>';
+        row.append($('<td/>').addClass('st-name').html(st.nam));
+
         // value
         if(typ === 'c') {
-          row_html += '  <td class="st-val">' + st.sum + '</td>';
-          row_html += '  <td class="st-dyn">[' + st.avg + ']</td>';
+          row.append($('<td/>').addClass('st-val').html(st.sum));
+          row.append($('<td/>').addClass('st-dyn').html('[' + st.avg + ']'));
         }
         if(typ === 'g') {
-          row_html += '  <td class="st-val">' + st.lst + '</td>';
-          row_html += '  <td class="st-dyn">[' + ((st.dlt > 0) ? '+' : '') + st.dlt + ']</td>';
+          row.append($('<td/>').addClass('st-val').html(st.lst));
+          row.append($('<td/>').addClass('st-dyn').html('[' + ((st.dlt > 0) ? '+' : '') + st.dlt + ']'));
         }
         if(typ === 'ms') {
-          row_html += '  <td class="st-val">' + st.avg + '</td>';
-          row_html += '  <td class="st-dyn">[' + st.min + ', ' + st.max + ']</td>';
+          row.append($('<td/>').addClass('st-val').html(st.avg));
+          row.append($('<td/>').addClass('st-dyn').html('[' + st.min + ', ' + st.max + ']'));
         }
+
         // show
-        row_html += '  <td class="st-more"><a href="#" class="pictos">p</a></td>';
+        //row_html += '  <td class="st-more"><a href="#" class="pictos">p</a></td>';
 
-        row_html +=   '</tr>';
+        //row_html +=   '</tr>';
 
-        row ++;
-        my.element.append($(row_html));
+        row_cnt ++;
+        my.element.append(row);
       });
     });
     _super.refresh(json);
