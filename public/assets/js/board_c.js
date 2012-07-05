@@ -46,7 +46,7 @@ var board_c = function(spec, my) {
                                      container: my.container,
                                      process: process,
                                      type: type,
-                                     name: name });
+                                     name: stat });
       }
       my.children[idx] = my.graph[idx];
       my.graph[idx].on('destroy', function() {

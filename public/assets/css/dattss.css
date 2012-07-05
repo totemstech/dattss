@@ -101,16 +101,26 @@ body {
   min-height: 150px;
 }
 
-.dattss-graph path.today {
-  stroke: steelblue;
+.dattss-graph path.today.line {
+  stroke: rgba(94, 162, 246, 1.0);
   stroke-width: 1;
   fill: none; 
 }
 
-.dattss-graph path.past {
-  stroke: #666;
+.dattss-graph path.today.area {
+  stroke: none;
+  fill: rgba(94, 162, 246, 0.1); 
+}
+
+.dattss-graph path.past.line {
+  stroke: rgba(255, 255, 255, 0.5);
   stroke-width: 1;
   fill: none; 
+}
+
+.dattss-graph path.past.area {
+  stroke: none;
+  fill: rgba(255, 255, 255, 0.1); 
 }
 
 

@@ -1,7 +1,7 @@
 /******************************/
-/*   COUNTER GRAPH CELL       */
+/*   TIMER GRAPH CELL         */
 /******************************/
-var c_graph_c = function(spec, my) {
+var ms_graph_c = function(spec, my) {
   var _super = {};
   my = my || {};
 
@@ -45,20 +45,53 @@ var c_graph_c = function(spec, my) {
       my.last_recv = json.recv;
       $('#dattss-graph-' + my.idx).empty();
 
-      var today = [];
+      var today = { avg: [],
+                    max: [],
+                    min: [],
+                    bot: [],
+                    top: [] };
       json.data.today.forEach(function(d) {
-        if(d) today.push(d.sum);
-        else today.push(0);
-      });
-      var past = [];
-      json.data.past.forEach(function(d) {
-        if(d) past.push(d.sum);
-        else past.push(0);
+        if(d) { 
+          today.avg.push(d.sum / d.cnt);
+          today.max.push(d.max);
+          today.min.push(d.min);
+          today.bot.push(d.bot);
+          today.top.push(d.top);
+        }
+        else {
+          today.avg.push(0);
+          today.max.push(0);
+          today.min.push(0);
+          today.bot.push(0);
+          today.top.push(0);
+        }
       });
 
-      var y = d3.scale.linear().domain([d3.min([0].concat(today, past)), 
-                                        d3.max([].concat(today, past))]).range([0 + 10, 150 - 10]);
-      var x = d3.scale.linear().domain([0, past.length]).range([0 + 10, 460 - 10]);
+      var past = { avg: [],
+                   max: [],
+                   min: [],
+                   bot: [],
+                   top: [] };
+      json.data.past.forEach(function(d) {
+        if(d) { 
+          past.avg.push(d.sum / d.cnt);
+          past.max.push(d.max);
+          past.min.push(d.min);
+          past.bot.push(d.bot);
+          past.top.push(d.top);
+        }
+        else {
+          past.avg.push(0);
+          past.max.push(0);
+          past.min.push(0);
+          past.bot.push(0);
+          past.top.push(0);
+        }
+      });
+
+      var y = d3.scale.linear().domain([d3.min([0].concat(today.min, past.min)), 
+                                        d3.max([].concat(today.max, past.max))]).range([0 + 10, 150 - 10]);
+      var x = d3.scale.linear().domain([0, past.avg.length]).range([0 + 10, 460 - 10]);
 
       var vis = d3.select('#dattss-graph-' + my.idx)
         .append('svg:svg')
@@ -76,10 +109,10 @@ var c_graph_c = function(spec, my) {
         .y0(-9)
         .y1(function(d, i) { return -1 * y(d); });
 
-      g.append('svg:path').attr('d', line(past)).classed('past line', true);
-      g.append('svg:path').attr('d', area(past)).classed('past area', true);
-      g.append('svg:path').attr('d', line(today)).classed('today line', true);
-      g.append('svg:path').attr('d', area(today)).classed('today area', true);
+      g.append('svg:path').attr('d', line(past.avg)).classed('past line', true);
+      g.append('svg:path').attr('d', area(past.avg)).classed('past area', true);
+      g.append('svg:path').attr('d', line(today.avg)).classed('today line', true);
+      g.append('svg:path').attr('d', area(today.avg)).classed('today area', true);
     }
 
     _super.refresh(json);
@@ -92,4 +125,5 @@ var c_graph_c = function(spec, my) {
 
   return that;
 };
+
 

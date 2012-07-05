@@ -1,7 +1,7 @@
 /******************************/
-/*   COUNTER GRAPH CELL       */
+/*   GAUGES GRAPH CELL        */
 /******************************/
-var c_graph_c = function(spec, my) {
+var g_graph_c = function(spec, my) {
   var _super = {};
   my = my || {};
 
@@ -47,12 +47,12 @@ var c_graph_c = function(spec, my) {
 
       var today = [];
       json.data.today.forEach(function(d) {
-        if(d) today.push(d.sum);
+        if(d) today.push(d.lst);
         else today.push(0);
       });
       var past = [];
       json.data.past.forEach(function(d) {
-        if(d) past.push(d.sum);
+        if(d) past.push(d.lst);
         else past.push(0);
       });
 
@@ -77,9 +77,7 @@ var c_graph_c = function(spec, my) {
         .y1(function(d, i) { return -1 * y(d); });
 
       g.append('svg:path').attr('d', line(past)).classed('past line', true);
-      g.append('svg:path').attr('d', area(past)).classed('past area', true);
       g.append('svg:path').attr('d', line(today)).classed('today line', true);
-      g.append('svg:path').attr('d', area(today)).classed('today area', true);
     }
 
     _super.refresh(json);
@@ -92,4 +90,5 @@ var c_graph_c = function(spec, my) {
 
   return that;
 };
+
 
