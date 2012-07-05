@@ -1,15 +1,15 @@
 <div class="container login">
   <div class="form-box span4 offset4">
     <form action="/login" method="post">
-      <h4>Login</h4>
+      <!--<h4>Login</h4>-->
       <div>
         {{#fail}}
-          <p class="notice error"><span class="pictos">A</span> Invalid Email or Password</p>
+          <p class="notice error"><span class="pictos">e</span> Invalid Email or Password</p>
         {{/fail}}
         {{^success}}
-          <p><input type="text" class="sc-top" name="email" placeholder="Email"></p>
-          <p><input type="password" class="sc-bottom" name="pass" placeholder="Password"></p>
-          <p><button type="submit" class="btn btn-primary"><span class="pictos smaller">M</span> Login</button></p>
+          <p><input type="text" name="email" placeholder="Email"></p>
+          <p><input type="password" name="pass" placeholder="Password"></p>
+          <p><button type="submit" class="btn btn-primary">Login</button></p>
         {{/success}}    
       </div>
     </form>
