@@ -80,7 +80,7 @@ var main_ct = function(spec, my) {
         }
       })
       .error(function(err) {
-        that.error(err);
+        error(err);
       });
     
     my.socket = io.connect('/');
@@ -109,10 +109,11 @@ var main_ct = function(spec, my) {
               if(data.ok && data.stat) {
                 st.recv = Date.now();
                 st.data = data.stat;
+                that.refresh();
               }
             })
             .error(function(err) {
-              that.error(err);
+              error(err);
             });
         })(st);
       }
