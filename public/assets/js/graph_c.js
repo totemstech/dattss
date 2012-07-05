@@ -36,12 +36,12 @@ var graph_c = function(spec, my) {
     title.append($('<span/>').addClass('type pictos').html(my.type[0]));
     title.append($('<span/>').addClass('process').html(my.process.toUpperCase()));
     title.append($('<span/>').addClass('stat').html(my.stat));
-    title.append($('<span/>').addClass('close pictos').html('d'));
-
-    var cont = $('<div/>').addClass('container');
+    title.append($('<span/>').addClass('close pictos').html('d').click(function() {
+        that.emit('destroy', my.process, my.type, my.stat);
+        my.element.remove();
+      }));
 
     my.element.append(title);
-    my.element.append(cont);
 
     return my.element;
   };

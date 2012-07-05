@@ -63,6 +63,7 @@ var main_ct = function(spec, my) {
         }
       }
       delete my.json.board[idx]; 
+      that.refresh();
     });
   };
 
