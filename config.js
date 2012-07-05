@@ -3,7 +3,7 @@ var config = fwk.baseConfig();
 
 config['DATTSS_SECRET'] = "8bbcd93ce09c5b040a83f13fceae21f8";
 
-config['DATTSS_STORAGE_PATH'] = '/Users/spolu/dattss/data';
+config['DATTSS_STORAGE_PATH'] = '/Users/Antoine/Desktop/Teleportd/dattss/data';
 
 config['DATTSS_USER_CROND_PERIOD'] = 60 * 1000;
 config['DATTSS_USER_EVICTION_PERIOD'] = 120 * 1000;
