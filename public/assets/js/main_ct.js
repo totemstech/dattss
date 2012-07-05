@@ -99,7 +99,7 @@ var main_ct = function(spec, my) {
 
     my.json.board.stack.forEach(function(idx) {
       var st = my.json.board[idx];
-      if((now - st.recv) > 5 * 60 * 1000) {
+      if((now - st.recv) > 10 * 60 * 1000) {
         (function(st) {
           $.getJSON('/stat?' + 
                     'process=' + st.process + '&' +

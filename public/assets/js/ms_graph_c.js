@@ -5,40 +5,27 @@ var ms_graph_c = function(spec, my) {
   var _super = {};
   my = my || {};
 
-  my.process = spec.process;
-  my.type = spec.type;
-  my.stat = spec.stat;
-
-  my.idx = my.process + '_' +
-           my.type + '_' +
-           my.stat; // small collision risk
-  my.last_recv = 0;
-
   // public
   var build;   /* build(); */
   var refresh; /* refresh(); */
 
   // private
-  var load;    /* load(); */
 
-
-  var that = CELL.cell(spec, my);
+  var that = graph_c(spec, my);
 
   /****************************/
   /*   BUILD                  */
   /****************************/
   build = function() {
-    my.element = $('<div/>')
-      .attr('id', 'dattss-graph-' + my.idx)
-      .addClass('dattss-graph');
-    return my.element;
+    return _super.build();
   };
 
   /****************************/
   /*   REFRESH                */
   /****************************/
   /**
-   * @expects { }
+   * @expects { recv: RECV_TIME,
+   *            data: STAT_DATA }
    */
   refresh = function(json) {
     if(my.last_recv !== json.recv) {
@@ -119,7 +106,6 @@ var ms_graph_c = function(spec, my) {
   };
 
 
-  
   CELL.method(that, 'build', build, _super);
   CELL.method(that, 'refresh', refresh, _super);
 
