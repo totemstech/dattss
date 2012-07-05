@@ -48,6 +48,9 @@ var store = new RedisStore({client: redis});
 
 // Configuration
 
+express.session.ignore.push('/robots.txt');
+express.session.ignore.push('/agg');
+
 app.configure(function(){
   app.set('view engine', 'mustache');
   app.set('views', __dirname + '/views');
@@ -128,6 +131,7 @@ io.set('authorization', function(data, accept) {
       return accept('Not authorized', false);
 
     data.session = session;
+    //console.log(util.inspect(session, false, 10));
     return accept(null, true);
   });
 });
