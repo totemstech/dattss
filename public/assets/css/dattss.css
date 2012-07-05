@@ -101,6 +101,28 @@ body {
   min-height: 150px;
 }
 
+.dattss-graph .title {
+  width: 100%;
+  text-align: center;
+  color: #aaa;
+  margin-top: 0.5em;
+  padding-right: 20px;
+}
+
+.dattss-graph .title span.type {
+}
+.dattss-graph .title span.process {
+  font-weight: 900;
+  margin-left: 0.7em;
+}
+.dattss-graph .title span.stat {
+  margin-left: 0.7em;
+}
+
+.dattss-graph .title span.close {
+  float: right;
+}
+
 .dattss-graph path.today.line {
   stroke: rgba(94, 162, 246, 1.0);
   stroke-width: 1;
