@@ -30,7 +30,7 @@ var ms_graph_c = function(spec, my) {
   refresh = function(json) {
     if(my.last_recv !== json.recv) {
       my.last_recv = json.recv;
-      $('#dattss-graph-' + my.idx).empty();
+      $('#dattss-graph-' + my.idx + ' svg').remove();
 
       var today = { avg: [],
                     max: [],

@@ -512,7 +512,7 @@ textarea:focus {
 
 .dattss-board {
   margin-top: 30px;
-  min-height: 450px;
+  min-height: 300px;
   background: #222;
 }
 
@@ -529,8 +529,10 @@ textarea:focus {
   width: 100%;
   text-align: center;
   color: #aaa;
-  margin-top: 0.5em;
-  padding-right: 20px;
+  padding-top: 0.5em;
+}
+.dattss-graph:hover .title {
+  color: #bbb;
 }
 
 .dattss-graph .title span.type {
@@ -545,6 +547,11 @@ textarea:focus {
 
 .dattss-graph .title span.close {
   float: right;
+  margin-right: 0.5em;
+  visibility: hidden;
+}
+.dattss-graph:hover .title span.close {
+  visibility: visible;
 }
 
 .dattss-graph path.today.line {
