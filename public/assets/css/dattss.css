@@ -1,6 +1,7 @@
 body {
   font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #333;
+  margin-bottom: 30px;
   color: white;
 }
 
@@ -512,7 +513,7 @@ textarea:focus {
 
 .dattss-board {
   margin-top: 30px;
-  min-height: 300px;
+  min-height: 460px;
   background: #222;
 }
 
@@ -528,15 +529,18 @@ textarea:focus {
 .dattss-graph .title {
   width: 100%;
   text-align: center;
-  color: #aaa;
+  color: #999;
   padding-top: 0.5em;
 }
+
 .dattss-graph:hover .title {
-  color: #bbb;
+
 }
 
 .dattss-graph .title span.type {
+  
 }
+
 .dattss-graph .title span.process {
   font-weight: 900;
   margin-left: 0.7em;
@@ -547,9 +551,23 @@ textarea:focus {
 
 .dattss-graph .title span.close {
   float: right;
-  margin-right: 0.5em;
+  margin-right: 5px;
+  font-size: 1.3em;
+  text-shadow: none;
+  color: #666;
   visibility: hidden;
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
+
+.dattss-graph .title span.close:hover {
+  color: #ccc;
+}
+
+.dattss-graph .title span.close:active {
+  color: #999;
+}
+
 .dattss-graph:hover .title span.close {
   visibility: visible;
 }
@@ -575,6 +593,5 @@ textarea:focus {
   stroke: none;
   fill: rgba(255, 255, 255, 0.1); 
 }
-
 
 /* @end graph */
