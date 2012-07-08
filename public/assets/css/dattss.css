@@ -512,7 +512,7 @@ textarea:focus {
 
 .dattss-board {
   margin-top: 30px;
-  min-height: 300px;
+  min-height: 0px;
   background: #222;
 }
 
@@ -521,7 +521,7 @@ textarea:focus {
 /* @begin graph */
 
 .dattss-graph {
-  background: #2a2a2a;
+  margin-bottom: 10px;
   min-height: 150px;
 }
 
@@ -529,15 +529,18 @@ textarea:focus {
   width: 100%;
   text-align: center;
   color: #aaa;
-  padding-top: 0.5em;
+  background-color: #5a5a5a;
+  padding-top: 5px;
+  height: 25px;
 }
 .dattss-graph:hover .title {
-  color: #bbb;
+  color: #ddd;
 }
 
 .dattss-graph .title span.type {
 }
 .dattss-graph .title span.process {
+  color: white;
   font-weight: 900;
   margin-left: 0.7em;
 }
@@ -576,5 +579,32 @@ textarea:focus {
   fill: rgba(255, 255, 255, 0.1); 
 }
 
+.dattss-graph path.today.line.top {
+  stroke: rgba(255, 171, 61, 0.4);
+}
+
+.dattss-graph path.today.line.max {
+  stroke: rgba(255, 171, 61, 0.8);
+}
+
+.dattss-graph path.today.line.bot {
+  stroke: rgba(94, 181, 74, 0.4);
+}
+
+.dattss-graph path.today.line.min {
+  stroke: rgba(94, 181, 74, 0.8);
+}
+
+.dattss-graph text.xlabel {
+  stroke: none;
+  fill: #666;
+  font-size: 0.85em;
+}
+
+.dattss-graph text.ylabel {
+  stroke: none;
+  fill: #666;
+  font-size: 0.85em;
+}
 
 /* @end graph */
