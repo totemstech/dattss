@@ -99,13 +99,14 @@ var ms_graph_c = function(spec, my) {
 
       g.append('svg:path').attr('d', line(past.avg)).classed('past avg line', true);
       g.append('svg:path').attr('d', area(past.avg)).classed('past avg area', true);
-      g.append('svg:path').attr('d', line(today.avg)).classed('today avg line', true);
-      g.append('svg:path').attr('d', area(today.avg)).classed('today avg area', true);
 
       g.append('svg:path').attr('d', line(today.max)).classed('today max line', true);
       g.append('svg:path').attr('d', line(today.top)).classed('today top line', true);
       g.append('svg:path').attr('d', line(today.min)).classed('today min line', true);
       g.append('svg:path').attr('d', line(today.bot)).classed('today bot line', true);
+
+      g.append('svg:path').attr('d', line(today.avg)).classed('today avg line', true);
+      g.append('svg:path').attr('d', area(today.avg)).classed('today avg area', true);
 
       // DATE LABEL
       g.selectAll('.xlabel')
