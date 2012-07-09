@@ -340,6 +340,10 @@ textarea:focus {
   background-clip: padding-box;
 }
 
+.navbar .nav > li.install > a {
+  color: #333356;
+}
+
 .navbar .nav > li > a:hover {
   color: #333;
 }
@@ -366,6 +370,7 @@ textarea:focus {
      -moz-box-shadow: none;
           box-shadow: none;
 }
+
 
 /* @begin topbar dropdown */
 

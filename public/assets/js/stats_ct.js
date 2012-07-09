@@ -1,19 +1,8 @@
-/******************************/
-/*   INITIALIZATION           */
-/******************************/
-
-var DATTSS = {};
-
-$(document).ready(function() {
-  DATTSS.main = main_ct({});
-  DATTSS.main.load();
-  DATTSS.main.init();
-});
 
 /******************************/
-/*   MAIN  CONTAINER          */
+/*   STATS CONTAINER          */
 /******************************/
-var main_ct = function(spec, my) {
+var stats_ct = function(spec, my) {
   var _super = {};
   my = my || {};
 
@@ -28,14 +17,14 @@ var main_ct = function(spec, my) {
   var error;     /* error(err); */
 
 
-  var that = CELL.container({ name: 'main' }, my);
+  var that = CELL.container({ name: 'stats' }, my);
 
   /**
    * Loads the envi env within the DOM. A full-scren
    * editor is opened at the begining
    */
   load = function() {
-    var top = $('#dattss-top');
+    var top = $('#dattss-stats-top');
 
     my.children['current'] = current_c({ path: '/' + my.name + '/current', container: that });
     top.append(my.children['current'].build().addClass('span6'));
