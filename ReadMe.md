@@ -32,9 +32,8 @@ see also:
 
 ```
  var dts = require('dattss').process({ name: 'api',
-                                       user: 'spolu',
-                                       auth: '1ba...' });
- // or
+                                       auth: '0_1ba...' });
+ // or (if auth is passed through env or command line)
  var dts = require('dattss').process('api');
 
  //...
@@ -67,5 +66,5 @@ from the 5s-partial aggregates array as well.
 
 This means that memory must be big enough to handle all live data for all current
 users of DaTtSs. This infrastructure can be easily scaled by splitting data servers with a
-sharding solution based on user emails. 
+sharding solution based on user ids. 
 

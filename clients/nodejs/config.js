@@ -4,7 +4,6 @@ var config = fwk.baseConfig();
 config['DATTSS_PUSH_PERIOD'] = 5 * 1000;
 config['DATTSS_PERCENTILE'] = 0.1;
 
-config['DATTSS_CLIENT_USER'] = 'not-configured';
 config['DATTSS_CLIENT_AUTH'] = 'not-configured';
 config['DATTSS_SERVER_HOST'] = 'localhost';
 config['DATTSS_SERVER_PORT'] = 8080;

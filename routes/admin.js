@@ -23,6 +23,7 @@ exports.post_login = function(req, res, next) {
 
   var user = require('../lib/user.js').user({ email: email,
                                               mongo: req.store.mongo,
+                                              redis: req.store.redis,
                                               cfg: req.store.cfg });
   user.login(pass, function(err) {
     if(err) {
@@ -62,6 +63,7 @@ exports.post_signup = function(req, res, next) {
     
     var user = require('../lib/user.js').user({ email: email,
                                                 mongo: req.store.mongo,
+                                                redis: req.store.redis,
                                                 cfg: req.store.cfg });
     user.get(function(err, usr) {
       if(err) {
@@ -109,6 +111,7 @@ exports.post_password = function(req, res, next) {
   
   var user = require('../lib/user.js').user({email: email,
                                              mongo: req.store.mongo,
+                                             redis: req.store.redis,
                                              cfg: req.store.cfg });
   user.finalize(key, pass, function(err) {
     if(err) {
@@ -161,6 +164,7 @@ exports.post_reset = function(req, res, next) {
   
   var user = require('../lib/user.js').user({ email: email,
                                               mongo: req.store.mongo,
+                                              redis: req.store.redis,
                                               cfg: req.store.cfg });
   user.reset(function(err) {
     if(err) {

@@ -3,14 +3,13 @@
  * @path PUT /agg
  */
 exports.put_agg = function(req, res, next) {
-  var email = req.param('user');
+  var auth = req.param('auth');
 
-  // if this code is executed, it means that the user has been 
-  // verified with a correct auth. No need to check existence.
+  // if this code is executed, it means that the auth has been 
+  // verified. No need to check existence.
 
   var engine = req.store.engine;
-  var succ = engine.agg(req.param('user'), 
-                        req.body);
+  var succ = engine.agg(auth.split('_')[0], req.body);
   if(succ) {
     res.json({ ok: true });
   }

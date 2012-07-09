@@ -1,8 +1,7 @@
 var fwk = require('fwk');
 var config = fwk.baseConfig();
 
-config['DATTSS_SECRET'] = "8bbcd93ce09c5b040a83f13fceae21f8";
-
+config['DATTSS_SECRET'] = 'dummy-env';
 config['DATTSS_STORAGE_PATH'] = 'dummy-env';
 
 config['DATTSS_USER_CROND_PERIOD'] = 60 * 1000;

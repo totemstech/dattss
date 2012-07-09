@@ -1,5 +1,7 @@
-// Copyright Stanislas Polu
-//
+// Copyright Teleportd Ltd.
+// 
+// Authors: Stanislas Polu
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -30,11 +32,9 @@ exports.CONFIG = fwk.populateConfig(require("../config.js").config);
 /**
  * DaTtSs Client Library
  *
- * The Client Library requires the user, the auth key and if required the server 
- * and port.
- * These information be passed directly at construction or by configuration either
+ * The Client Library requires the the auth key and if required the server and port.
+ * These information can be passed directly at construction or by configuration either
  * on the command line (--XX=yyy) or using environment variables:
- *   DATTSS_CLIENT_USER: the username
  *   DATTSS_CLIENT_AUTH: the auth key
  *   DATTSS_SERVER_HOST: the DaTtSs server host to use
  *   DATTSS_SERVER_PORT: the DaTtSs server port to use
@@ -42,13 +42,12 @@ exports.CONFIG = fwk.populateConfig(require("../config.js").config);
  *
  * @extends {}
  *
- * @param spec { user, [auth], [host], [port], [pct] }
+ * @param spec { auth, [host], [port], [pct] }
  */
 var dattss = function(spec, my) {
   my = my || {};
   var _super = {};
 
-  my.user = spec.user || exports.CONFIG['DATTSS_CLIENT_USER'];
   my.auth = spec.auth || exports.CONFIG['DATTSS_CLIENT_AUTH'];
   my.host = spec.host || exports.CONFIG['DATTSS_SERVER_HOST'];
   my.port = spec.port || parseInt(exports.CONFIG['DATTSS_SERVER_PORT'], 10);
@@ -151,7 +150,7 @@ var dattss = function(spec, my) {
       host: my.host, 
       port: my.port,
       method: 'PUT',
-      path: '/agg?user=' + my.user + '&auth=' + my.auth,
+      path: '/agg?auth=' + my.auth,
       headers: { "content-type": 'application/json' }
     };
     my.creq = http.request(options, function(res) {
@@ -207,12 +206,12 @@ exports.dattss = dattss;
 
 
 /**
- * The process function is a factory for process singletons (by user and name)
- * If the dattss object does not exist for the specified process (user + name)
+ * The process function is a factory for process singletons (by auth and name)
+ * If the dattss object does not exist for the specified process (auth + name)
  * then it creates a new one. It returns the existing one otherwise without 
  * modifiying the configuration (auth, host, port)
  *
- * @param spec { name, [user], [host], [port], [pct] } or just name as a string
+ * @param spec { name, auth, [host], [port], [pct] } or just name as a string
  * @return a dattss process object
  */
 
@@ -225,19 +224,18 @@ exports.process = function(spec) {
 
   var cache = exports.CACHE;
 
-  spec.user = spec.user || exports.CONFIG['DATTSS_CLIENT_USER'];
   spec.auth = spec.auth || exports.CONFIG['DATTSS_CLIENT_AUTH'];
   spec.host = spec.host || exports.CONFIG['DATTSS_SERVER_HOST'];
   spec.port = spec.port || parseInt(exports.CONFIG['DATTSS_SERVER_PORT'], 10);
   spec.pct  = spec.pct  || parseFloat(exports.CONFIG['DATTSS_PERCENTILE']);
   spec.name = spec.name || 'noname';
 
-  cache[spec.user] = cache[spec.user] || {};
+  cache[spec.auth] = cache[spec.auth] || {};
   
-  if(typeof cache[spec.user][spec.name] === 'undefined') {
-    cache[spec.user][spec.name] = dattss(spec);
+  if(typeof cache[spec.auth][spec.name] === 'undefined') {
+    cache[spec.auth][spec.name] = dattss(spec);
   };
 
-  return cache[spec.user][spec.name];
+  return cache[spec.auth][spec.name];
 };
 

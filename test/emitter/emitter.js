@@ -1,35 +1,47 @@
-var dts = require('../../clients/nodejs/lib/dattss.js').process('test');
+var dts_test = require('../../clients/nodejs/lib/dattss.js').process({ 
+  name: 'test',
+  auth: '1_1e716583b4d48cee508bd9771c691faba2eb4519',
+  host: 'localhost'
+});
+
+var dts_cache = require('../../clients/nodejs/lib/dattss.js').process({ 
+  name: 'cache',
+  auth: '1_1e716583b4d48cee508bd9771c691faba2eb4519',
+  host: 'localhost'
+});
+
+
 
 setInterval(function() {
   var min = 10;
   var max = 1500;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  dts.agg('view', v+'ms');
+  dts_test.agg('view', v+'ms');
 }, 10);
 
 setInterval(function() {
   var min = 150;
   var max = 2500;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  dts.agg('search', v+'ms');
+  dts_test.agg('search', v+'ms');
 }, 10);
 
 setInterval(function() {
   var min = 0;
   var max = 1;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  dts.agg('view', v+'c');
+  dts_test.agg('view', v+'c');
 }, 10);
 
 setInterval(function() {
-  dts.agg('rss', process.memoryUsage().rss+'g');
+  dts_test.agg('rss', process.memoryUsage().rss+'g');
 }, 1000);
 
 setInterval(function() {
   var min = 0;
   var max = 10;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  dts.agg('post', v+'c');
+  dts_test.agg('post', v+'c');
 }, 10);
 
 var g = 0;
@@ -38,7 +50,7 @@ setInterval(function() {
   var max = 5;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
   g += v;
-  dts.agg('view', g+'g');
+  dts_test.agg('view', g+'g');
 }, 10);
 
 
@@ -46,7 +58,7 @@ setInterval(function() {
   var min = 0;
   var max = 1;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  require('../../clients/nodejs/lib/dattss.js').process('cache').agg('test', + v+'c');
+  dts_cache.agg('test', + v+'c');
 }, 10);
 
 
@@ -54,5 +66,5 @@ setInterval(function() {
   var min = 150;
   var max = 2500;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  require('../../clients/nodejs/lib/dattss.js').process('cache').agg('search', v+'ms');
+  dts_cache.agg('search', v+'ms');
 }, 10);
