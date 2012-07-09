@@ -87,9 +87,9 @@ var c_graph_c = function(spec, my) {
         .enter().append('svg:text')
         .attr('class', 'ylabel')
         .text(function(v) {
-          if(v > 1000000000) { return Math.floor(v / 1000000000) + 'b' }
-          if(v > 1000000) { return Math.floor(v / 1000000) + 'm' }
-          if(v > 1000) { return Math.floor(v / 1000) + 'k' }
+          if(v >= 1000000000) { return Math.floor(v / 1000000000) + 'b' }
+          if(v >= 1000000) { return Math.floor(v / 1000000) + 'm' }
+          if(v >= 1000) { return Math.floor(v / 1000) + 'k' }
           return v;
         })
         .attr('x', 4)

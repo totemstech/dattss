@@ -135,9 +135,9 @@ var ms_graph_c = function(spec, my) {
         })
         .attr('x', 4)
         .attr('y', function(d) { 
-          if(d > 3600000) { d =  Math.floor(d / 3600000) * 3600000 }
-          else if(d > 60000) { d = Math.floor(d / 60000) * 60000 }
-          else if(d > 1000) { d = Math.floor(d / 1000) * 1000 }
+          if(d >= 3600000) { d =  Math.floor(d / 3600000) * 3600000 }
+          else if(d >= 60000) { d = Math.floor(d / 60000) * 60000 }
+          else if(d >= 1000) { d = Math.floor(d / 1000) * 1000 }
           return -1 * y(d); 
         })
         .attr('dy', 2);

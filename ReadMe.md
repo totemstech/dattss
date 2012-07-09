@@ -13,9 +13,9 @@ aggregated values can also be infered (approximatively but easily) from these pa
 #### Features
 
 - Counter, Timers, Gauges aggregation and display (val, 1mn mvg avg)
-- Process statistics (uptime, mem, cpu, errors & warnings counts)
-- Daily against Week plot of MIN, MAX, AVG, BOT10, TOP10, COUNT, SUM
+- Daily against Week average plot
 - Errors and Warnings Streaming and reporting
+- Process statistics (uptime, mem, cpu, errors & warnings counts)
 - Alerts Email, SMS, Phone (Above/Below Limits, Stopped Working, Stopped Responding) 
 
 #### Inspiration
