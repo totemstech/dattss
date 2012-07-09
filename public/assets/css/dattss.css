@@ -108,6 +108,7 @@ textarea:focus {
   font-size: 1.6em;
   vertical-align: middle;
   -webkit-font-smoothing: antialiased;
+  text-shadow: none;
 }
 
 .pictos.smaller {
@@ -162,16 +163,6 @@ textarea:focus {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-}
-
-.form-box h4 .btn {
-  font-size: 0.9em;
-  margin: -5px -5px 0 0;
-  padding: 4px 8px;
-  color: #eee;
-  text-shadow: 0 1px 1px #000;
-  border: 1px solid #000;
-  background: transparent;
 }
 
 .form-box h4 + div {
@@ -251,14 +242,14 @@ textarea:focus {
 
 .form-box p.notice.error {
   text-align: center;
-  text-shadow: 0 1px 0 #eee;
+  text-shadow: none;
   font-weight: bold;
   color: #c53324;
 }
 
 .form-box p.notice.success {
   text-align: center;
-  text-shadow: 0 1px 0 #eee;
+  text-shadow: none;
   font-weight: bold;
   color: #2e8915;
 }
@@ -594,6 +585,7 @@ textarea:focus {
 .dattss-graph .title span.close {
   float: right;
   margin-right: 0.5em;
+  margin-top: 0.1em;
   visibility: hidden;
 }
 .dattss-graph:hover .title span.close {
