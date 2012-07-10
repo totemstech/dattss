@@ -79,6 +79,7 @@ app.configure('production', function(){
 
 handlebars.registerPartial('header', fs.readFileSync(__dirname + '/views/header.html', 'utf8'));
 handlebars.registerPartial('footer', fs.readFileSync(__dirname + '/views/footer.html', 'utf8'));
+handlebars.registerPartial('install', fs.readFileSync(__dirname + '/views/install.html', 'utf8'));
 
 // Routes
 
