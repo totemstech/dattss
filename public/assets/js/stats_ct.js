@@ -77,7 +77,7 @@ var stats_ct = function(spec, my) {
     my.socket.on('update', function (data) {
       //console.log(data);
       my.json.current[data.cur.nam] = data.cur;
-      //that.refresh();
+      that.refresh();
     });
   };
 

@@ -41,9 +41,7 @@ var current_c = function(spec, my) {
   /*   BUILD                  */
   /****************************/
   build = function() {
-    my.element = $('<div/>').addClass('dattss-current');
-    my.element.append($('<table/>'));
-
+    my.element = $('<table/>').addClass('dattss-current');
     return my.element;
   };
 
