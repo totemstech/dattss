@@ -569,8 +569,8 @@ textarea:focus {
   text-align: center;
   color: #aaa;
   background-color: #5a5a5a;
-  padding-top: 0.5em;
   height: 25px;
+  padding-top: 5px;
 }
 
 .dattss-graph:hover .title {
@@ -592,7 +592,8 @@ textarea:focus {
 
 .dattss-graph .title span.close {
   float: right;
-  margin-right: 0.5em;
+  margin-right: 0.7em;
+  margin-top: 0.18em;
   font-size: 1.3em;
   text-shadow: none;
   color: #666;
