@@ -27,7 +27,7 @@ exports.post_login = function(req, res, next) {
                                               cfg: req.store.cfg });
   user.login(pass, function(err) {
     if(err) {
-      res.render('login', {locals: { fail: true, email: email } });
+      res.render('login', { fail: true, email: email });
     }
     else {
       req.session.email = email;
@@ -47,7 +47,7 @@ exports.get_signup = function(req, res, next) {
     res.redirect('/s/home');
   }
   else {
-    res.render('signup', { locals: { email: email } });
+    res.render('signup', { email: email });
   }
 };
 
@@ -70,22 +70,22 @@ exports.post_signup = function(req, res, next) {
         res.send(err.message, 500);
       }
       else if(usr && usr.pwd) {      
-        res.render('signup', { locals: { exists: true } });
+        res.render('signup', { exists: true });
       }
       else {
         user.create(function(err) {
           if(err) {
-            res.render('signup', { locals: { fail: true } });
+            res.render('signup', { fail: true });
           }
           else {
-            res.render('signup', { locals: { success: true } });
+            res.render('signup', { success: true });
           }
         });
       }
     });
   }
   else {
-    res.render('signup', { locals: { emailuse: true } });
+    res.render('signup', { emailuse: true });
   }
 };
 
@@ -96,9 +96,9 @@ exports.get_password = function(req, res, next) {
   var key = req.param('key');
   var email = req.param('email');
 
-  res.render('password', {locals: { password: true,
-                                    key: key,
-                                    email: email } });
+  res.render('password', { password: true,
+                           key: key,
+                           email: email });
 };
 
 /**
@@ -115,7 +115,7 @@ exports.post_password = function(req, res, next) {
                                              cfg: req.store.cfg });
   user.finalize(key, pass, function(err) {
     if(err) {
-      res.render('password', {locals: { fail: true } });
+      res.render('password', { fail: true });
     }
     else {
       req.session.email = user.email();
@@ -148,7 +148,7 @@ exports.get_reset = function(req, res, next) {
   var email = req.session.email || null;
 
   if(email) {
-    res.render('reset', {locals: { login: { email: email } } });
+    res.render('reset', { login: { email: email } });
   }
   else {
     res.render('reset');
@@ -168,10 +168,10 @@ exports.post_reset = function(req, res, next) {
                                               cfg: req.store.cfg });
   user.reset(function(err) {
     if(err) {
-      res.render('reset', {locals: { fail: true } });
+      res.render('reset', { fail: true });
     }
     else {
-      res.render('reset', {locals: { success: true } });
+      res.render('reset', { success: true });
     }
   });
 };

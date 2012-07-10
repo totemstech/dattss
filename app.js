@@ -7,13 +7,15 @@ var util = require('util');
 var fwk = require('fwk');
 var express = require('express');
 var http = require('http');
+var handlebars = require('handlebars');
+var fs = require('fs');
 var redis = require('redis');
-var Mu = require('mu');
 var mongodb = require('mongodb');
 var connect = require('connect');
 var parseCookie = connect.utils.parseCookie;
 
-var app = module.exports = express.createServer();
+var app = express();
+
 var RedisStore = require('connect-redis')(express);
 var io = require('socket.io').listen(app);
 
@@ -47,13 +49,11 @@ var access = require('./lib/access.js').access({ cfg: cfg,
 var store = new RedisStore({ client: redis });
 
 // Configuration
-
-express.session.ignore.push('/robots.txt');
-
 app.configure(function(){
-  app.set('view engine', 'mustache');
+  app.set('view engine', 'html');
   app.set('views', __dirname + '/views');
-  app.register(".mustache", require('stache'));
+  app.engine('html', require('consolidate').handlebars);
+
   app.use(express.cookieParser());
   app.use('/s', express.session({ secret: cfg['DATTSS_SECRET'],
                                   store: store,
@@ -75,6 +75,10 @@ app.configure('production', function(){
 });
 
 
+// Parials
+
+handlebars.registerPartial('header', fs.readFileSync(__dirname + '/views/header.html', 'utf8'));
+handlebars.registerPartial('footer', fs.readFileSync(__dirname + '/views/footer.html', 'utf8'));
 
 // Routes
 

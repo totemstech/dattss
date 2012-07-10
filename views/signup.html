@@ -1,3 +1,5 @@
+{{> header}}
+
 <div class="container signup">
   <div class="form-box span4 offset4">
     <form action="/s/signup" method="post" id="signup-form">
@@ -35,9 +37,7 @@
         $('#signup-button').attr('disabled', 'disabled');
       }
     });
-
-    TL.analytics.track_forms('#signup-form', 'signup', {
-      email: $('#email').val()
-    });
   </script>
 </div>
+
+{{> footer}}

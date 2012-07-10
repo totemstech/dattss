@@ -6,23 +6,22 @@
     "start": "./app.js"
   },
   "dependencies": {
-    "connect": "1.8.x",
-    "connect-redis": "1.2.x",
-    "express": "2.5.9",
-    "socket.io": "0.8.x",
+    "connect": "2.3.x",
+    "connect-redis": "1.4.x",
+    "express": "3.0",
+    "handlebars": "1.0.5beta",
+    "hogan.js": "2.0.0",
+    "consolidate": "0.3.1",
+    "socket.io": "0.9.x",
     "fwk": "0.1.x",
     "hiredis": "0.1.x",
     "redis": "0.7.x",
-    "mu": "0.5.x",
-    "mustache": "0.3.x",
-    "mongodb": "0.9.x",
-    "stache": "0.1.x",
+    "mongodb": "1.0.x",
     "mailer": "0.6.x",
-    "oauth": "0.9.x",
     "mkdirp": "0.3.x"
   },
   "analyze": false,
   "engines": {
-    "node": "v0.6.x"
+    "node": "v0.8.x"
   }
 }

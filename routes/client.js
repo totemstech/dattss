@@ -8,8 +8,8 @@
 exports.get_home = function(req, res, next) {
   var email = req.session.email;
   if(email) {
-    res.render('home', { locals: { user: { email: email },
-                                   home: true } });
+    res.render('home', { user: { email: email },
+                         home: true });
   }
   else {
     res.redirect('/s/login');
