@@ -1,6 +1,7 @@
 body {
   font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #333;
+  margin-bottom: 30px;
   color: white;
 }
 
@@ -371,7 +372,6 @@ textarea:focus {
           box-shadow: none;
 }
 
-
 /* @begin topbar dropdown */
 
 .navbar .nav li.dropdown ul.dropdown-menu {
@@ -551,7 +551,7 @@ textarea:focus {
 
 .dattss-board {
   margin-top: 30px;
-  min-height: 0px;
+  min-height: 0;
   background: #222;
 }
 
@@ -569,15 +569,18 @@ textarea:focus {
   text-align: center;
   color: #aaa;
   background-color: #5a5a5a;
-  padding-top: 5px;
+  padding-top: 0.5em;
   height: 25px;
 }
+
 .dattss-graph:hover .title {
   color: #ddd;
 }
 
 .dattss-graph .title span.type {
+  
 }
+
 .dattss-graph .title span.process {
   color: white;
   font-weight: 900;
@@ -590,9 +593,22 @@ textarea:focus {
 .dattss-graph .title span.close {
   float: right;
   margin-right: 0.5em;
-  margin-top: 0.1em;
+  font-size: 1.3em;
+  text-shadow: none;
+  color: #666;
   visibility: hidden;
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
+
+.dattss-graph .title span.close:hover {
+  color: #ccc;
+}
+
+.dattss-graph .title span.close:active {
+  color: #999;
+}
+
 .dattss-graph:hover .title span.close {
   visibility: visible;
 }
