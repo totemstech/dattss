@@ -31,10 +31,9 @@ config['DATTSS_MAIL_SUBJECT'] = { signup: 'Confirm your account',
                                   reset: 'Reset your password' }
 
 config['DATTSS_PUBLIC_ENDPTS'] = ['/favicon.ico',
-                                  '/login',
-                                  '/signup',
-                                  '/reset',
-                                  '/oauth',
+                                  '/s/login',
+                                  '/s/signup',
+                                  '/s/reset',
                                   '/404'];
 
 exports.config = config;

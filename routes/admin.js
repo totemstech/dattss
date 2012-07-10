@@ -1,13 +1,13 @@
 var crypto = require('crypto');
 
 /**
- * @path GET /login
+ * @path GET /s/login
  */
 exports.get_login = function(req, res, next) {
   var email = req.session.email || null;
 
   if(email) {
-    res.redirect('/home');
+    res.redirect('/s/home');
   }
   else {
     res.render('login');
@@ -15,7 +15,7 @@ exports.get_login = function(req, res, next) {
 };
 
 /**
- * @path POST /login
+ * @path POST /s/login
  */
 exports.post_login = function(req, res, next) {
   var email = req.param('email') || null;
@@ -31,20 +31,20 @@ exports.post_login = function(req, res, next) {
     }
     else {
       req.session.email = email;
-      res.redirect('/home');
+      res.redirect('/s/home');
     }
   });
 };
 
 /**
- * @path GET /signup
+ * @path GET /s/signup
  */
 exports.get_signup = function(req, res, next) {
   var user = req.session.email || null;
   var email = req.param('email') || null;
   
   if(user) {
-    res.redirect('/home');
+    res.redirect('/s/home');
   }
   else {
     res.render('signup', { locals: { email: email } });
@@ -52,7 +52,7 @@ exports.get_signup = function(req, res, next) {
 };
 
 /**
- * @path POST /signup
+ * @path POST /s/signup
  */
 exports.post_signup = function(req, res, next) {
   var email = req.param('email');
@@ -90,7 +90,7 @@ exports.post_signup = function(req, res, next) {
 };
 
 /**
- * @path GET /password
+ * @path GET /s/password
  */
 exports.get_password = function(req, res, next) {
   var key = req.param('key');
@@ -102,7 +102,7 @@ exports.get_password = function(req, res, next) {
 };
 
 /**
- * @path POST /password
+ * @path POST /s/password
  */
 exports.post_password = function(req, res, next) {
   var email = req.param('email') || null;
@@ -125,7 +125,7 @@ exports.post_password = function(req, res, next) {
 };
 
 /**
- * @path GET /signout
+ * @path GET /s/signout
  */
 exports.get_signout = function(req, res, next) {
   var email = req.session.email || null;
@@ -142,7 +142,7 @@ exports.get_signout = function(req, res, next) {
 };
 
 /**
- * @path GET /reset
+ * @path GET /s/reset
  */
 exports.get_reset = function(req, res, next) {
   var email = req.session.email || null;
@@ -156,7 +156,7 @@ exports.get_reset = function(req, res, next) {
 };
 
 /**
- * @path POST /reset
+ * @path POST /s/reset
  */
 exports.post_reset = function(req, res, next) {
   var email = req.param('email');

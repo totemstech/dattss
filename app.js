@@ -36,7 +36,7 @@ redis.on('error', function(e) {
 });
 
 // engine
-var engine = require('./lib/engine.js').engine({cfg: cfg});
+var engine = require('./lib/engine.js').engine({ cfg: cfg });
 
 // access
 var access = require('./lib/access.js').access({ cfg: cfg, 
@@ -44,23 +44,22 @@ var access = require('./lib/access.js').access({ cfg: cfg,
                                                  redis: redis,
                                                  engine: engine });
 // store
-var store = new RedisStore({client: redis});
+var store = new RedisStore({ client: redis });
 
 // Configuration
 
 express.session.ignore.push('/robots.txt');
-express.session.ignore.push('/agg');
 
 app.configure(function(){
   app.set('view engine', 'mustache');
   app.set('views', __dirname + '/views');
   app.register(".mustache", require('stache'));
   app.use(express.cookieParser());
-  app.use(express.session({ secret: cfg['DATTSS_SECRET'],
-                            store: store,
-                            key: 'dattss.sid',
-                            cookie: { maxAge: cfg['DATTSS_COOKIE_AGE'] }
-                          }) );
+  app.use('/s', express.session({ secret: cfg['DATTSS_SECRET'],
+                                  store: store,
+                                  key: 'dattss.sid',
+                                  cookie: { maxAge: cfg['DATTSS_COOKIE_AGE'] }
+                                }) );
   app.use(express.static(__dirname + '/public'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -81,33 +80,33 @@ app.configure('production', function(){
 
 // MAIN
 
-app.get( '/',                                 require('./routes/main.js').get_index);
-app.get( '/404',                              require('./routes/main.js').get_notfound);
-app.get( '/home',                             require('./routes/main.js').get_home);
+app.get( '/',                                   require('./routes/main.js').get_index);
+app.get( '/404',                                require('./routes/main.js').get_notfound);
 
 
 // ADMIN
 
-app.get( '/login',                            require('./routes/admin.js').get_login);
-app.post('/login',                            require('./routes/admin.js').post_login);
-app.get( '/signup',                           require('./routes/admin.js').get_signup);
-app.post('/signup',                           require('./routes/admin.js').post_signup);
-app.get( '/password/:email/:key',             require('./routes/admin.js').get_password);
-app.post('/password/:email',                  require('./routes/admin.js').post_password);
-app.get( '/reset',                            require('./routes/admin.js').get_reset);
-app.post('/reset',                            require('./routes/admin.js').post_reset);
-app.get( '/signout',                          require('./routes/admin.js').get_signout);
+app.get( '/s/login',                            require('./routes/admin.js').get_login);
+app.post('/s/login',                            require('./routes/admin.js').post_login);
+app.get( '/s/signup',                           require('./routes/admin.js').get_signup);
+app.post('/s/signup',                           require('./routes/admin.js').post_signup);
+app.get( '/s/password/:email/:key',             require('./routes/admin.js').get_password);
+app.post('/s/password/:email',                  require('./routes/admin.js').post_password);
+app.get( '/s/reset',                            require('./routes/admin.js').get_reset);
+app.post('/s/reset',                            require('./routes/admin.js').post_reset);
+app.get( '/s/signout',                          require('./routes/admin.js').get_signout);
 
 
 // AGGREGATE
 
-app.put( '/agg',                              require('./routes/engine.js').put_agg); 
+app.put( '/agg',                                require('./routes/engine.js').put_agg); 
 
 
 // CLIENT
 
-app.get( '/current',                          require('./routes/client.js').get_current);
-app.get( '/stat',                             require('./routes/client.js').get_stat);
+app.get( '/s/home',                             require('./routes/client.js').get_home);
+app.get( '/s/current',                          require('./routes/client.js').get_current);
+app.get( '/s/stat',                             require('./routes/client.js').get_stat);
 
 
 

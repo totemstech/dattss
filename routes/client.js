@@ -1,8 +1,24 @@
 // if this code is executed, it means that the user has been 
 // verified with a correct auth. No need to check existence.
 
+
 /**
- * @path GET /current
+ * @path GET /s/home
+ */
+exports.get_home = function(req, res, next) {
+  var email = req.session.email;
+  if(email) {
+    res.render('home', { locals: { user: { email: email },
+                                   home: true } });
+  }
+  else {
+    res.redirect('/s/login');
+  }
+};
+
+
+/**
+ * @path GET /s/current
  */
 exports.get_current = function(req, res, next) {
   var email = req.session.email || null;
@@ -32,13 +48,13 @@ exports.get_current = function(req, res, next) {
     });
   }
   else {
-    res.redirect('/login');
+    res.redirect('/s/login');
   }
 };
 
 
 /**
- * @path GET /stat
+ * @path GET /s/stat
  */
 exports.get_stat = function(req, res, next) {
   var email = req.session.email || null;
@@ -68,6 +84,6 @@ exports.get_stat = function(req, res, next) {
     });
   }
   else {
-    res.redirect('/login');
+    res.redirect('/s/login');
   }
 };

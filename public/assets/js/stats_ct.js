@@ -61,7 +61,7 @@ var stats_ct = function(spec, my) {
    * Loads the initial data and register the update handlers
    */
   init = function() {
-    $.getJSON('/current')
+    $.getJSON('/s/current')
       .success(function(data) {
         if(data.ok) {
           my.json.current = data.current;
@@ -91,7 +91,7 @@ var stats_ct = function(spec, my) {
       var st = my.json.board[idx];
       if((now - st.recv) > 10 * 60 * 1000) {
         (function(st) {
-          $.getJSON('/stat?' + 
+          $.getJSON('/s/stat?' + 
                     'process=' + st.process + '&' +
                     'type=' + st.type + '&' +
                     'name=' + st.stat)
