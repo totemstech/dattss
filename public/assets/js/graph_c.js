@@ -18,6 +18,9 @@ var graph_c = function(spec, my) {
   var build;   /* build(); */
   var refresh; /* refresh(); */
 
+  // protected
+  var ticks;   /* ticks(scale, count); */
+
   // private
   var load;    /* load(); */
 
@@ -56,8 +59,25 @@ var graph_c = function(spec, my) {
     _super.refresh(json);
   };
 
+
+  /**
+   * Calculates normalized count ticks on the domain provided
+   * @param scale the scale
+   * @param count the number of ticks
+   */
+  ticks = function(scale, count) {
+    var d = scale.domain();
+    var data = [];
+    for(var i = 0; i < count; i++) {
+      data.push((d[1] - d[0]) * i / (count-1) + d[0]);
+    }
+    return data;
+  };
+
+
   CELL.method(that, 'build', build, _super);
   CELL.method(that, 'refresh', refresh, _super);
+  CELL.method(that, 'ticks', ticks, _super);
 
   return that;
 };

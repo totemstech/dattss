@@ -13,9 +13,9 @@ aggregated values can also be infered (approximatively but easily) from these pa
 #### Features
 
 - Counter, Timers, Gauges aggregation and display (val, 1mn mvg avg)
-- Process statistics (uptime, mem, cpu, errors & warnings counts)
-- Daily against Week plot of MIN, MAX, AVG, BOT10, TOP10, COUNT, SUM
+- Daily against Week average plot
 - Errors and Warnings Streaming and reporting
+- Process statistics (uptime, mem, cpu, errors & warnings counts)
 - Alerts Email, SMS, Phone (Above/Below Limits, Stopped Working, Stopped Responding) 
 
 #### Inspiration
@@ -32,9 +32,8 @@ see also:
 
 ```
  var dts = require('dattss').process({ name: 'api',
-                                       user: 'spolu',
-                                       auth: '1ba...' });
- // or
+                                       auth: '0_1ba...' });
+ // or (if auth is passed through env or command line)
  var dts = require('dattss').process('api');
 
  //...
@@ -49,14 +48,12 @@ see also:
 
 ##### Storage
 
-`EMAIL/WEEK_DAY/PROC/CTYPE_CNAME.prt` countains max 1440 lines (one for each minute of the day).
-Each line represents the `SUM, COUNT, MAX, MIN, BOT10, TOP10` values for that minute. Each
-of these lines is what we call a "partial aggregate"
-
-`EMAIL/current/PROC.cur` countains the latest state of all the live counters. 
-
-`EMAIL/errors` last 100 errors
-`EMAIL/warnings` last 100 warnings
+- `USER/WEEK_DAY/PROC/CTYPE_CNAME.prt` countains max 1440 lines (one for each minute of the day).
+Each line represents the `SUM, CNT, MAX, MIN, BOT, TOP` values for that minute. Each
+of these lines is what we call a "partial aggregate".
+- `USER/current/PROC.cur` countains the latest state of all the live counters. 
+- `USER/errors` last 100 errors.
+- `USER/warnings` last 100 warnings.
 
 ##### Architecture
 
@@ -67,5 +64,5 @@ from the 5s-partial aggregates array as well.
 
 This means that memory must be big enough to handle all live data for all current
 users of DaTtSs. This infrastructure can be easily scaled by splitting data servers with a
-sharding solution based on user emails. 
+sharding solution based on user ids. 
 

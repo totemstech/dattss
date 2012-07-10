@@ -109,6 +109,7 @@ textarea:focus {
   font-size: 1.6em;
   vertical-align: middle;
   -webkit-font-smoothing: antialiased;
+  text-shadow: none;
 }
 
 .pictos.smaller {
@@ -133,7 +134,7 @@ textarea:focus {
 
 .form-box {
   margin-top: 30px;
-  border: 1px solid #111;
+  border: 1px solid #333;
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
@@ -152,27 +153,30 @@ textarea:focus {
   color: #333;
   padding: 12px 15px;
   margin: 0;
-  border-bottom: 1px solid #111;
+  border-bottom: 1px solid #333;
   background: #eee; /* Old browsers */
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.);
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
   -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
+     -moz-border-radius: 5px 5px 0 0;
+          border-radius: 5px 5px 0 0;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
 
-.form-box h4 .btn {
-  font-size: 0.9em;
-  margin: -5px -5px 0 0;
-  padding: 4px 8px;
-  color: #eee;
-  text-shadow: 0 1px 1px #000;
-  border: 1px solid #000;
-  background: transparent;
+.form-box h4 + div {
+  padding: 15px 15px 7px;
+  background: #eee;
+  border: 1px solid #e2e2e2;
+  border-top: 1px solid #eee;
+  -webkit-border-radius: 0 0 5px 5px;
+     -moz-border-radius: 0 0 5px 5px;
+          border-radius: 0 0 5px 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 
 .form-box div {
@@ -200,16 +204,10 @@ textarea:focus {
 }
 
 .form-box input[type="text"] {
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
 }
 
 .form-box input[type="password"] {
   margin-top: -1px;
-  -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
 }
 
 .form-box input[type="submit"],
@@ -245,14 +243,14 @@ textarea:focus {
 
 .form-box p.notice.error {
   text-align: center;
-  text-shadow: 0 1px 0 #eee;
+  text-shadow: none;
   font-weight: bold;
   color: #c53324;
 }
 
 .form-box p.notice.success {
   text-align: center;
-  text-shadow: 0 1px 0 #eee;
+  text-shadow: none;
   font-weight: bold;
   color: #2e8915;
 }
@@ -267,6 +265,42 @@ textarea:focus {
 }
 
 /* @end white box for forms */
+
+/* @begin signup */
+
+.container.signup > .form-box {
+  margin-top: 50px;
+}
+
+/* @end signup */
+
+/* @begin login */
+
+.container.login > .form-box {
+  margin-top: 50px;
+}
+
+.container.login .form-box input[type="text"] {
+  -webkit-border-radius: 5px 5px 0 0;
+     -moz-border-radius: 5px 5px 0 0;
+          border-radius: 5px 5px 0 0;
+}
+
+.container.login .form-box input[type="password"] {
+  margin-top: -1px;
+  -webkit-border-radius: 0 0 5px 5px;
+     -moz-border-radius: 0 0 5px 5px;
+          border-radius: 0 0 5px 5px;
+}
+/* @end login */
+
+/* @begin reset password */
+
+.container.reset > .form-box {
+  margin-top: 50px;
+}
+
+/* @end reset password */
 
 /* @begin topbar */
 
@@ -305,6 +339,10 @@ textarea:focus {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+}
+
+.navbar .nav > li.install > a {
+  color: #333356;
 }
 
 .navbar .nav > li > a:hover {
@@ -522,19 +560,21 @@ textarea:focus {
 /* @begin graph */
 
 .dattss-graph {
-  background: #2a2a2a;
+  margin-bottom: 10px;
   min-height: 150px;
 }
 
 .dattss-graph .title {
   width: 100%;
   text-align: center;
-  color: #999;
-  padding-top: 0.5em;
+  color: #aaa;
+  background-color: #5a5a5a;
+  padding-top: 5px;
+  height: 25px;
 }
 
 .dattss-graph:hover .title {
-
+  color: #ddd;
 }
 
 .dattss-graph .title span.type {
@@ -542,6 +582,7 @@ textarea:focus {
 }
 
 .dattss-graph .title span.process {
+  color: white;
   font-weight: 900;
   margin-left: 0.7em;
 }
@@ -592,6 +633,34 @@ textarea:focus {
 .dattss-graph path.past.area {
   stroke: none;
   fill: rgba(255, 255, 255, 0.1); 
+}
+
+.dattss-graph path.today.line.top {
+  stroke: rgba(255, 171, 61, 0.4);
+}
+
+.dattss-graph path.today.line.max {
+  stroke: rgba(255, 171, 61, 0.8);
+}
+
+.dattss-graph path.today.line.bot {
+  stroke: rgba(94, 181, 74, 0.4);
+}
+
+.dattss-graph path.today.line.min {
+  stroke: rgba(94, 181, 74, 0.8);
+}
+
+.dattss-graph text.xlabel {
+  stroke: none;
+  fill: #666;
+  font-size: 0.85em;
+}
+
+.dattss-graph text.ylabel {
+  stroke: none;
+  fill: #666;
+  font-size: 0.85em;
 }
 
 /* @end graph */

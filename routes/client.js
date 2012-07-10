@@ -7,15 +7,27 @@
 exports.get_current = function(req, res, next) {
   var email = req.session.email || null;
   if(email) {
-    var engine = req.store.engine;
-    engine.current(email, function(err, cur, took) {
+    var user = require('../lib/user.js').user({ email: email,
+                                                mongo: req.store.mongo,
+                                                redis: req.store.redis,
+                                                cfg: req.store.cfg });
+    user.get(function(err, usr) {
       if(err) {
         res.send(err.message, 500);
       }
       else {
-        res.json({ ok: true,
-                   took: took,
-                   current: cur });
+        var engine = req.store.engine;
+        engine.current(usr.id, function(err, cur, took) {
+          if(err) {
+            res.send(err.message, 500);
+          }
+          else {
+            res.json({ ok: true,
+                       id: usr.id,
+                       took: took,
+                       current: cur });
+          }
+        });
       }
     });
   }
@@ -36,11 +48,23 @@ exports.get_stat = function(req, res, next) {
   var name = req.param('name');
 
   if(email) {
-    var engine = req.store.engine;
-    engine.stat(email, process, type, name, function(err, st, took) {
-      res.json({ ok: true,
-                 took: took,
-                 stat: st });
+    var user = require('../lib/user.js').user({ email: email,
+                                                mongo: req.store.mongo,
+                                                redis: req.store.redis,
+                                                cfg: req.store.cfg });
+    user.get(function(err, usr) {
+      if(err) {
+        res.send(err.message, 500);
+      }
+      else {
+        var engine = req.store.engine;
+        engine.stat(usr.id, process, type, name, function(err, st, took) {
+          res.json({ ok: true,
+                     id: usr.id,
+                     took: took,
+                     stat: st });
+        });
+      }
     });
   }
   else {
