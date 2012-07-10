@@ -551,7 +551,7 @@ textarea:focus {
 
 .dattss-board {
   margin-top: 30px;
-  min-height: 460px;
+  min-height: 0;
   background: #222;
 }
 
@@ -569,7 +569,7 @@ textarea:focus {
   text-align: center;
   color: #aaa;
   background-color: #5a5a5a;
-  padding-top: 5px;
+  padding-top: 0.5em;
   height: 25px;
 }
 
@@ -592,7 +592,7 @@ textarea:focus {
 
 .dattss-graph .title span.close {
   float: right;
-  margin-right: 5px;
+  margin-right: 0.5em;
   font-size: 1.3em;
   text-shadow: none;
   color: #666;
