@@ -12,12 +12,11 @@ var fs = require('fs');
 var redis = require('redis');
 var mongodb = require('mongodb');
 var connect = require('connect');
-var parseCookie = connect.utils.parseCookie;
+var cookie = require('cookie');
 
 var app = express();
 
 var RedisStore = require('connect-redis')(express);
-var io = require('socket.io').listen(app);
 
 // cfg
 var cfg = fwk.populateConfig(require("./config.js").config);
@@ -115,45 +114,6 @@ app.get( '/s/stat',                             require('./routes/client.js').ge
 
 
 
-// SOCKET.IO
-
-// log level
-io.set('log level', 0);
-
-// authorization
-io.set('authorization', function(data, accept) {
-  if(!data.headers.cookie) {
-    return accept('No cookie transmitted.', false);
-  }
-  data.cookie = parseCookie(data.headers.cookie);
-  data.sessionID = data.cookie['dattss.sid'];
-
-  store.load(data.sessionID, function(err, session) {
-    if (err) 
-      return accept('Error: ' + err.message, false);
-    if(!session || typeof session.email !== 'string')
-      return accept('Not authorized', false);
-
-    data.session = session;
-    //console.log(util.inspect(session, false, 10));
-    return accept(null, true);
-  });
-});
-
-io.sockets.on('connection', function (socket) {
-  var session = socket.handshake.session;
-
-  console.log('CONNECTION: ' + session.email);
-  var update_handler = function(process, current) {
-    socket.emit('update', { cur: current });
-  };
-  engine.on(session.email, update_handler);
-
-  socket.on('disconnect', function() {
-    engine.removeListener(session.email, update_handler);
-    console.log('DISCONNECTION: ' + session.email);
-  });
-});
 
 
 // Db Authentication & Start
@@ -191,8 +151,50 @@ io.sockets.on('connection', function (socket) {
   
   console.log('Starting...');
   auth(function() {
-    app.listen(8080);
-    console.log('Server started on port 8080');
+    var srv = app.listen(3000);
+    console.log('Server started on port 3000');
+
+    // SOCKET.IO
+    var io = require('socket.io').listen(srv);
+
+    // log level
+    io.set('log level', 0);
+
+    // authorization
+    io.set('authorization', function(data, accept) {
+      if(!data.headers.cookie) {
+        return accept('No cookie transmitted.', false);
+      }
+      data.cookie = cookie.parse(data.headers.cookie);
+      data.sessionID = data.cookie['dattss.sid'];
+      console.log('SESSION ID: ' + data.sessionID);
+
+      store.load(data.sessionID, function(err, session) {
+        if (err) 
+          return accept('Error: ' + err.message, false);
+        if(!session || typeof session.email !== 'string')
+          return accept('Not authorized', false);
+
+        data.session = session;
+        //console.log(util.inspect(session, false, 10));
+        return accept(null, true);
+      });
+    });
+
+    io.sockets.on('connection', function (socket) {
+      var session = socket.handshake.session;
+
+      console.log('CONNECTION: ' + session.email);
+      var update_handler = function(process, current) {
+        socket.emit('update', { cur: current });
+      };
+      engine.on(session.email, update_handler);
+
+      socket.on('disconnect', function() {
+        engine.removeListener(session.email, update_handler);
+        console.log('DISCONNECTION: ' + session.email);
+      });
+    });
   });
 })();
 
