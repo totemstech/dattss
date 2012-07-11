@@ -6,6 +6,6 @@ config['DATTSS_PERCENTILE'] = 0.1;
 
 config['DATTSS_CLIENT_AUTH'] = 'not-configured';
 config['DATTSS_SERVER_HOST'] = 'dattss.teleportd.com';
-config['DATTSS_SERVER_PORT'] = 8080;
+config['DATTSS_SERVER_PORT'] = 80;
 
 exports.config = config;
