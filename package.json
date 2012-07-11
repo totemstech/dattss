@@ -1,5 +1,5 @@
 {
-  "name": "dattss",
+  "name": "dattss-srv",
   "author": "Stanislas Polu <polu.stanislas@gmail.com>",
   "version": "0.1.1",
   "scripts": {
@@ -19,9 +19,11 @@
     "redis": "0.7.x",
     "mongodb": "1.0.x",
     "mailer": "0.6.x",
-    "mkdirp": "0.3.x"
+    "mkdirp": "0.3.x",
+    "dattss": "0.1.x"
   },
   "analyze": false,
+  "private": true,
   "engines": {
     "node": "v0.8.x"
   }

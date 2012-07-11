@@ -23,8 +23,8 @@ config['DATTSS_REDIS_AUTH'] = 'dummy-env';
 
 config['DATTSS_MAIL_HOST'] = 'smtp.sendgrid.net';
 config['DATTSS_MAIL_PORT'] = '587';
-config['DATTSS_MAIL_DOMAIN'] = 'teleprotd.com';
-config['DATTSS_MAIL_FROM'] = 'dattss@teleportd.com';
+config['DATTSS_MAIL_DOMAIN'] = 'dattss.com';
+config['DATTSS_MAIL_FROM'] = 'DaTtSs <team@dattss.com>';
 config['DATTSS_MAIL_USER'] = 'dummy-env';
 config['DATTSS_MAIL_PASS'] = 'dummy-env';
 config['DATTSS_MAIL_SUBJECT'] = { signup: 'Confirm your account',

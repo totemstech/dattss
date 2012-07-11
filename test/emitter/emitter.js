@@ -1,11 +1,11 @@
-var dts_test = require('../../clients/nodejs/lib/dattss.js').process({ 
+var dts_test = require('dattss').process({ 
   name: 'test',
-  auth: '4_6108c418afab07b416e39efe3e311b5ce24ef967'
+  auth: '1_1e716583b4d48cee508bd9771c691faba2eb4519'
 });
 
-var dts_cache = require('../../clients/nodejs/lib/dattss.js').process({ 
+var dts_cache = require('dattss').process({ 
   name: 'cache',
-  auth: '4_6108c418afab07b416e39efe3e311b5ce24ef967'
+  auth: '1_1e716583b4d48cee508bd9771c691faba2eb4519'
 });
 
 
