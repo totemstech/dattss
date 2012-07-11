@@ -6,10 +6,22 @@
  * @path GET /s/home
  */
 exports.get_home = function(req, res, next) {
-  var email = req.session.email;
+  var email = req.session.email || null;
   if(email) {
-    res.render('home', { user: { email: email },
-                         home: true });
+    var user = require('../lib/user.js').user({ email: email,
+                                                mongo: req.store.mongo,
+                                                redis: req.store.redis,
+                                                cfg: req.store.cfg });
+    user.get(function(err, usr) {
+      if(err) {
+        res.send(err.message, 500);
+      }
+      else {
+        res.render('home', { user: { email: email },
+                             home: true,
+                 	     auth: usr.id + '_' + req.store.access.auth(usr.id) });
+      }
+    });
   }
   else {
     res.redirect('/s/login');

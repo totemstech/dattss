@@ -464,10 +464,35 @@ textarea:focus {
 
 /* @end topbar */
 
+/* @begin notice */
+
+.dattss-notice {
+  margin-top: 100px;
+  text-align: center;
+}
+
+/* @end notice */
+
+/* @begin install */
+
+.dattss-install {
+  margin-top: 30px;
+}
+
+.dattss-install pre.key {
+  margin-bottom: 40px;
+}
+
+.dattss-install pre.key .value {
+  color: #269efb;
+  font-weight: bold;
+}
+
+/* @end install */
+
 /* @begin current */
 
 .dattss-current {
-  
 }
 
 /* @end current */
