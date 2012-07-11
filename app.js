@@ -157,29 +157,38 @@ app.get( '/s/stat',                             require('./routes/client.js').ge
     // SOCKET.IO
     var io = require('socket.io').listen(srv);
 
-    io.configure(function() {
-      // log level
-      io.set('log level', 0);
+    // log level
+    io.set('log level', 0);
 
-      // authorization
-      io.set('authorization', function(data, accept) {
-        if(!data.headers.cookie) {
-          return accept('No cookie transmitted.', false);
-        }
-        data.cookie = cookie.parse(data.headers.cookie);
-        if (0 == data.cookie['dattss.sid'].indexOf('s:')) {
-          var val = data.cookie['dattss.sid'].slice(2);
-          data.sessionID = connect.utils.unsign(val, cfg['DATTSS_SECRET']);
-        }
+    // authorization
+    io.set('authorization', function(data, accept) {
+      if(!data.headers.cookie) {
+        return accept('No cookie transmitted.', false);
+      }
+      data.cookie = cookie.parse(data.headers.cookie);
+      if (0 == data.cookie['dattss.sid'].indexOf('s:')) {
+        var val = data.cookie['dattss.sid'].slice(2);
+        data.sessionID = connect.utils.unsign(val, cfg['DATTSS_SECRET']);
+      }
 
-        store.get(data.sessionID, function(err, session) {
-          if (err)
+      store.get(data.sessionID, function(err, session) {
+        if (err)
+          return accept('Error: ' + err.message, false);
+        if(!session || typeof session.email !== 'string')
+          return accept('Not authorized', false);
+
+        var user = require('../lib/user.js').user({ email: session.email,
+                                                    mongo: mongo,
+                                                    redis: redis,
+                                                    cfg: cfg });
+        user.get(function(err, usr) {
+          if(err)
             return accept('Error: ' + err.message, false);
-          if(!session || typeof session.email !== 'string')
-            return accept('Not authorized', false);
-
-          data.session = session;
-          return accept(null, true);
+          else {
+            session.id = usr.id;
+            data.session = session;
+            return accept(null, true);
+          }
         });
       });
     });
