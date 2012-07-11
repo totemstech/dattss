@@ -3,7 +3,7 @@
  * @path GET /
  */
 exports.get_index = function(req, res, next) {
-  res.redirect('/s/login');
+  res.render('landing');
 };
 
 /**

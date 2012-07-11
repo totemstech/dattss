@@ -130,6 +130,52 @@ textarea:focus {
 
 /* @end pictos server icons */
 
+/* @begin landing */
+
+.dattss-landing {
+  color: #eee;
+}
+
+.dattss-landing .row {
+  margin-bottom: 30px;
+}
+
+.dattss-landing .title {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.dattss-landing .title h1 {
+  font-size: 34px;
+}
+
+.dattss-landing .title h1 .sub {
+  font-size: 34px;
+  color: #3a95db;
+}
+
+.dattss-landing .tagline {
+  margin-top: 20px;
+}
+
+.dattss-landing .tagline h3 {
+  color: #111;
+}
+          
+.dattss-landing .register {
+  background-color: #222;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+          
+.dattss-landing .screenshot img {
+  -webkit-box-shadow:  -5px 10px 30px -5px rgba(0, 0, 0, 0.6);
+          box-shadow:  -5px 10px 30px -5px rgba(0, 0, 0, 0.6);
+}
+
+
+/* @end landing */
+
 /* @begin white box for forms */
 
 .form-box {
@@ -690,3 +736,4 @@ textarea:focus {
 }
 
 /* @end graph */
+
