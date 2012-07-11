@@ -177,10 +177,10 @@ app.get( '/s/stat',                             require('./routes/client.js').ge
         if(!session || typeof session.email !== 'string')
           return accept('Not authorized', false);
 
-        var user = require('../lib/user.js').user({ email: session.email,
-                                                    mongo: mongo,
-                                                    redis: redis,
-                                                    cfg: cfg });
+        var user = require('./lib/user.js').user({ email: session.email,
+                                                   mongo: mongo,
+                                                   redis: redis,
+                                                   cfg: cfg });
         user.get(function(err, usr) {
           if(err)
             return accept('Error: ' + err.message, false);
@@ -196,11 +196,11 @@ app.get( '/s/stat',                             require('./routes/client.js').ge
     io.sockets.on('connection', function (socket) {
       var session = socket.handshake.session;
 
-      console.log('CONNECTION: ' + session.email);
+      console.log('CONNECTION: ' + session.email + ' ' + session.id);
       var update_handler = function(process, current) {
         socket.emit('update', { cur: current });
       };
-      engine.on(session.email, update_handler);
+      engine.on(session.id, update_handler);
 
       socket.on('disconnect', function() {
         engine.removeListener(session.email, update_handler);
