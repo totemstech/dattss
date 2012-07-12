@@ -55,7 +55,7 @@ var process_c = function(spec, my) {
           row.append($('<td/>').addClass('status').addClass(json.lst <= 10000 ? 'on' : 'off')
             .append($('<span/>').addClass('pictos').html('r'))
           );
-          row.append($('<td/>').addClass('uptime').html(json.upt + 's'));
+          row.append($('<td/>').addClass('uptime').html(Math.floor(json.upt) + 's'));
           row.append($('<td/>').attr('colspan', 3));
           my.element.append(row);
         }
