@@ -46,7 +46,7 @@ var stats_ct = function(spec, my) {
                                type: type,
                                stat: stat,
                                recv: 0 };
-        my.json.board.stack.push(idx);
+        my.json.board.stack.unshift(idx);
         that.refresh();
       }
     });
