@@ -3,8 +3,8 @@
 <div class="container dattss-landing" id="landing-container">
 
   <div class="row">
-    <div class="span10 title">
-      <h1>DaTtSs: <span class="sub">Realtime Statistics as a Service</span></h1>
+    <div class="span12 title">
+      <h1>DaTtSs: <span class="sub">Realtime Statistics Aggregation as a Service</span></h1>
     </div>
   </div>
 
@@ -12,8 +12,9 @@
     <div class="span12 tagline">
       <h3>You can't Fix what you can't Track</h3>
       DaTtSs aggregates, stores and display in real time statistics captured from
-      your apps. It helps you track counters, gauges or timers very easily and enables
-      you to better understand your systems behaviours and status.
+      your systems. It helps you track counters, gauges or timers very easily and enables
+      you to better understand your systems behaviours and status. For the ones who know
+      it, DaTtSs is kind of a "statsd as a service".
     </div>
   </div>
 
@@ -31,10 +32,10 @@
     <div class="span4 start">
       <h2>Getting Started</h2>
       <br/>
-      Integrate DaTtSs in your apps by requiring the DaTtSs client library and 
-      passing it the current process name as well as your private AUTH_KEY. 
+      Integrate DaTtSs in your apps by requiring the DaTtSs client library (NodeJS for now)
+      and passing it the current process name as well as your private AUTH_KEY. 
       <br/><br/>
-      Start aggregating counters, gauges and timers with just a line. You can go
+      Start aggregating counters, gauges and timers with just a line of code. You can go
       ahead! DaTtSs has very low overhead on your systems, it's been designed to
       be extremely efficient and lightweight.
     </div>
@@ -52,6 +53,14 @@
       in realtime. A few hours later you can see its evolution graphically. A
       few days later, you can even compare your daily values with averaged
       historical (last month) data.
+      <br/><br/>
+      <strong>How it works?</strong> Since we're using HTTP (instead of UDP for
+      statsd and other simialr solutions), the client library pre-aggretages the
+      statistics it receives before sending it periodically every 5s to a DaTtSs
+      server. Each process running a DaTtSs client library only make one HTTP request 
+      every 5s which is super lightweight and won't overcharge your systems. DaTtSs is
+      therefore able to aggregate an unlimited number of statistics at very high
+      frequencies.
     </div>
     <div class="span7 offset1 screenshot">
       <br/>

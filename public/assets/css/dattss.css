@@ -159,13 +159,17 @@ textarea:focus {
 }
 
 .dattss-landing .tagline h3 {
-  color: #111;
+  color: #777;
 }
           
 .dattss-landing .register {
   background-color: #222;
   padding: 10px;
   margin-bottom: 50px;
+}
+
+.dattss-landing .explore strong {
+  color: #777;
 }
           
 .dattss-landing .screenshot img {
