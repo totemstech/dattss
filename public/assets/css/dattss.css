@@ -140,6 +140,11 @@ textarea:focus {
   margin-bottom: 30px;
 }
 
+.dattss-landing .btn-call {
+  font-size: 20px;
+  padding: 20px 30px 20px 30px;
+}
+
 .dattss-landing .title {
   margin-top: 30px;
   margin-bottom: 20px;
@@ -165,7 +170,10 @@ textarea:focus {
 .dattss-landing .register {
   background-color: #222;
   padding: 10px;
-  margin-bottom: 50px;
+}
+
+.dattss-landing .btn-demo {
+  margin-top: 10px;
 }
 
 .dattss-landing .explore strong {
