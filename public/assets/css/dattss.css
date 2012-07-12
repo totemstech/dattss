@@ -529,8 +529,12 @@ textarea:focus {
   margin-top: 30px;
 }
 
+.dattss-install .row {
+  margin-top: 30px;
+}
+
 .dattss-install pre.key {
-  margin-bottom: 40px;
+  margin-top: 20px;
 }
 
 .dattss-install pre.key .value {

@@ -99,3 +99,55 @@ exports.get_stat = function(req, res, next) {
     res.redirect('/s/login');
   }
 };
+
+
+/******************************************************
+ *                    DEMO                            *
+ ******************************************************/
+
+
+/**
+ * @path GET /demo/home
+ */
+exports.get_demo_home = function(req, res, next) {
+  res.render('home', { demo: true,
+                       home: true });
+};
+
+
+/**
+ * @path GET /demo/current
+ */
+exports.get_demo_current = function(req, res, next) {
+  var engine = req.store.engine;
+  engine.current(0, function(err, cur, took) {
+    if(err) {
+      res.send(err.message, 500);
+    }
+    else {
+      res.json({ ok: true,
+                 id: 0,
+                 took: took,
+                 current: cur });
+    }
+  });
+};
+
+
+/**
+ * @path GET /demo/stat
+ */
+exports.get_demo_stat = function(req, res, next) {
+  var process = req.param('process');
+  var type = req.param('type');
+  var name = req.param('name');
+
+  var engine = req.store.engine;
+  engine.stat(0, process, type, name, function(err, st, took) {
+    res.json({ ok: true,
+               id: 0,
+               took: took,
+               stat: st });
+  });
+};
+

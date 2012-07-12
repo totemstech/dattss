@@ -5,7 +5,8 @@
 var stats_ct = function(spec, my) {
   var _super = {};
   my = my || {};
-
+  
+  my.path = spec.demo ? '/demo' : '/s';
   my.json = { current: {},
               board: { stack: [] } };
 
@@ -18,6 +19,7 @@ var stats_ct = function(spec, my) {
 
 
   var that = CELL.container({ name: 'stats' }, my);
+
 
   /**
    * Loads the envi env within the DOM. A full-scren
@@ -61,7 +63,7 @@ var stats_ct = function(spec, my) {
    * Loads the initial data and register the update handlers
    */
   init = function() {
-    $.getJSON('/s/current')
+    $.getJSON(my.path + '/current')
       .success(function(data) {
         if(data.ok) {
           my.json.current = data.current;
@@ -73,13 +75,14 @@ var stats_ct = function(spec, my) {
         error(err);
       });
     
-    my.socket = io.connect('/');
+    my.socket = io.connect(my.path);
     my.socket.on('update', function (data) {
       //console.log(data);
       my.json.current[data.cur.nam] = data.cur;
       that.refresh();
     });
   };
+
 
   /**
    * Refresh stats data if necessary and call super refresh
@@ -91,7 +94,7 @@ var stats_ct = function(spec, my) {
       var st = my.json.board[idx];
       if((now - st.recv) > 10 * 60 * 1000) {
         (function(st) {
-          $.getJSON('/s/stat?' + 
+          $.getJSON(my.path + '/stat?' + 
                     'process=' + st.process + '&' +
                     'type=' + st.type + '&' +
                     'name=' + st.stat)
@@ -111,6 +114,7 @@ var stats_ct = function(spec, my) {
 
     _super.refresh();
   };
+
 
   /**
    * General error handler to notify the user

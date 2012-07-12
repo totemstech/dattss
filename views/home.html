@@ -40,12 +40,20 @@
   </div>
   -->
 
+  {{^demo}}
   <div class="container tab-pane" id="install-container">
       {{> install}}
     </div>
   </div>
+  {{/demo}}
 
   <script src="/assets/js/main.js"></script>
+  
+  {{#demo}}
+  <script type="text/javascript">
+    DATTSS.demo = true; 
+  </script>
+  {{/demo}}
 </div>
 
 {{> footer}}

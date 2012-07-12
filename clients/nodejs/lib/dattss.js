@@ -139,9 +139,9 @@ var dattss = function(spec, my) {
     var commit = { nam: my.name,
                    upt: process.uptime(),
                    prt: make_partials() };
-    console.log('========================================');
-    console.log(JSON.stringify(commit));
-    console.log('=++++++++++++++++++++++++++++++++++++++=');
+    //console.log('========================================');
+    //console.log(JSON.stringify(commit));
+    //console.log('=++++++++++++++++++++++++++++++++++++++=');
     
     if(my.creq)
       my.creq.abort();
@@ -154,11 +154,11 @@ var dattss = function(spec, my) {
       headers: { "content-type": 'application/json' }
     };
     my.creq = http.request(options, function(res) {
-      console.log('/agg ' + res.statusCode);
+      //console.log('/agg ' + res.statusCode);
       delete my.commit_req;
     });
     my.creq.on('error', function(err) {
-      console.log('/agg error');
+      //console.log('/agg error');
     });
     my.creq.write(JSON.stringify(commit));
     my.creq.end();

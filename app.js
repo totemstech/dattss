@@ -36,16 +36,33 @@ redis.on('error', function(e) {
   console.log('ERROR [redis]: ' + e);
 });
 
+
+// dts instances placeholder
+var dts = {};
+
 // engine
-var engine = require('./lib/engine.js').engine({ cfg: cfg });
+var engine = require('./lib/engine.js').engine({ cfg: cfg,
+                                                 dts: dts });
 
 // access
 var access = require('./lib/access.js').access({ cfg: cfg, 
                                                  mongo: mongo,
                                                  redis: redis,
-                                                 engine: engine });
-// store
+                                                 engine: engine,
+                                                 dts: dts });
+// self monitoring
+dts.srv = require('dattss').process({ name: 'dattss-srv',
+                                      auth: '0_' + access.auth('0'),
+                                      host: 'localhost',
+                                      port: 3000 });
+dts.web = require('dattss').process({ name: 'dattss-web',
+                                      auth: '0_' + access.auth('0'),
+                                      host: 'localhost',
+                                      port: 3000 });
+                                        
+// session store
 var store = new RedisStore({ client: redis });
+
 
 // Configuration
 app.configure(function(){
@@ -112,11 +129,89 @@ app.get( '/s/home',                             require('./routes/client.js').ge
 app.get( '/s/current',                          require('./routes/client.js').get_current);
 app.get( '/s/stat',                             require('./routes/client.js').get_stat);
 
+app.get( '/demo/home',                          require('./routes/client.js').get_demo_home);
+app.get( '/demo/current',                       require('./routes/client.js').get_demo_current);
+app.get( '/demo/stat',                          require('./routes/client.js').get_demo_stat);
 
 
+// SOCKET.IO
+
+var set_io = function(srv) {
+  
+  var io = require('socket.io').listen(srv);
+
+  // log level
+  io.set('log level', 0);
+
+  var io_sec = io.of('/s');
+  var io_demo = io.of('/demo');
+
+  // SECURE AUTHORIZATION
+  io_sec.authorization(function(data, accept) {
+    if(!data.headers.cookie) {
+      return accept('No cookie transmitted.', false);
+    }
+    data.cookie = cookie.parse(data.headers.cookie);
+    if (0 == data.cookie['dattss.sid'].indexOf('s:')) {
+      var val = data.cookie['dattss.sid'].slice(2);
+      data.sessionID = connect.utils.unsign(val, cfg['DATTSS_SECRET']);
+    }
+
+    store.get(data.sessionID, function(err, session) {
+      if (err)
+        return accept('Error: ' + err.message, false);
+      if(!session || typeof session.email !== 'string')
+        return accept('Not authorized', false);
+
+      var user = require('./lib/user.js').user({ email: session.email,
+                                                 mongo: mongo,
+                                                 redis: redis,
+                                                 cfg: cfg });
+      user.get(function(err, usr) {
+        if(err)
+          return accept('Error: ' + err.message, false);
+        else {
+          session.id = usr.id;
+          data.session = session;
+          return accept(null, true);
+        }
+      });
+    });
+  });
+
+  // IO DEMO PART
+  io_sec.on('connection', function (socket) {
+    var session = socket.handshake.session;
+
+    console.log('CONNECTION: ' + session.email + ' ' + session.id);
+    var update_handler = function(process, current) {
+      socket.emit('update', { cur: current });
+    };
+    engine.on(session.id, update_handler);
+
+    socket.on('disconnect', function() {
+      engine.removeListener(session.id, update_handler);
+      console.log('DISCONNECTION: ' + session.email);
+    });
+  });
+
+  // IO DEMO PART
+  io_demo.on('connection', function (socket) {
+    console.log('CONNECTION: demo');
+    var update_handler = function(process, current) {
+      socket.emit('update', { cur: current });
+    };
+    engine.on(0, update_handler);
+
+    socket.on('disconnect', function() {
+      engine.removeListener(0, update_handler);
+      console.log('DISCONNECTION: demo');
+    });
+  });
+};
 
 
-// Db Authentication & Start
+// DB AUTHENTICATION & START
 
 (function() {  
   var shutdown = function(code) {
@@ -147,66 +242,13 @@ app.get( '/s/stat',                             require('./routes/client.js').ge
         });
       }
     });
-  }
+  };
   
   console.log('Starting...');
   auth(function() {
     var srv = app.listen(3000);
     console.log('Server started on port 3000');
-
-    // SOCKET.IO
-    var io = require('socket.io').listen(srv);
-
-    // log level
-    io.set('log level', 0);
-
-    // authorization
-    io.set('authorization', function(data, accept) {
-      if(!data.headers.cookie) {
-        return accept('No cookie transmitted.', false);
-      }
-      data.cookie = cookie.parse(data.headers.cookie);
-      if (0 == data.cookie['dattss.sid'].indexOf('s:')) {
-        var val = data.cookie['dattss.sid'].slice(2);
-        data.sessionID = connect.utils.unsign(val, cfg['DATTSS_SECRET']);
-      }
-
-      store.get(data.sessionID, function(err, session) {
-        if (err)
-          return accept('Error: ' + err.message, false);
-        if(!session || typeof session.email !== 'string')
-          return accept('Not authorized', false);
-
-        var user = require('./lib/user.js').user({ email: session.email,
-                                                   mongo: mongo,
-                                                   redis: redis,
-                                                   cfg: cfg });
-        user.get(function(err, usr) {
-          if(err)
-            return accept('Error: ' + err.message, false);
-          else {
-            session.id = usr.id;
-            data.session = session;
-            return accept(null, true);
-          }
-        });
-      });
-    });
-
-    io.sockets.on('connection', function (socket) {
-      var session = socket.handshake.session;
-
-      console.log('CONNECTION: ' + session.email + ' ' + session.id);
-      var update_handler = function(process, current) {
-        socket.emit('update', { cur: current });
-      };
-      engine.on(session.id, update_handler);
-
-      socket.on('disconnect', function() {
-        engine.removeListener(session.email, update_handler);
-        console.log('DISCONNECTION: ' + session.email);
-      });
-    });
+    set_io(srv);
   });
 })();
 
