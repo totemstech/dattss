@@ -559,7 +559,7 @@ textarea:focus {
 
 .dattss-process td {
   padding-left: 10px;
-  min-width: 40px;
+  min-width: 30px;
 }
 
 .dattss-process td.name {
