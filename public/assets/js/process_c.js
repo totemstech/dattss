@@ -20,7 +20,7 @@ var process_c = function(spec, my) {
   build = function() {
     my.element = $('<tbody/>')
       .addClass('dattss-process')
-      .attr('id', 'process-' + my.name);
+      .attr('id', 'process-' + my.container.idxtoi(my.name));
 
     return my.element;
   };

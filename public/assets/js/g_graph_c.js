@@ -31,7 +31,7 @@ var g_graph_c = function(spec, my) {
   refresh = function(json) {
     if(my.last_recv !== json.recv) {
       my.last_recv = json.recv;
-      $('#dattss-graph-' + my.idx + ' svg').remove();
+      $('#dattss-graph-' + my.container.idxtoi(my.idx) + ' svg').remove();
 
       var today = [];
       json.data.today.forEach(function(d) {
@@ -49,7 +49,7 @@ var g_graph_c = function(spec, my) {
                                         d3.max([].concat(today, past))]).range([0 + mrg, 150 - mrg]);
       var x = d3.scale.linear().domain([0, past.length]).range([0 + 2*mrg, 460 - mrg]);
 
-      var vis = d3.select('#dattss-graph-' + my.idx)
+      var vis = d3.select('#dattss-graph-' + my.container.idxtoi(my.idx))
         .append('svg:svg')
         .attr('width', 460)
         .attr('height', 150);

@@ -10,9 +10,14 @@ var stats_ct = function(spec, my) {
   my.json = { current: {},
               board: { stack: [] } };
 
+  my.idxs = {};
+  my.i = 0;
+
   // public
   var load;      /* load(); */
   var refresh;   /* refresh(); */
+  var init;      /* init(); */
+  var idxtoi;    /* idxtoi(); */
 
   // private
   var error;     /* error(err); */
@@ -124,10 +129,24 @@ var stats_ct = function(spec, my) {
     alert('ERROR: ' + err.message);
   };
 
+  /**
+   * Transforms an idx string into an integer for id and class name
+   * compatibility
+   * @param idx string value (just about any string)
+   * @return i an integer
+   */
+  idxtoi = function(idx) {
+    if(typeof my.idxs[idx] === 'undefined') {
+      my.idxs[idx] = ++my.i;
+    }
+    return my.idxs[idx];
+  };
 
   CELL.method(that, 'load', load, _super);
   CELL.method(that, 'refresh', refresh, _super);
   CELL.method(that, 'init', init, _super);
+
+  CELL.method(that, 'idxtoi', idxtoi, _super);
 
   return that;
 };

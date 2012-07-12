@@ -32,7 +32,7 @@ var graph_c = function(spec, my) {
   /****************************/
   build = function() {
     my.element = $('<div/>')
-      .attr('id', 'dattss-graph-' + my.idx)
+      .attr('id', 'dattss-graph-' + my.container.idxtoi(my.idx))
       .addClass('dattss-graph');
 
     var title = $('<div/>').addClass('title');
