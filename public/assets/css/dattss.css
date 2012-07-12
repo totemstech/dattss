@@ -559,7 +559,7 @@ textarea:focus {
 
 .dattss-process td {
   padding-left: 10px;
-  min-width: 30px;
+  min-width: 20px;
 }
 
 .dattss-process td.name {
@@ -606,14 +606,13 @@ textarea:focus {
 }
 
 .dattss-process td.st-graph {
-  padding-left: 30px;
 }
 
 .dattss-process td.st-graph a {
   color: #666;
   cursor: pointer;
   text-decoration: none;
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .dattss-process td.st-graph a:hover {
