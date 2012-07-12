@@ -85,12 +85,13 @@ var process_c = function(spec, my) {
           row.append($('<td/>').addClass('st-dyn').html('[' + st.avg + ']'));
         }
         if(typ === 'g') {
-          row.append($('<td/>').addClass('st-val').html(st.lst));
-          row.append($('<td/>').addClass('st-dyn').html('[' + ((st.dlt > 0) ? '+' : '') + st.dlt + ']'));
+          row.append($('<td/>').addClass('st-val').html(st.lst === null ? ' ' : st.lst));
+          row.append($('<td/>').addClass('st-dyn').html('[' + st.avg + ']'));
         }
         if(typ === 'ms') {
-          row.append($('<td/>').addClass('st-val').html(st.avg));
-          row.append($('<td/>').addClass('st-dyn').html('[' + st.min + ', ' + st.max + ']'));
+          row.append($('<td/>').addClass('st-val').html(st.avg === null ? ' ' : st.avg));
+          row.append($('<td/>').addClass('st-dyn').html('[' + (st.min === null ? ' ' : st.min) + ', ' + 
+                                                              (st.max === null ? ' ' : st.max) + ']'));
         }
 
         // show

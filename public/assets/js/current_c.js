@@ -54,10 +54,14 @@ var current_c = function(spec, my) {
   refresh = function(json) {
     my.element.empty();
     
+    var ord = [];
     for(var name in json) {
+      ord.push(name);
+    }
+    ord.sort().forEach(function(name) {
       var p = process(name);
       my.element.append(p.element());
-    }
+    });
 
     _super.refresh(json);
   };

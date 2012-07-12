@@ -35,12 +35,12 @@ var g_graph_c = function(spec, my) {
 
       var today = [];
       json.data.today.forEach(function(d) {
-        if(d) today.push(d.lst);
+        if(d && d.cnt) today.push(d.sum / d.cnt);
         else today.push(0);
       });
       var past = [];
       json.data.past.forEach(function(d) {
-        if(d) past.push(d.lst);
+        if(d && d.cnt) past.push(d.sum / d.cnt);
         else past.push(0);
       });
 
