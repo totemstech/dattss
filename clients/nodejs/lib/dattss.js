@@ -54,7 +54,7 @@ var dattss = function(spec, my) {
   my.pct  = spec.pct  || parseFloat(exports.CONFIG['DATTSS_PERCENTILE']);
 
   my.name = spec.name || 'noname';
-  my.start = Date.now();
+  my.stopped = true;
 
   // accumulators
   my.acc = { 'c': {},
@@ -65,6 +65,9 @@ var dattss = function(spec, my) {
   var agg;              /* agg(stat, value); */
   //var error;            /* error(err, ctx); */
   //var warning;          /* warning(err, ctx); */
+  
+  var start;            /* start(); */
+  var stop;             /* stop(); */
 
   // private
   var do_commit;        /* do_commit(); */
@@ -154,21 +157,15 @@ var dattss = function(spec, my) {
       headers: { "content-type": 'application/json' }
     };
     my.creq = http.request(options, function(res) {
-      //console.log('/agg ' + res.statusCode);
+      //console.log('/agg ' + res.statusCode + ' [' + my.auth + ']');
       delete my.commit_req;
     });
     my.creq.on('error', function(err) {
-      //console.log('/agg error');
+      //console.log('/agg ' + err.message + ' [' + my.auth + ']');
     });
     my.creq.write(JSON.stringify(commit));
     my.creq.end();
   };
-
-
-  /***********************************************************************
-   * COMMIT TIMER INITIALIZATION                                         *
-   ***********************************************************************/
-  my.itv = setInterval(do_commit, exports.CONFIG['DATTSS_PUSH_PERIOD']);
 
 
   /***********************************************************************
@@ -196,8 +193,38 @@ var dattss = function(spec, my) {
     }
   };
 
+  /**
+   * `stop` cancels the commit interval so that the process can be exited
+   * start can be called subsequently to restart the tracking. While stopped
+   * aggregates are ignored
+   */
+  stop = function() {
+    if(my.itv) {
+      clearInterval(my.itv);
+      delete my.itv;
+    }
+    my.stopped = true;
+  };
+
+  /**
+   * `start` starts the commit interval and make the object ready to accept
+   * new aggregates. `start` is called implicitely at creation time.
+   */
+  start = function() {
+    my.itv = setInterval(do_commit, exports.CONFIG['DATTSS_PUSH_PERIOD']);
+    my.stopped = false;
+  };
+
+
+  /***********************************************************************
+   * IMPLICIT INITIALIZATION (COMMIT TIMER, START)                       *
+   ***********************************************************************/
+  start();
+
 
   fwk.method(that, 'agg', agg, _super);
+  fwk.method(that, 'start', start, _super);
+  fwk.method(that, 'stop', stop, _super);
 
   return that;
 };
@@ -237,5 +264,21 @@ exports.process = function(spec) {
   };
 
   return cache[spec.auth][spec.name];
+};
+
+
+/**
+ * The stop function stops all cached DaTtSs instances so that the process. This
+ * is mainly used so that a process can exit without being retained by the DaTtSs
+ * commits intervals
+ */
+exports.stop = function() {
+  var cache = exports.CACHE;
+
+  fwk.forEach(cache, function(a) {
+    fwk.forEach(a, function(d) {
+      d.stop();
+    });
+  });
 };
 
