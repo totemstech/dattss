@@ -11,6 +11,7 @@
   <div class="row">
     <div class="span12 tagline">
       <h3>You can't Fix what you can't Track</h3>
+      <br/>
       DaTtSs aggregates, stores and display in real time statistics captured from
       your systems. It helps you track counters, gauges or timers very easily and enables
       you to better understand your systems behaviours and status. For the ones who know
@@ -33,14 +34,7 @@
 
   <div class="row">
     <div class="span4 start">
-      <h2>Getting Started</h2>
-      <br/>
-      Integrate DaTtSs in your apps by requiring the DaTtSs client library (NodeJS for now)
-      and providing it with a process name as well as you AUTH_KEY.
-      <br/><br/>
-      Start aggregating counters, gauges and timers with just a line of code. You can go
-      ahead! DaTtSs has very low overhead on your systems, it's been designed to
-      be extremely efficient and lightweight.
+      <h2 style="margin-top: 80px;">Getting Started</h2>
     </div>
     <div class="span7 offset1">
       <br/><br/>
@@ -50,26 +44,28 @@
 
   <div class="row">
     <div class="span4 explore">
-      <h2>Explore your Systems</h2>
-      <br/>
-      As soon as your systems start streaming data to DaTtSs, you can track it
-      in realtime. A few hours later you can see its evolution graphically. A
-      few days later, you can even compare your daily values with averaged
-      historical (last month) data.
-      <br/><br/>
-      <strong>How it works?</strong> Since we're using HTTP (instead of UDP for
-      statsd and other simialr solutions), the client library pre-aggretages the
-      statistics it receives before sending it periodically every 5s to a DaTtSs
-      server. Each process running a DaTtSs client library only make one HTTP request 
-      every 5s which is super lightweight and won't overcharge your systems. DaTtSs is
-      therefore able to aggregate an unlimited number of statistics at very high
-      frequencies.
+      <h2 style="margin-top: 200px;">Explore your Systems</h2>
     </div>
     <div class="span7 offset1 screenshot">
       <br/>
-      <img src="/assets/img/screenshot.jpg">
+      <a href="/demo/home"><img src="/assets/img/screenshot.jpg"></a>
     </div>
   </div>
+
+  <div class="row">
+    <div class="span4 explore">
+      <h2 style="margin-top: 20px;">How it Works?</h2>
+    </div>
+    <div class="span7 offset1 screenshot">
+      Since we're using HTTP (instead of UDP for statsd and other simialr solutions), 
+      the client library pre-aggretages the statistics it receives before sending it 
+      periodically every 5s to a DaTtSs server. Each process running a DaTtSs client 
+      library only make one HTTP request every 5s which is super lightweight and won't 
+      overcharge your systems. DaTtSs is therefore able to aggregate an unlimited 
+      number of statistics at very high frequencies.
+    </div>
+  </div>
+
 </div>
 
 {{> footer}}

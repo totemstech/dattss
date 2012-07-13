@@ -172,6 +172,10 @@ textarea:focus {
   padding: 10px;
 }
 
+.dattss-landing .row.register {
+  margin-top: 50px;
+}
+
 .dattss-landing .btn-demo {
   margin-top: 10px;
 }
