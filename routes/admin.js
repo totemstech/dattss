@@ -81,6 +81,7 @@ exports.post_signup = function(req, res, next) {
           }
           else {
             res.render('signup', { success: true });
+            /* DaTtSs */ req.store.dts.web.agg('create', '1c');
           }
         });
       }
@@ -121,6 +122,7 @@ exports.post_password = function(req, res, next) {
       res.render('password', { fail: true });
     }
     else {
+      /* DaTtSs */ req.store.dts.web.agg('finalize', '1c');
       req.session.email = user.email();
       res.redirect('/home');
     }

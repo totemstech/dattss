@@ -161,7 +161,7 @@ textarea:focus {
 
 .dattss-landing .title h1 .sub {
   font-size: 34px;
-  color: #3a95db;
+  color: #aaa;
 }
 
 .dattss-landing .tagline {
@@ -175,6 +175,7 @@ textarea:focus {
 .dattss-landing .register {
   background-color: #222;
   padding: 10px;
+  font-size: 15px;
 }
 
 .dattss-landing .row.register {
@@ -183,6 +184,13 @@ textarea:focus {
 
 .dattss-landing .btn-demo {
   margin-top: 10px;
+  width: 100px;
+}
+
+.dattss-landing .btn-signup {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100px;
 }
 
 .dattss-landing .explore strong {
