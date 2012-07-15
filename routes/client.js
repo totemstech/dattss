@@ -17,6 +17,7 @@ exports.get_home = function(req, res, next) {
         res.send(err.message, 500);
       }
       else {
+        /* DaTtSs */ req.store.dts.web.agg('home', '1c');
         res.render('home', { user: { email: email },
                              home: true,
                  	     auth: usr.id + '_' + req.store.access.auth(usr.id) });
@@ -110,6 +111,7 @@ exports.get_stat = function(req, res, next) {
  * @path GET /demo/home
  */
 exports.get_demo_home = function(req, res, next) {
+  /* DaTtSs */ req.store.dts.web.agg('demo', '1c');
   res.render('home', { demo: true,
                        home: true });
 };

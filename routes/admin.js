@@ -10,6 +10,7 @@ exports.get_login = function(req, res, next) {
     res.redirect('/s/home');
   }
   else {
+    /* DaTtSs */ req.store.dts.web.agg('login', '1c');
     res.render('login');
   }
 };
@@ -47,6 +48,7 @@ exports.get_signup = function(req, res, next) {
     res.redirect('/s/home');
   }
   else {
+    /* DaTtSs */ req.store.dts.web.agg('signup', '1c');
     res.render('signup', { email: email });
   }
 };
@@ -96,6 +98,7 @@ exports.get_password = function(req, res, next) {
   var key = req.param('key');
   var email = req.param('email');
 
+  /* DaTtSs */ req.store.dts.web.agg('password', '1c');
   res.render('password', { password: true,
                            key: key,
                            email: email });
@@ -135,6 +138,7 @@ exports.get_signout = function(req, res, next) {
         res.send(err.message, 500);
       }
       else {
+        /* DaTtSs */ req.store.dts.web.agg('signout', '1c');
         res.redirect('/');
       }
     });
@@ -147,6 +151,7 @@ exports.get_signout = function(req, res, next) {
 exports.get_reset = function(req, res, next) {
   var email = req.session.email || null;
 
+  /* DaTtSs */ req.store.dts.web.agg('reset', '1c');
   if(email) {
     res.render('reset', { login: { email: email } });
   }

@@ -535,6 +535,30 @@ textarea:focus {
 
 /* @end notice */
 
+/* @begin demo-disclaimer */
+
+.dattss-demo-disclaimer {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  text-align: center;
+  background-color: #ddd;
+  font-family: Menlo, Monaco, Consolas, 'Courier New';
+  color: #333;
+}
+
+.dattss-demo-disclaimer .pictos {
+  color: rgba(94, 162, 246, 1.0);
+}
+
+.dattss-demo-disclaimer strong {
+  color: rgba(94, 162, 246, 1.0);
+}
+
+/* #end demo-disclaimer */
+
 /* @begin install */
 
 .dattss-install {
