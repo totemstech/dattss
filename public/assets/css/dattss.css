@@ -1,8 +1,13 @@
+html {
+  height: 100%;
+}
+
 body {
   font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #333;
   margin-bottom: 30px;
   color: white;
+  height: 100%;
 }
 
 input[type="text"],
@@ -525,6 +530,40 @@ textarea:focus {
 /* @end topbar dropdown */
 
 /* @end topbar */
+
+/* @begin wrapper */
+
+.wrapper-inner {
+  padding-bottom: 80px;
+}
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important; /* ie7 fix */
+  height: 100%;
+  margin: 0 auto -20px;
+}
+
+/* @end wrapper */
+
+/* @begin footer */
+
+footer {
+  width: 100% !important;
+  color: #444;
+}
+
+footer a:link,
+footer a:active,
+footer a:visited,
+footer a:hover {
+  color: #555 !important;
+  text-decoration: none;
+}
+
+
+/* @end footer */
+
 
 /* @begin notice */
 
