@@ -24,9 +24,9 @@ var cfg = fwk.populateConfig(require("./config.js").config);
 // MongoDB      
 var mongo = new mongodb.Db(cfg['DATTSS_MONGO_DB'], 
                            new mongodb.Server(cfg['DATTSS_MONGO_HOST'], 
-                                              parseInt(cfg['DATTSS_MONGO_PORT'], 10), {
-                                                'auto_reconnect': cfg['DATTSS_MONGO_RECONNECT']
-                                              }));
+                                              parseInt(cfg['DATTSS_MONGO_PORT'], 
+                                                       10), 
+                                              { 'auto_reconnect': cfg['DATTSS_MONGO_RECONNECT'] }));
 
 
 // redis
@@ -41,8 +41,10 @@ redis.on('error', function(e) {
 var dts = {};
 
 // engine
-var engine = require('./lib/engine.js').engine({ cfg: cfg,
-                                                 dts: dts });
+var engine = require('./lib/engine.js').engine({ 
+  cfg: cfg,
+  dts: dts 
+});
 
 // access
 var access = require('./lib/access.js').access({ cfg: cfg, 
@@ -50,15 +52,20 @@ var access = require('./lib/access.js').access({ cfg: cfg,
                                                  redis: redis,
                                                  engine: engine,
                                                  dts: dts });
+
 // self monitoring
-dts.srv = require('dattss').process({ name: 'dattss-srv',
-                                      auth: '0_' + access.auth('0'),
-                                      host: 'localhost',
-                                      port: 3000 });
-dts.web = require('dattss').process({ name: 'dattss-web',
-                                      auth: '0_' + access.auth('0'),
-                                      host: 'localhost',
-                                      port: 3000 });
+dts.srv = require('dattss').process({ 
+  name: 'dattss-srv',
+  auth: '0_' + access.auth('0'),
+  host: 'localhost',
+  port: 3000 
+});
+dts.web = require('dattss').process({ 
+  name: 'dattss-web',
+  auth: '0_' + access.auth('0'),
+  host: 'localhost',
+  port: 3000 
+});
                                         
 // session store
 var store = new RedisStore({ client: redis });
