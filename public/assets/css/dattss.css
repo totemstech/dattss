@@ -165,11 +165,11 @@ textarea:focus {
 }
 
 .dattss-landing .tagline {
-  margin-top: 20px;
+  margin-top: -20px;
 }
 
 .dattss-landing .tagline h3 {
-  color: #777;
+  color: #7cd414;
 }
           
 .dattss-landing .register {
