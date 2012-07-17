@@ -122,7 +122,7 @@ exports.post_password = function(req, res, next) {
       res.render('password', { fail: true });
     }
     else {
-      /* DaTtSs */ req.store.dts.web.agg('finalize', '1c');
+      /* DaTtSs */ req.store.dts.web.agg('finalize', '1c!');
       req.session.email = user.email();
       res.redirect('/home');
     }

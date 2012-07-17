@@ -1,13 +1,5 @@
-var dts_test = require('dattss').process({ 
-  name: 'test',
-  auth: '1_1e716583b4d48cee508bd9771c691faba2eb4519'
-});
-
-var dts_cache = require('dattss').process({ 
-  name: 'cache',
-  auth: '1_1e716583b4d48cee508bd9771c691faba2eb4519'
-});
-
+var dts_test = require('dattss').process('test');
+var dts_cache = require('dattss').process('cache');
 
 
 setInterval(function() {
@@ -28,7 +20,7 @@ setInterval(function() {
   var min = 0;
   var max = 1;
   var v = Math.floor(Math.random() * (max - min + 1)) + min;
-  dts_test.agg('view', v+'c');
+  dts_test.agg('view', v+'c!');
 }, 10);
 
 setInterval(function() {

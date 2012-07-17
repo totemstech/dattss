@@ -3,7 +3,7 @@
  * @path GET /
  */
 exports.get_index = function(req, res, next) {
-  /* DaTtSs */ req.store.dts.web.agg('landing', '1c');
+  /* DaTtSs */ req.store.dts.web.agg('landing', '1c!');
   res.render('landing');
 };
 

@@ -62,7 +62,9 @@ var process_c = function(spec, my) {
           
         // STATS
         if(first) { block++; }
-        row = $('<tr/>').addClass(((block % 2) !== 0 ? 'highlight' : ''));
+        row = $('<tr/>');
+        row.addClass(((block % 2) !== 0 ? 'highlight' : ''));
+        row.addClass(st.emp ? 'emphasis' : '');
         row.append($('<td/>'));
 
         // type

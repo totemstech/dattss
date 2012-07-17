@@ -679,9 +679,17 @@ footer a:hover {
 .dattss-process td.st-name {
   color: #999;
 }
+.dattss-process tr.emphasis td.st-name {
+  color: #63a1fd;
+  font-weight: bold;
+}
 
 .dattss-process td.st-val {
   color: #ccc;
+}
+.dattss-process tr.emphasis td.st-val {
+  color: #63a1fd;
+  font-weight: bold;
 }
 
 .dattss-process td.st-dyn {
