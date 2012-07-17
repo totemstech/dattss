@@ -81,12 +81,12 @@ var process_c = function(spec, my) {
 
         // value
         if(typ === 'c') {
-          row.append($('<td/>').addClass('st-val').html(st.sum));
-          row.append($('<td/>').addClass('st-dyn').html('[' + st.avg + ']'));
+          row.append($('<td/>').addClass('st-val').html(st.sum === null ? ' ' : st.sum));
+          row.append($('<td/>').addClass('st-dyn').html('[' + (st.avg === null ? ' ' : st.avg) + ']'));
         }
         if(typ === 'g') {
           row.append($('<td/>').addClass('st-val').html(st.lst === null ? ' ' : st.lst));
-          row.append($('<td/>').addClass('st-dyn').html('[' + st.avg + ']'));
+          row.append($('<td/>').addClass('st-dyn').html('[' + (st.avg === null ? ' ' : st.avg) + ']'));
         }
         if(typ === 'ms') {
           row.append($('<td/>').addClass('st-val').html(st.avg === null ? ' ' : st.avg));
