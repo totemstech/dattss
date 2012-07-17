@@ -19,7 +19,7 @@ var process_c = function(spec, my) {
   /****************************/
   build = function() {
     my.element = $('<tbody/>')
-      .addClass('dattss-process')
+      .addClass('dattss-process expanded')
       .attr('id', 'process-' + my.container.idxtoi(my.name));
 
     return my.element;
@@ -46,12 +46,15 @@ var process_c = function(spec, my) {
 
         // TITLE
         if(row_cnt === 0) {
-          row = $('<tr/>');
+          row = $('<tr/>').addClass('jump');
           row.append($('<td/>').html('&nbsp;'));
           my.element.append(row);
 
           row = $('<tr/>').addClass('top');
-          row.append($('<td/>').addClass('name').html(my.name.toUpperCase()));
+          row.append($('<td/>').addClass('name')
+            .append($('<span/>').html(my.name.toUpperCase()).click(function() {
+              $('#process-' + my.container.idxtoi(my.name)).toggleClass('expanded');
+            })));
           row.append($('<td/>').addClass('status').addClass(json.lst <= 10000 ? 'on' : 'off')
             .append($('<span/>').addClass('pictos').html('r'))
           );

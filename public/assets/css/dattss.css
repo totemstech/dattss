@@ -638,6 +638,18 @@ footer a:hover {
 
 .dattss-process tr {
   height: 30px;
+  display: none;
+}
+
+.dattss-process tr.top {
+  display: table-row;
+}
+.dattss-process tr.jump {
+  display: table-row;
+}
+
+.dattss-process.expanded tr {
+  display: table-row;
 }
 
 .dattss-process td {
@@ -645,11 +657,16 @@ footer a:hover {
   min-width: 20px;
 }
 
+.dattss-process td.top {
+  display: table-cell;
+}
+
 .dattss-process td.name {
   padding-left: 10px;
   padding-right: 20px;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .dattss-process td.status {
