@@ -62,7 +62,7 @@
       <h2 style="margin-top: 20px;">How it Works?</h2>
     </div>
     <div class="span7 offset1 screenshot">
-      Since we're using HTTP (instead of UDP for statsd and other simialr solutions), 
+      Since we're using HTTP (instead of UDP for statsd and other similar solutions), 
       the client library pre-aggretages the statistics it receives before sending it 
       periodically every 5s to a DaTtSs server. Each process running a DaTtSs client 
       library only make one HTTP request every 5s which is super lightweight and won't 

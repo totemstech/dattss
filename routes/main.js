@@ -3,8 +3,15 @@
  * @path GET /
  */
 exports.get_index = function(req, res, next) {
-  /* DaTtSs */ req.store.dts.web.agg('landing', '1c');
-  res.render('landing');
+  var email = req.session.email || null;
+
+  if(email) {
+    res.redirect('/s/home');
+  }
+  else {
+    /* DaTtSs */ req.store.dts.web.agg('landing', '1c');
+    res.render('landing');
+  }
 };
 
 /**
