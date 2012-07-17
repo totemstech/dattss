@@ -100,11 +100,20 @@ var process_c = function(spec, my) {
         }
 
         // show
-        row.append($('<td/>').addClass('st-graph')
-          .append($('<a/>').addClass('pictos').html('p').click(function() {
-            that.emit('graph', my.name, typ, st.nam);
-          }))
-        );
+        if(json.open[my.name + '_' + typ + '_' + st.nam]) {
+          row.append($('<td/>').addClass('st-graph open')
+             .append($('<a/>').addClass('pictos').html('p').click(function() {
+                that.emit('destroy', my.name, typ, st.nam);
+              }))
+          );
+        }
+        else {
+          row.append($('<td/>').addClass('st-graph')
+             .append($('<a/>').addClass('pictos').html('p').click(function() {
+                that.emit('graph', my.name, typ, st.nam);
+              }))
+          );
+        }
 
         //row_html +=   '</tr>';
 

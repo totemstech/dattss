@@ -47,6 +47,7 @@ var stats_ct = function(spec, my) {
                                stat: stat,
                                recv: 0 };
         my.json.board.stack.unshift(idx);
+        my.json.current[process].open[idx] = true;
         that.refresh();
       }
     });
@@ -59,7 +60,15 @@ var stats_ct = function(spec, my) {
         }
       }
       delete my.json.board[idx]; 
+      console.log(my.json);
+      console.log(process);
+      delete my.json.current[process].open[idx];
       that.refresh();
+    });
+    my.children['current'].on('destroy', function(process, type, stat) {
+      var graph = that.find('board/' + process + '_' + type + '_' + stat);
+      graph.emit('destroy', process, type, stat);
+      graph.element().remove();
     });
   };
 
@@ -72,6 +81,9 @@ var stats_ct = function(spec, my) {
       .success(function(data) {
         if(data.ok) {
           my.json.current = data.current;
+          for(var p in my.json.current) {
+            my.json.current[p].open = {};
+          }
           //console.log(my.json);
           that.refresh();
         }
@@ -83,6 +95,7 @@ var stats_ct = function(spec, my) {
     my.socket = io.connect(my.path);
     my.socket.on('update', function (data) {
       //console.log(data);
+      data.cur.open = my.json.current[data.cur.nam].open;
       my.json.current[data.cur.nam] = data.cur;
       that.refresh();
     });

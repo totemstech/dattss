@@ -537,6 +537,17 @@ textarea:focus {
 
 /* @end topbar dropdown */
 
+/* @begin topbar brand */
+
+.navbar .brand {
+  position: relative;
+  top: 8px;
+  font-size: 22px;
+  color: #666;
+}
+
+/* @end topbar brand */
+
 /* @end topbar */
 
 /* @begin wrapper */
@@ -725,8 +736,16 @@ footer a:hover {
   margin-left: 10px;
 }
 
+.dattss-process td.st-graph.open a {
+  color: #ce41f1;
+}
+
 .dattss-process td.st-graph a:hover {
   color: #ccc;
+}
+
+.dattss-process td.st-graph.open a:hover {
+  color: #e55ce7;
 }
 
 .dattss-process td.st-graph a:active {
