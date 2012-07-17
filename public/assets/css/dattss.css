@@ -695,6 +695,10 @@ footer a:hover {
 .dattss-process td.st-dyn {
   color: #666;
 }
+.dattss-process tr.emphasis td.st-dyn {
+  color: #63a1fd;
+  font-weight: bold;
+}
 
 .dattss-process td.st-graph {
 }
