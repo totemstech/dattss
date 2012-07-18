@@ -68,6 +68,7 @@ var process_c = function(spec, my) {
         row = $('<tr/>');
         row.addClass(((block % 2) !== 0 ? 'highlight' : ''));
         row.addClass(st.emp ? 'emphasis' : '');
+        row.addClass((st.nam === 'error') ? 'error' : '');
         row.append($('<td/>'));
 
         // type

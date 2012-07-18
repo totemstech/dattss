@@ -711,6 +711,10 @@ footer a:hover {
   color: #63a1fd;
   font-weight: bold;
 }
+.dattss-process tr.error td.st-name {
+  color: #f14941;
+  font-weight: bold;
+}
 
 .dattss-process td.st-val {
   color: #ccc;
@@ -718,12 +722,18 @@ footer a:hover {
 .dattss-process tr.emphasis td.st-val {
   color: #63a1fd;
 }
+.dattss-process tr.error td.st-val {
+  color: #f14941;
+}
 
 .dattss-process td.st-dyn {
   color: #666;
 }
 .dattss-process tr.emphasis td.st-dyn {
   color: #63a1fd;
+}
+.dattss-process tr.error td.st-dyn {
+  color: #f14941;
 }
 
 .dattss-process td.st-graph {

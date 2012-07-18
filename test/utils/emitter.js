@@ -24,6 +24,10 @@ setInterval(function() {
 }, 10);
 
 setInterval(function() {
+  dts_test.agg('error', '1c');
+}, 1000);
+
+setInterval(function() {
   dts_test.agg('rss', process.memoryUsage().rss+'g');
 }, 1000);
 
