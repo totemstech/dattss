@@ -77,8 +77,8 @@ var ms_graph_c = function(spec, my) {
       });
 
       var mrg = 16;
-      var y = d3.scale.linear().domain([d3.min([0].concat(today.min, past.min)), 
-                                        d3.max([].concat(today.max, past.max))]).range([0 + mrg, 150 - mrg]);
+      var y = d3.scale.linear().domain([d3.min([0].concat(today.min, past.avg)), 
+                                        d3.max([].concat(today.max, past.avg))]).range([0 + mrg, 150 - mrg]);
       var x = d3.scale.linear().domain([0, past.avg.length]).range([0 + 2*mrg, 460 - mrg]);
 
       var vis = d3.select('#dattss-graph-' + my.container.idxtoi(my.idx))
