@@ -548,6 +548,14 @@ textarea:focus {
 
 /* @end topbar brand */
 
+/* @begin topbar signup */
+
+.navbar .nav li.signup a {
+  color: #f17d00;
+}
+
+/* @end topbar signup */
+
 /* @end topbar */
 
 /* @begin wrapper */
