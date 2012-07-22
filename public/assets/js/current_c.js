@@ -65,7 +65,9 @@ var current_c = function(spec, my) {
     if(ord.length === 0) {
       my.element.append($('<tr/>').addClass('tutorial')
           .append($('<td/>')
-            .append('GOTO &nbsp;<strong><span class="pictos">i</span> Install</strong>&nbsp; to get started')
+            .append('GOTO &nbsp;' +
+                    '<strong>' + '<span class="pictos">i</span> Install' + '</strong>' +
+                    '&nbsp; to get started')
             ));
     }
 
