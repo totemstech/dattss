@@ -5,9 +5,9 @@ install: clean
 	npm install
 
 start:
-	touch ~/log/estrack.fvr
-	rm ~/log/estrack.fvr
-	forever start -a -l ~/log/estrack.fvr app.js
+	touch ~/log/hwtrack.fvr
+	rm ~/log/hwtrack.fvr
+	forever start -a -l ~/log/hwtrack.fvr app.js
 
 run:
 	node app.js
