@@ -28,7 +28,7 @@ var current_c = function(spec, my) {
                                      container: my.container,
                                      name: name });
       my.children[name] = my.process[name];
-      my.process[name].on('destroy', function() {
+      my.process[name].on('close', function() {
         delete my.process[name];
         delete my.children[name];
       });

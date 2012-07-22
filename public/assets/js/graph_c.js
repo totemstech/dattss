@@ -40,7 +40,7 @@ var graph_c = function(spec, my) {
     title.append($('<span/>').addClass('process').html(my.process.toUpperCase()));
     title.append($('<span/>').addClass('stat').html(my.stat));
     title.append($('<span/>').addClass('close pictos').html('d').click(function() {
-        that.emit('destroy', my.process, my.type, my.stat);
+        that.emit('close', my.process, my.type, my.stat);
         my.element.remove();
       }));
 

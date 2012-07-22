@@ -135,6 +135,7 @@ app.put( '/agg',                                require('./routes/engine.js').pu
 app.get( '/s/home',                             require('./routes/client.js').get_home);
 app.get( '/s/current',                          require('./routes/client.js').get_current);
 app.get( '/s/stat',                             require('./routes/client.js').get_stat);
+app.get( '/s/destroy',                          require('./routes/client.js').get_destroy);
 
 app.get( '/demo/home',                          require('./routes/client.js').get_demo_home);
 app.get( '/demo/current',                       require('./routes/client.js').get_demo_current);

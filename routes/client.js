@@ -102,6 +102,42 @@ exports.get_stat = function(req, res, next) {
 };
 
 
+/**
+ * @path GET /s/destroy
+ */
+exports.get_destroy = function(req, res, next) {
+  var email = req.session.email || null;
+
+  var process = req.param('process');
+
+  if(email) {
+    var user = require('../lib/user.js').user({ email: email,
+                                                mongo: req.store.mongo,
+                                                redis: req.store.redis,
+                                                cfg: req.store.cfg });
+    user.get(function(err, usr) {
+      if(err) {
+        res.send(err.message, 500);
+      }
+      else {
+        var engine = req.store.engine;
+        engine.destroy(usr.id, process, function(err) {
+          if(err) {
+            res.send(err.message, 500);
+          }
+          else {
+            res.json({ok: true});
+          }
+        });
+      }
+    });
+  }
+  else {
+    res.redirect('/s/login');
+  }
+};
+
+
 /******************************************************
  *                    DEMO                            *
  ******************************************************/

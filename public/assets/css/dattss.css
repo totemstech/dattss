@@ -674,34 +674,65 @@ footer a:hover {
 
 .dattss-process td.name {
   padding-left: 10px;
-  padding-right: 20px;
+  padding-right: 10px;
   color: white;
   font-weight: bold;
   cursor: pointer;
 }
 
 .dattss-process td.status {
-  color: #c53324;
+  padding-top: 2px;
+  color: #f14941;
 }
 
-.dattss-process td.status.on {
-  color: #38a31b;
+.dattss-process tr.top.on td.status {
+  color: #30b130;
 }
 
 .dattss-process td.uptime {
   color: #999;
 }
+.dattss-process td.downtime {
+  color: #f14941;
+}
 
+.dattss-process tr.top td.destroy {
+  padding-top: 4px;
+}
+
+.dattss-process tr.top td.destroy a {
+  color: #f14941;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  padding-left: 1px;
+  display: none;
+}
+
+.dattss-process tr.top.off td.destroy a {
+  display: inline;
+}
+
+
+.dattss-process td.st-type {
+  padding-top: 3px;
+}
 .dattss-process .st-type .pictos {
   color: #999;
 }
+
 
 .dattss-process tr.top {
   background-color: #4a4a4a;
 }
 
+.dattss-process tr.normal {
+  background-color: #353535;
+}
 .dattss-process tr.highlight {
-  background-color: #3a3a3a;
+  background-color: #393939;
 }
 
 .dattss-process td.st-name {

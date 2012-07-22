@@ -51,7 +51,7 @@ var stats_ct = function(spec, my) {
         that.refresh();
       }
     });
-    my.children['board'].on('destroy', function(process, type, stat) {
+    my.children['board'].on('close', function(process, type, stat) {
       var idx = process + '_' + type + '_' + stat;
       for(var i = 0; i < my.json.board.stack.length; i ++) {
         if(my.json.board.stack[i] === idx) {
@@ -60,15 +60,24 @@ var stats_ct = function(spec, my) {
         }
       }
       delete my.json.board[idx]; 
-      console.log(my.json);
-      console.log(process);
       delete my.json.current[process].open[idx];
       that.refresh();
     });
-    my.children['current'].on('destroy', function(process, type, stat) {
+    my.children['current'].on('close', function(process, type, stat) {
       var graph = that.find('board/' + process + '_' + type + '_' + stat);
-      graph.emit('destroy', process, type, stat);
+      graph.emit('close', process, type, stat);
       graph.element().remove();
+    });
+    my.children['current'].on('destroy', function(process) {
+      $.getJSON(my.path + '/destroy?process=' + process)
+        .success(function(data) {
+          // nothing to do
+        })
+        .error(function(err) {
+          // ignore errors here (eg: already removed)
+        });
+      delete my.json.current[process];
+      that.refresh();
     });
   };
 
@@ -77,11 +86,18 @@ var stats_ct = function(spec, my) {
    * Loads the initial data and register the update handlers
    */
   init = function() {
+    // handy for CSS modification
+    var DO_REFRESH = true;
+    //var DO_REFRESH = false;
+
+    // INITIAL VALUES
     $.getJSON(my.path + '/current')
       .success(function(data) {
         if(data.ok) {
           my.json.current = data.current;
           for(var p in my.json.current) {
+            // convert to absolute date
+            my.json.current[p].lst = Date.now() - my.json.current[p].lst;
             my.json.current[p].open = {};
           }
           //console.log(my.json);
@@ -92,13 +108,26 @@ var stats_ct = function(spec, my) {
         error(err);
       });
     
+    // IO UPDATES
     my.socket = io.connect(my.path);
     my.socket.on('update', function (data) {
       //console.log(data);
-      data.cur.open = my.json.current[data.cur.nam].open;
+      if(my.json.current[data.cur.nam])
+        data.cur.open = my.json.current[data.cur.nam].open || {};
+      else
+        data.cur.open = {};
+      // convert to absolute date
+      data.cur.lst = Date.now() - data.cur.lst;
       my.json.current[data.cur.nam] = data.cur;
-      that.refresh();
+      if(DO_REFRESH)
+        that.refresh();
     });
+
+    // OFFLINE DETECTION
+    setInterval(function() {
+      if(DO_REFRESH)
+        that.refresh();
+    }, 2000);
   };
 
 
