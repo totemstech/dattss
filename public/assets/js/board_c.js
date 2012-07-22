@@ -49,7 +49,7 @@ var board_c = function(spec, my) {
                                      stat: stat });
       }
       my.children[idx] = my.graph[idx];
-      my.graph[idx].on('destroy', function() {
+      my.graph[idx].on('close', function() {
         delete my.graph[idx];
         delete my.children[idx];
       });

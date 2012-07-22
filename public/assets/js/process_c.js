@@ -55,18 +55,37 @@ var process_c = function(spec, my) {
             .append($('<span/>').html(my.name.toUpperCase()).click(function() {
               $('#process-' + my.container.idxtoi(my.name)).toggleClass('expanded');
             })));
-          row.append($('<td/>').addClass('status').addClass(json.lst <= 10000 ? 'on' : 'off')
+          row.append($('<td/>').addClass('status').addClass('off')
             .append($('<span/>').addClass('pictos').html('r'))
           );
-          row.append($('<td/>').addClass('uptime').html(DATTSS.format_duration(Math.floor(json.upt))));
-          row.append($('<td/>').attr('colspan', 3));
+          // UPTIME & DOWNTIME
+          if((Date.now() - json.lst) <= 7500) {
+            row.addClass('on');
+            row.append($('<td/>').addClass('uptime').html(
+                DATTSS.format_duration(Math.floor(json.upt))
+                ));
+          }
+          else {
+            row.addClass('off');
+            row.append($('<td/>').addClass('downtime').html(
+                  DATTSS.format_duration(Math.floor((Date.now() - json.lst) / 1000))
+                  ));
+          }
+          row.append($('<td/>').attr('colspan', 2));
+          // DESTROY
+          row.append($('<td/>').addClass('destroy').append(
+                $('<a/>').addClass('pictos').html('d').click(function() {
+                  that.emit('destroy', my.name);
+                })
+            ));
+
           my.element.append(row);
         }
           
         // STATS
         if(first) { block++; }
         row = $('<tr/>');
-        row.addClass(((block % 2) !== 0 ? 'highlight' : ''));
+        row.addClass(((block % 2) !== 0 ? 'highlight' : 'normal'));
         row.addClass(st.emp ? 'emphasis' : '');
         row.addClass((st.nam === 'error') ? 'error' : '');
         row.append($('<td/>'));
@@ -87,15 +106,15 @@ var process_c = function(spec, my) {
 
         // value
         if(typ === 'c') {
-          row.append($('<td/>').addClass('st-val').html(st.sum === null ? ' ' : st.sum));
+          row.append($('<td/>').addClass('st-val').html(st.sum === null ? ' ' : DATTSS.commas(st.sum)));
           row.append($('<td/>').addClass('st-dyn').html('[' + (st.avg === null ? ' ' : st.avg) + ']'));
         }
         if(typ === 'g') {
-          row.append($('<td/>').addClass('st-val').html(st.lst === null ? ' ' : st.lst));
+          row.append($('<td/>').addClass('st-val').html(st.lst === null ? ' ' : DATTSS.commas(st.lst)));
           row.append($('<td/>').addClass('st-dyn').html('[' + (st.avg === null ? ' ' : st.avg) + ']'));
         }
         if(typ === 'ms') {
-          row.append($('<td/>').addClass('st-val').html(st.avg === null ? ' ' : st.avg));
+          row.append($('<td/>').addClass('st-val').html(st.avg === null ? ' ' : DATTSS.commas(st.avg)));
           row.append($('<td/>').addClass('st-dyn').html('[' + (st.min === null ? ' ' : st.min) + ', ' + 
                                                               (st.max === null ? ' ' : st.max) + ']'));
         }
@@ -104,7 +123,7 @@ var process_c = function(spec, my) {
         if(json.open[my.name + '_' + typ + '_' + st.nam]) {
           row.append($('<td/>').addClass('st-graph open')
              .append($('<a/>').addClass('pictos').html('p').click(function() {
-                that.emit('destroy', my.name, typ, st.nam);
+                that.emit('close', my.name, typ, st.nam);
               }))
           );
         }

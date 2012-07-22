@@ -22,6 +22,9 @@
     "mkdirp": "0.3.x",
     "dattss": "0.1.x"
   },
+  "bin": {
+    "dattss": "./app.js"
+  },
   "analyze": false,
   "private": true,
   "engines": {
