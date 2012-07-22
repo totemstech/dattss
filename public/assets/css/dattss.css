@@ -138,70 +138,47 @@ textarea:focus {
 /* @begin landing */
 
 .dattss-landing {
-  color: #eee;
+  color: #fff;
 }
 
 .dattss-landing .row {
   margin-bottom: 30px;
 }
 
-.dattss-landing .btn-call {
-  font-size: 20px;
-  padding: 20px 30px 20px 30px;
-}
-
 .dattss-landing .title {
   margin-top: 30px;
-  margin-bottom: 20px;
 }
 
 .dattss-landing .title h1 {
-  font-size: 34px;
+  font-size: 56px;
+  line-height: 72px;
 }
 
-.dattss-landing .title h1 .sub {
-  font-size: 34px;
-  color: #aaa;
+.dattss-landing .title h2 i {
+  color: #30b130;
 }
 
-.dattss-landing .tagline {
-  margin-top: -20px;
+.dattss-landing .call .btn {
+  font-size: 20px;
+  padding: 30px 40px 30px 40px;
+  margin-top: 30px;
+  width: 160px;
 }
 
-.dattss-landing .tagline h3 {
-  color: #7cd414;
+.dattss-landing .call {
+  margin-bottom: 80px;
 }
-          
-.dattss-landing .register {
+
+.dattss-landing .more {
   background-color: #222;
-  padding: 10px;
-  font-size: 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.dattss-landing .row.register {
-  margin-top: 50px;
-}
-
-.dattss-landing .btn-demo {
-  margin-top: 10px;
-  width: 100px;
-}
-
-.dattss-landing .btn-signup {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100px;
-}
-
-.dattss-landing .explore strong {
-  color: #777;
-}
-          
 .dattss-landing .screenshot img {
   -webkit-box-shadow:  -5px 10px 30px -5px rgba(0, 0, 0, 0.6);
           box-shadow:  -5px 10px 30px -5px rgba(0, 0, 0, 0.6);
 }
-
 
 /* @end landing */
 
