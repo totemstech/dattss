@@ -65,6 +65,13 @@ var board_c = function(spec, my) {
   build = function() {
     my.element = $('<div/>').addClass('dattss-board');
 
+    // tutorial
+    var tutorial = $('<div/>').addClass('tutorial');
+    tutorial.append('<span class="pictos">p</span>');
+    tutorial.append('<span class="pictos">a</span>');
+    tutorial.append('<span class="pictos">G</span>');
+    my.element.append(tutorial);
+
     return my.element;
   };
 
@@ -75,6 +82,12 @@ var board_c = function(spec, my) {
    * @expects { }
    */
   refresh = function(json) {
+    if(json.stack.length === 0 && json.cur_count > 0) {
+      my.element.addClass('empty');
+    }
+    else {
+      my.element.removeClass('empty');
+    }
     json.stack.forEach(function(idx) {
       var st = json[idx];
       var gr = graph(st.process, st.type, st.stat);

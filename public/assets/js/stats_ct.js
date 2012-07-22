@@ -137,6 +137,12 @@ var stats_ct = function(spec, my) {
   refresh = function() {
     var now = Date.now();
 
+    // pass current count to board to show/hide tuto
+    my.json.board.cur_count = 0;
+    for(var p in my.json.current) {
+      my.json.board.cur_count ++;
+    }
+
     my.json.board.stack.forEach(function(idx) {
       var st = my.json.board[idx];
       if((now - st.recv) > 1 * 60 * 1000) {

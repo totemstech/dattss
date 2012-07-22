@@ -643,6 +643,12 @@ footer a:hover {
 .dattss-current {
 }
 
+.dattss-current tr.tutorial td {
+  font-size: 20px;
+  padding-top: 200px;
+  color: #222;
+}
+
 /* @end current */
 
 /* @begin process */
@@ -801,6 +807,22 @@ footer a:hover {
   margin-top: 30px;
   min-height: 0;
   background: #222;
+}
+
+.dattss-board .tutorial {
+  height: 80px;
+  padding-top: 50px;
+  text-align: center;
+  width: 100%;
+  background-color: #333;
+  display: none;
+  letter-spacing: 10px;
+  font-size: 20px;
+  color: #222;
+}
+
+.dattss-board.empty .tutorial {
+  display: block;
 }
 
 /* @end board */

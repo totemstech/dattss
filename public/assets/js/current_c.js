@@ -62,6 +62,12 @@ var current_c = function(spec, my) {
       var p = process(name);
       my.element.append(p.element());
     });
+    if(ord.length === 0) {
+      my.element.append($('<tr/>').addClass('tutorial')
+          .append($('<td/>')
+            .append('GOTO &nbsp;<strong><span class="pictos">i</span> Install</strong>&nbsp; to get started')
+            ));
+    }
 
     _super.refresh(json);
   };
