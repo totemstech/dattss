@@ -175,11 +175,6 @@ textarea:focus {
   padding-bottom: 20px;
 }
 
-.dattss-landing .screenshot img {
-  -webkit-box-shadow:  -5px 10px 30px -5px rgba(0, 0, 0, 0.6);
-          box-shadow:  -5px 10px 30px -5px rgba(0, 0, 0, 0.6);
-}
-
 /* @end landing */
 
 /* @begin white box for forms */
