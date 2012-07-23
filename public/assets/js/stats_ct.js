@@ -146,11 +146,14 @@ var stats_ct = function(spec, my) {
     my.json.board.stack.forEach(function(idx) {
       var st = my.json.board[idx];
       if((now - st.recv) > 1 * 60 * 1000) {
+        // prevents multi refresh
+        st.recv = Date.now();
         (function(st) {
           $.getJSON(my.path + '/stat?' + 
                     'process=' + st.process + '&' +
                     'type=' + st.type + '&' +
-                    'name=' + st.stat)
+                    'name=' + st.stat + '&' + 
+                    'offset=' + (new Date).getTimezoneOffset())
             .success(function(data) {
               if(data.ok && data.stat) {
                 st.recv = Date.now();

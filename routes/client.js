@@ -75,6 +75,7 @@ exports.get_stat = function(req, res, next) {
   var process = req.param('process');
   var type = req.param('type');
   var name = req.param('name');
+  var offset = parseInt(req.param('offset'), 10) || 0;
 
   if(email) {
     var user = require('../lib/user.js').user({ email: email,
@@ -87,7 +88,7 @@ exports.get_stat = function(req, res, next) {
       }
       else {
         var engine = req.store.engine;
-        engine.stat(usr.id, process, type, name, function(err, st, took) {
+        engine.stat(usr.id, process, type, name, offset, function(err, st, took) {
           res.json({ ok: true,
                      id: usr.id,
                      took: took,
@@ -179,9 +180,10 @@ exports.get_demo_stat = function(req, res, next) {
   var process = req.param('process');
   var type = req.param('type');
   var name = req.param('name');
+  var offset = parseInt(req.param('offset'), 10) || 0;
 
   var engine = req.store.engine;
-  engine.stat(0, process, type, name, function(err, st, took) {
+  engine.stat(0, process, type, name, offset, function(err, st, took) {
     res.json({ ok: true,
                id: 0,
                took: took,
