@@ -39,7 +39,7 @@ var ms_graph_c = function(spec, my) {
                     top: [] };
       json.data.today.forEach(function(d) {
         if(d) { 
-          today.avg.push(d.sum / d.cnt);
+          today.avg.push((d.cnt != 0) ? d.sum / d.cnt : 0);
           today.max.push(d.max);
           today.min.push(d.min);
           today.bot.push(d.bot);
@@ -61,7 +61,7 @@ var ms_graph_c = function(spec, my) {
                    top: [] };
       json.data.past.forEach(function(d) {
         if(d) { 
-          past.avg.push(d.sum / d.cnt);
+          past.avg.push((d.cnt != 0) ? d.sum / d.cnt : 0);
           past.max.push(d.max);
           past.min.push(d.min);
           past.bot.push(d.bot);
