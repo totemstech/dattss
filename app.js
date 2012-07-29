@@ -7,6 +7,7 @@ var util = require('util');
 var fwk = require('fwk');
 var express = require('express');
 var http = require('http');
+var dgram = require('dgram');
 var handlebars = require('handlebars');
 var fs = require('fs');
 var redis = require('redis');
@@ -52,6 +53,12 @@ var access = require('./lib/access.js').access({ cfg: cfg,
                                                  redis: redis,
                                                  engine: engine,
                                                  dts: dts });
+
+// relay
+var relay = require('./lib/relay.js').relay({
+  cfg: cfg,
+  access: access
+});
 
 // self monitoring
 dts.srv = require('dattss').process({ 
@@ -142,6 +149,21 @@ app.get( '/demo/current',                       require('./routes/client.js').ge
 app.get( '/demo/stat',                          require('./routes/client.js').get_demo_stat);
 
 
+// UDP SERVER
+
+var udp = dgram.createSocket('udp4', function(msg, rinfo) {
+  console.log(msg.toString());
+  var comps = msg.toString().split(':');
+  if(comps.length === 4) {
+    var auth = comps[0];
+    var process = comps[1];
+    var stat = comps[2];
+    var value = comps[3];
+    relay.agg(auth, process, stat, value);
+  }
+});
+
+
 // SOCKET.IO
 
 var set_io = function(srv) {
@@ -187,18 +209,19 @@ var set_io = function(srv) {
     });
   });
 
-  // IO DEMO PART
+  // IO SECURED PART
   io_sec.on('connection', function (socket) {
     var session = socket.handshake.session;
 
     console.log('CONNECTION: ' + session.email + ' ' + session.id);
+
     var update_handler = function(process, current) {
       socket.emit('update', { cur: current });
     };
-    engine.on(session.id, update_handler);
+    engine.on(session.id + ':update', update_handler);
 
     socket.on('disconnect', function() {
-      engine.removeListener(session.id, update_handler);
+      engine.removeListener(session.id + ':update', update_handler);
       console.log('DISCONNECTION: ' + session.email);
     });
   });
@@ -206,13 +229,14 @@ var set_io = function(srv) {
   // IO DEMO PART
   io_demo.on('connection', function (socket) {
     console.log('CONNECTION: demo');
+
     var update_handler = function(process, current) {
       socket.emit('update', { cur: current });
     };
-    engine.on(0, update_handler);
+    engine.on('0:update', update_handler);
 
     socket.on('disconnect', function() {
-      engine.removeListener(0, update_handler);
+      engine.removeListener('0:update', update_handler);
       console.log('DISCONNECTION: demo');
     });
   });
@@ -254,8 +278,10 @@ var set_io = function(srv) {
   
   console.log('Starting...');
   auth(function() {
-    var srv = app.listen(3000);
-    console.log('Server started on port 3000');
+    var srv = app.listen(parseInt(cfg['DATTSS_HTTP_PORT'], 10));
+    udp.bind(parseInt(cfg['DATTSS_UDP_PORT'], 10));
+    console.log('HTTP Server started on port ' + cfg['DATTSS_HTTP_PORT']);
+    console.log('UDP Server started on port ' + cfg['DATTSS_UDP_PORT']);
     set_io(srv);
   });
 })();
