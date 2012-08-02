@@ -73,6 +73,11 @@ dts.web = require('dattss').process({
   host: 'localhost',
   port: 3000 
 });
+
+// process memory
+setInterval(function() {
+  dts.srv.agg('sys.rss', process.memoryUsage().rss+'g');
+}, 1000);
                                         
 // session store
 var store = new RedisStore({ client: redis });
