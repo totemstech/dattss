@@ -1,22 +1,22 @@
 ### DaTtSs: Realtime Statistics Aggregation Service
 
 DaTtSs helps aggregating and displaying server-side (or any other type of) statistics in 
-realtime to better track servers and infrastructure behaviours. It is inspired by the idea that 
-"You Can't Fix what you Can't Track".
+realtime to better track servers and infrastructure behaviours. It is largely inspired by
+statsd as well as the idea that "You Can't Fix what you Can't Track".
 
-Building a server-side statistics aggregation service is not trivial since the service 
+Building a server-side statistics aggregation service yields a few difficulties since the service 
 must not overhelm the servers that are being tracked. For that reason, pre-aggregation must 
 happen client-side and partial-aggregates only should be transmitted over the network with the
 right amount of aggregation so that it is well compressed but not too much so that global
 aggregated values can also be infered (approximatively but easily) from these partial aggregates.
+DaTtSs also supports UDP packets like statsd for easy driver creation but it is encouraged to
+use pre-aggregation when possible (It is not always the case, like in PhP).
 
 #### Features
 
 - Counter, Timers, Gauges aggregation and display (val, 1mn mvg avg)
 - Daily against Week average plot
-- Errors and Warnings Streaming and reporting
-- Process statistics (uptime, mem, cpu, errors & warnings counts)
-- Alerts Email, SMS, Phone (Above/Below Limits, Stopped Working, Stopped Responding) 
+- [Upcoming] Alerts Email, SMS, Phone (Above/Below Limits, Stopped Working, Stopped Responding) 
 
 #### Inspiration
 
@@ -44,7 +44,10 @@ see also:
  dts.agg('live', '23g');
 ```
 
-#### Technical Notes
+#### Drivers & SDK
+
+All the drivers and SDK tools for DaTtSs are maintaind in the dattss-sdk 
+(http://gihub.com/teleportd/dattss-sdk) repository.
 
 ##### Storage
 
@@ -52,8 +55,6 @@ see also:
 Each line represents the `SUM, CNT, MAX, MIN, BOT, TOP` values for that minute. Each
 of these lines is what we call a "partial aggregate".
 - `USER/current/PROC.cur` countains the latest state of all the live counters. 
-- `USER/errors` last 100 errors.
-- `USER/warnings` last 100 warnings.
 
 ##### Architecture
 
