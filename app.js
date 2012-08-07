@@ -57,21 +57,28 @@ var access = require('./lib/access.js').access({ cfg: cfg,
 // relay
 var relay = require('./lib/relay.js').relay({
   cfg: cfg,
-  access: access
+  access: access,
+  dts: dts
 });
 
 // self monitoring
 dts.srv = require('dattss').process({ 
   name: 'dattss-srv',
   auth: '0_' + access.auth('0'),
-  host: 'localhost',
-  port: 3000 
+  http_host: 'localhost',
+  http_port: 3000 
 });
 dts.web = require('dattss').process({ 
   name: 'dattss-web',
   auth: '0_' + access.auth('0'),
-  host: 'localhost',
-  port: 3000 
+  http_host: 'localhost',
+  http_port: 3000 
+});
+dts.relay = require('dattss').process({ 
+  name: 'dattss-relay',
+  auth: '0_' + access.auth('0'),
+  http_host: 'localhost',
+  http_port: 3000 
 });
 
 // process memory
@@ -157,7 +164,6 @@ app.get( '/demo/stat',                          require('./routes/client.js').ge
 // UDP SERVER
 
 var udp = dgram.createSocket('udp4', function(msg, rinfo) {
-  console.log(msg.toString());
   var comps = msg.toString().split(':');
   if(comps.length === 4) {
     var auth = comps[0];
