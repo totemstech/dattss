@@ -27,7 +27,9 @@ var c_graph_c = function(spec, my) {
    *            data: STAT_DATA }
    */
   refresh = function(json) {
-    if(my.last_recv !== json.recv) {
+    if(typeof json.recv !== 'undefined' &&
+        my.last_recv !== json.recv &&
+        typeof json.data !== 'undefined') {
       my.last_recv = json.recv;
       $('#dattss-graph-' + my.container.idxtoi(my.idx) + ' svg').remove();
 

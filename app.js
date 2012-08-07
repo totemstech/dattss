@@ -75,7 +75,7 @@ dts.web = require('dattss').process({
   http_port: 3000 
 });
 dts.relay = require('dattss').process({ 
-  name: 'dattss-relay',
+  name: 'dattss-udp',
   auth: '0_' + access.auth('0'),
   http_host: 'localhost',
   http_port: 3000 
@@ -170,6 +170,7 @@ var udp = dgram.createSocket('udp4', function(msg, rinfo) {
     var process = comps[1];
     var stat = comps[2];
     var value = comps[3];
+    //console.log('auth: ' + auth + ' process: ' + process + ' stat: ' + stat + ' value: ' + value);
     relay.agg(auth, process, stat, value);
   }
 });

@@ -74,6 +74,7 @@ var stats_ct = function(spec, my) {
           // nothing to do
         })
         .error(function(err) {
+          console.log(err);
           // ignore errors here (eg: already removed)
         });
       delete my.json.current[process];
