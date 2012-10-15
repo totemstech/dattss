@@ -10,7 +10,7 @@ We will never share this information with anyone unless required by law.
 DATA PRIVACY
 ------------
 
-We understand that the data you send to Mixpanel is confidential and treat it as 
+We understand that the data you send to DaTtSs is confidential and treat it as 
 such. We will never share the data you send us with anyone unless required by law. 
 Access will be restricted to the team members you invite, and to certain Dattss 
 staff in order to provide support and develop the service.
