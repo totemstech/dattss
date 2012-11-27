@@ -47,7 +47,7 @@ see also:
 #### Drivers & SDK
 
 All the drivers and SDK tools for DaTtSs are maintaind in the dattss-sdk 
-(http://gihub.com/teleportd/dattss-sdk) repository.
+(http://github.com/teleportd/dattss-sdk) repository.
 
 ##### Storage
 
