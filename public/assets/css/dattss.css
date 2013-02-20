@@ -664,6 +664,7 @@ footer a:hover {
   color: white;
   font-weight: bold;
   cursor: pointer;
+  max-width: 100px;
 }
 
 .dattss-process td.status {
