@@ -1,0 +1,147 @@
+.auth .box {
+  width: 350px;
+  margin: 0 auto;
+  text-align: center;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  background-image: linear-gradient(-90deg, #EBEBEB 0%, #DCDCDC 100%);
+  background-image: -o-linear-gradient(-90deg, #EBEBEB 0%, #DCDCDC 100%);
+  background-image: -moz-linear-gradient(-90deg, #EBEBEB 0%, #DCDCDC 100%);
+  background-image: -webkit-linear-gradient(-90deg, #EBEBEB 0%, #DCDCDC 100%);
+  background-image: -ms-linear-gradient(-90deg, #EBEBEB 0%, #DCDCDC 100%);
+
+  border: 1px solid #325F8E;
+
+  box-shadow: 0 1px 0 rgba(255,255,255,.3);
+}
+
+.auth .box .title {
+  font-size: 1.3em;
+}
+
+.auth .box .title > span {
+  float: left;
+  padding: 7px 0px;
+  display: inline-block;
+  text-align: center;
+  width: 175px;
+  margin: 0 0 16px 0;
+  border-radius: 5px;
+
+  font-family: Helvetica;
+  font-size: 0.8em;
+  color: #000;
+  line-height: 16px;
+  text-shadow: 0px 1px 0px #FFFFFF;
+
+  background-image: linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -o-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -moz-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -webkit-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -ms-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+
+  -moz-box-shadow:    0px 1px 0px 0 #A5A5A5, inset 0px 1px 1px 0 rgba(255,255,255,0.50);
+  -webkit-box-shadow: 0px 1px 0px 0 #A5A5A5, inset 0px 1px 1px 0 rgba(255,255,255,0.50);
+  box-shadow:         0px 1px 0px 0 #A5A5A5, inset 0px 1px 1px 0 rgba(255,255,255,0.50);
+}
+
+.auth span.click,
+.auth .box .title.click > span {
+  cursor: pointer;
+}
+
+.auth .box .title > span:first-child {
+  -webkit-border-radius: 5px 0 0 0;
+     -moz-border-radius: 5px 0 0 0;
+          border-radius: 5px 0 0 0;
+}
+
+.auth .box .title > span:last-child {
+  -webkit-border-radius: 0 5px 0 0;
+     -moz-border-radius: 0 5px 0 0;
+          border-radius: 0 5px 0 0;
+}
+
+.auth .box .title > span.full {
+  width: 350px;
+  -webkit-border-radius: 5px 5px 0 0;
+     -moz-border-radius: 5px 5px 0 0;
+          border-radius: 5px 5px 0 0;
+}
+
+.auth .box .title > span.selected {
+  background-image: linear-gradient(-90deg, #CBCBCB 0%, #BEBEBE 100%);
+  background-image: -o-linear-gradient(-90deg, #CBCBCB 0%, #BEBEBE 100%);
+  background-image: -moz-linear-gradient(-90deg, #CBCBCB 0%, #BEBEBE 100%);
+  background-image: -webkit-linear-gradient(-90deg, #CBCBCB 0%, #BEBEBE 100%);
+  background-image: -ms-linear-gradient(-90deg, #CBCBCB 0%, #BEBEBE 100%);
+
+  -moz-box-shadow:    0px 1px 0px 0 #A5A5A5, inset 0px 1px 4px 0 #727272;
+  -webkit-box-shadow: 0px 1px 0px 0 #A5A5A5, inset 0px 1px 4px 0 #727272;
+  box-shadow:         0px 1px 0px 0 #A5A5A5, inset 0px 1px 4px 0 #727272;
+}
+
+.auth .box .body {
+  padding: 15px;
+}
+
+.auth .box .body p.success {
+  color: #3E7300;
+}
+
+.auth .box .body form,
+.auth .box .body input,
+.auth .box .body p {
+  margin: 0;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.auth .box .body input {
+  width: 306px;
+  background: #FFFFFF;
+
+  -moz-box-shadow:    0px 1px 0px 0 rgba(255,255,255,0.57), inset 0px 1px 3px 0 rgba(0,0,0,0.17);
+  -webkit-box-shadow: 0px 1px 0px 0 rgba(255,255,255,0.57), inset 0px 1px 3px 0 rgba(0,0,0,0.17);
+  box-shadow:         0px 1px 0px 0 rgba(255,255,255,0.57), inset 0px 1px 3px 0 rgba(0,0,0,0.17);
+}
+
+.auth .box .body input[type="text"],
+.auth .box .body input[type="email"] {
+  border: 1px solid #aaa;
+  -webkit-border-radius: 5px 5px 0 0;
+     -moz-border-radius: 5px 5px 0 0;
+          border-radius: 5px 5px 0 0;
+}
+
+.auth .box .reset .body input[type="email"],
+.auth .box .signup .body input[type="email"] {
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.auth .box .body input[type="password"] {
+  margin-top: -1px;
+  border: 1px solid #aaa;
+  -webkit-border-radius: 0 0 5px 5px;
+     -moz-border-radius: 0 0 5px 5px;
+          border-radius: 0 0 5px 5px;
+}
+
+.auth .box .body input:focus {
+  color: #000;
+  border: 1px solid #888;
+}
+
+.auth .box .body button {
+  margin: 10px 0 0 0;
+  width: 320px;
+}
+
+.auth .footer {
+  margin: 7px;
+  text-align: center;
+  color: #072647;
+  text-shadow: 0px 1px 0px rgba(255,255,255,0.19);
+}

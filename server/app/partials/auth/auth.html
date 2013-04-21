@@ -1,0 +1,170 @@
+<div class="auth">
+  <div class="logo full"></div>
+  <div class="box">
+    <div class="title click"
+         ng-show="type == 'signin' || type == 'signup'">
+      <span class="signin"
+            ng-class="{ selected: type == 'signin' }"
+            ng-click="go('signin')">
+        Sign in
+      </span>
+      <span class="signup"
+            ng-class="{ selected: type == 'signup' }"
+            ng-click="go('signup')">
+        Sign up
+      </span>
+    </div>
+    <div ng-switch on="type">
+      <!-- Signin -->
+      <div class="signin" ng-switch-when="signin">
+        <div class="body">
+          <form id="signin-form" name="form">
+            <p>
+              <input type="email"
+                     id="email"
+                     class="email"
+                     name="email"
+                     placeholder="Email"
+                     required
+                     ng-model="$parent.email">
+            </p>
+            <p>
+              <input type="password"
+                     id="password"
+                     name="password"
+                     placeholder="Password"
+                     required
+                     ng-model="$parent.password">
+            </p>
+            <p>
+              <button class="btn btn-primary"
+                      type="submit"
+                      ng-click="signin()"
+                      ng-disabled="!form.$valid || processing">
+                <span ng-hide="processing">Sign me in!</span>
+                <span ng-show="processing">Processing...</span>
+              </button>
+            </p>
+          </form>
+        </div>
+      </div>
+      <!-- Signup -->
+      <div class="signup" ng-switch-when="signup">
+        <div class="body">
+          <form id="signup-form" name="form" ng-hide="signup_ok">
+            <p>
+              <input type="email"
+                     id="email"
+                     class="email"
+                     name="email"
+                     placeholder="Email"
+                     required
+                     ng-model="$parent.email">
+            </p>
+            <p>
+              <button class="btn btn-primary"
+                      type="submit"
+                      ng-click="signup()"
+                      ng-disabled="!form.$valid || processing">
+                <span ng-hide="processing">Sign me up!</span>
+                <span ng-show="processing">Processing...</span>
+              </button>
+            </p>
+          </form>
+          <p class="success" ng-show="signup_ok">
+            We just sent you an email at
+            <strong>{{$parent.email}}</strong> with the verification code
+            needed to confirm your account!
+          </p>
+          <p ng-show="signup_ok">
+            <button class="btn btn-primary"
+                    ng-click="go('password');">
+              Verify your account
+            </button>
+          </p>
+        </div>
+      </div>
+      <!-- Password -->
+      <div class="password" ng-switch-when="password">
+        <div class="title">
+          <span class="full">Choose a password</span>
+        </div>
+        <div class="body">
+          <form id="password-form" name="form">
+            <p>
+              <input type="text"
+                     id="verification-code"
+                     class="verification-code"
+                     name="verification-code"
+                     placeholder="Verification Code"
+                     required
+                     ng-model="$parent.verification_code">
+            </p>
+            <p>
+              <input type="password"
+                     id="password"
+                     class="password"
+                     name="password"
+                     placeholder="Password"
+                     required
+                     ng-model="$parent.password">
+            </p>
+            <p>
+              <button class="btn btn-primary"
+                      type="submit"
+                      ng-click="set_password()"
+                      ng-disabled="!form.$valid || processing">
+                <span ng-hide="processing">Confirm!</span>
+                <span ng-show="processing">Processing...</span>
+              </button>
+            </p>
+          </form>
+        </div>
+      </div>
+      <!-- Reset -->
+      <div class="reset" ng-switch-when="reset">
+        <div class="title">
+          <span class="full">Reset your password</span>
+        </div>
+        <div class="body">
+          <form id="reset-form" name="form" ng-hide="reset_ok">
+            <p>
+              <input type="email"
+                     id="email"
+                     class="email"
+                     name="email"
+                     placeholder="Email"
+                     required
+                     ng-model="$parent.email">
+            </p>
+            <p>
+              <button class="btn btn-primary"
+                      type="submit"
+                      ng-click="reset_password()"
+                      ng-disabled="!form.$valid || processing">
+                <span ng-hide="processing">Confirm!</span>
+                <span ng-show="processing">Processing...</span>
+              </button>
+            </p>
+          </form>
+          <p class="success" ng-show="reset_ok">
+            We've just sent you an email with all the informations you will
+            need to reset your password.
+          </p>
+          <p ng-show="reset_ok">
+            <button class="btn btn-primary"
+                    ng-click="go('password');">
+              Choose a new password!
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>Did you forgot your password ?
+      <span ng-click="go('reset')"
+            class="click">Reset.</span>
+    </p>
+  </div>
+</div>
