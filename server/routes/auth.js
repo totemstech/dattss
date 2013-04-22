@@ -18,6 +18,8 @@ var factory = require('../factory.js').factory;
 // Retrieves the user object
 //
 exports.get_user = function(req, res, next) {
+  /* DaTtSs */ factory.dattss().agg('routes.get_user', '1c');
+
   if(!req.user) {
     return res.data({
       logged_in: false
@@ -28,6 +30,7 @@ exports.get_user = function(req, res, next) {
     date: req.user.dte,
     uid: req.user.uid,
     email: req.user.eml,
+    auth: req.user.uid + '.' + factory.hash([ req.user.uid ]),
     logged_in: true
   });
 };

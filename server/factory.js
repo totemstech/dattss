@@ -35,6 +35,7 @@ var factory = function(spec, my) {
   var data;                         /* data();                    */
   var session_store;                /* session_store();           */
   var email;                        /* email();                   */
+  var dattss;                       /* dattss();                  */
 
   var init;                         /* init(cb_);                 */
 
@@ -138,6 +139,20 @@ var factory = function(spec, my) {
   };
 
   //
+  // ### dattss
+  // Return the dattss object
+  //
+  dattss = function() {
+    if(!my.dattss) {
+      my.dattss = require('../clients/nodejs/lib/dattss.js').dattss({
+        auth: 'b22b7b32acb9e606befec211b738316beb191c23.68a3db19f8d51757e3dda7b53a4aa667519ce0ed',
+        name: my.name
+      });
+    }
+    return my.dattss;
+  }
+
+  //
   // ### init
   // Initialize modules that need to, like mongo
   // ```
@@ -187,6 +202,7 @@ var factory = function(spec, my) {
   fwk.method(that, 'data', data, _super);
   fwk.method(that, 'session_store', session_store, _super);
   fwk.method(that, 'email', email, _super);
+  fwk.method(that, 'dattss', dattss, _super);
 
   fwk.method(that, 'init', init, _super);
 

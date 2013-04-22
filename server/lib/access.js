@@ -52,6 +52,7 @@ var access = function(spec, my) {
   //
   verify = function(req, res, next) {
     var uid = (req.session ? req.session.uid : null);
+    var auth = req.param('auth');
     var url_p = url.parse(req.url);
 
     factory.log().debug('EVAL: ' + req.url + ' (' + req.method + ')');
@@ -83,6 +84,30 @@ var access = function(spec, my) {
       error.name = 'AuthenticationError';
       return next(error);
     };
+
+    if(auth && /^\/agg/.exec(req.url)) {
+      var c_users = factory.data().collection('dts_users');
+
+      var hash = /^([^.]+).(.*)$/.exec(auth);
+      if(hash && hash[2] === factory.hash([ hash[1] ])) {
+        c_users.findOne({
+          uid: hash[1]
+        }, function(err, user) {
+          if(err) {
+            return auth_error();
+          }
+          else {
+            req.user = user;
+            return next();
+          }
+        });
+      }
+      else {
+        return auth_error();
+      }
+
+      return;
+    }
 
     if(uid) {
       var c_users = factory.data().collection('dts_users');
@@ -130,6 +155,7 @@ var access = function(spec, my) {
   // ```
   //
   error = function(err, req, res, next) {
+    factory.log().error(err);
     return res.send(500, {
       error: {
         name: err.name,

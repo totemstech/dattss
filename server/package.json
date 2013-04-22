@@ -1,6 +1,6 @@
 {
   "name": "dattss-srv",
-  "author": "Stanislas Polu <polu.stanislas@gmail.com>",
+  "author": "Anthony MOI <anthony@nitrogr.am>",
   "version": "1.0.0",
   "scripts": {
     "start": "./dattss.js"
@@ -12,7 +12,8 @@
     "fwk": "1.1.x",
     "mongodb": "1.2.x",
     "connect-mongodb": "1.1.x",
-    "sendgrid": "0.2.x"
+    "sendgrid": "0.2.x",
+    "dattss-dev": "1.0.x"
   },
   "bin": {
     "dattss": "./dattss.js"

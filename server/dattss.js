@@ -8,6 +8,7 @@
  * @author: n1t0
  *
  * @log:
+ * 2013-04-22  n1t0    Add aggregation routes
  * 2013-04-15  n1t0    Creation
  */
 
@@ -51,6 +52,9 @@ var setup = function() {
   app.post('/auth/password',         require('./routes/auth.js').post_password);
   app.post('/auth/reset',            require('./routes/auth.js').post_reset);
   app.get( '/auth/signout',          require('./routes/auth.js').get_signout);
+
+  // AGGREGATION
+  app.put( '/agg',                   require('./routes/engine.js').put_agg);
 };
 
 factory.log().out('Starting...');
