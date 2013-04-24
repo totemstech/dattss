@@ -1,4 +1,4 @@
-/**
+/*
  * DaTtSs: Authentication routes
  *
  * (c) Copyright Teleportd Labs 2013. All rights reserved
@@ -6,6 +6,7 @@
  * @author: n1t0
  *
  * @log:
+ * 2013-04-22  n1t0    Add dattss aggregates
  * 2013-04-15  n1t0    Authentication endpoints
  */
 
@@ -18,13 +19,13 @@ var factory = require('../factory.js').factory;
 // Retrieves the user object
 //
 exports.get_user = function(req, res, next) {
-  /* DaTtSs */ factory.dattss().agg('routes.get_user', '1c');
-
   if(!req.user) {
     return res.data({
       logged_in: false
     });
   }
+
+  /* DaTtSs */ factory.dattss().agg('routes.get_user', '1c');
 
   return res.data({
     date: req.user.dte,
@@ -42,6 +43,7 @@ exports.get_user = function(req, res, next) {
 //
 exports.post_signup = function(req, res, next) {
   if(req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.post_signup.error', '1c');
     res.error(new Error('Already signed up'));
   }
 
@@ -49,6 +51,7 @@ exports.post_signup = function(req, res, next) {
   var email_r = /^[a-zA-Z0-9\._\-\+]+@[a-z0-9\._\-]{2,}\.[a-z]{2,4}$/;
 
   if(!email_r.test(email)) {
+    /* DaTtSs */ factory.dattss().agg('routes.post_signup.error', '1c');
     return res.error(new Error('Wrong email'));
   }
 
@@ -57,9 +60,11 @@ exports.post_signup = function(req, res, next) {
     eml: email
   }, function(err, user) {
     if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_signup.error', '1c');
       return res.error(err);
     }
     else if(user) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_signup.error', '1c');
       return res.error(new Error('Email already in use'));
     }
     else {
@@ -73,7 +78,6 @@ exports.post_signup = function(req, res, next) {
         key: key,
         dte: new Date()
       };
-      console.log(user);
 
       fwk.async.parallel({
         email: function(cb_) {
@@ -124,9 +128,11 @@ exports.post_signup = function(req, res, next) {
         }
       }, function(err) {
         if(err) {
+          /* DaTtSs */ factory.dattss().agg('routes.post_signup.error', '1c');
           return res.error(err);
         }
         else {
+          /* DaTtSs */ factory.dattss().agg('routes.post_signup.ok', '1c');
           return res.data({
             uid: uid
           });
@@ -149,17 +155,21 @@ exports.post_signin = function(req, res, next) {
     eml: email
   }, function(err, user) {
     if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_signin.error', '1c');
       return res.error(err);
     }
     else if(!user) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_signin.error', '1c');
       return res.error(new Error('Wrong email or password'));
     }
     else {
       if(user.pwd !== factory.hash([password])) {
+        /* DaTtSs */ factory.dattss().agg('routes.post_signin.error', '1c');
         return res.error(new Error('Wrong email or password'));
       }
 
       req.session.uid = user.uid;
+      /* DaTtSs */ factory.dattss().agg('routes.post_signin.ok', '1c');
       return res.ok();
     }
   });
@@ -176,6 +186,7 @@ exports.post_password = function(req, res, next) {
 
   if(typeof password !== 'string' ||
      password === '') {
+    /* DaTtSs */ factory.dattss().agg('routes.post_password.error', '1c');
     return res.error(new Error('Wrong password'));
   }
 
@@ -184,9 +195,11 @@ exports.post_password = function(req, res, next) {
     key: code
   }, function(err, user) {
     if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_password.error', '1c');
       return res.error(err);
     }
     else if(!user) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_password.error', '1c');
       return res.error(new Error('Wrong verification code'));
     }
     else {
@@ -202,10 +215,12 @@ exports.post_password = function(req, res, next) {
         }
       }, function(err) {
         if(err) {
+          /* DaTtSs */ factory.dattss().agg('routes.post_password.error', '1c');
           return res.error(err);
         }
         else {
           req.session.uid = user.uid;
+          /* DaTtSs */ factory.dattss().agg('routes.post_password.ok', '1c');
           res.ok();
         }
       });
@@ -219,6 +234,7 @@ exports.post_password = function(req, res, next) {
 //
 exports.get_signout = function(req, res, next) {
   req.session.destroy();
+  /* DaTtSs */ factory.dattss().agg('routes.get_signout', '1c');
   res.redirect('/#/auth/signin');
 };
 
@@ -232,6 +248,7 @@ exports.post_reset = function(req, res, next) {
   var email_r = /^[a-zA-Z0-9\._\-\+]+@[a-z0-9\._\-]{2,}\.[a-z]{2,4}$/;
 
   if(!email_r.test(email)) {
+    /* DaTtSs */ factory.dattss().agg('routes.post_reset.error', '1c');
     return res.error(new Error('Wrong email'));
   }
 
@@ -240,9 +257,11 @@ exports.post_reset = function(req, res, next) {
     eml: email
   }, function(err, user) {
     if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_reset.error', '1c');
       return res.error(err);
     }
     else if(!user) {
+      /* DaTtSs */ factory.dattss().agg('routes.post_reset.ok', '1c');
       res.ok();
     }
     else {
@@ -303,9 +322,11 @@ exports.post_reset = function(req, res, next) {
         }
       }, function(err) {
         if(err) {
+          /* DaTtSs */ factory.dattss().agg('routes.post_reset.error', '1c');
           return res.error(err);
         }
         else {
+          /* DaTtSs */ factory.dattss().agg('routes.post_reset.ok', '1c');
           return res.ok();
         }
       });

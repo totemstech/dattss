@@ -24,7 +24,7 @@ var app = express();
 var factory = require('./factory.js').factory;
 
 var setup = function() {
-  // Configuration
+  /* Configuration */
   app.configure(function(){
     app.use(express.cookieParser());
     app.use(express.session({
@@ -43,9 +43,9 @@ var setup = function() {
     app.use(factory.access().error);
   });
 
-  // Routes
+  /* Routes */
 
-  // AUTH
+  /* AUTH */
   app.get( '/auth/user',             require('./routes/auth.js').get_user);
   app.post('/auth/signup',           require('./routes/auth.js').post_signup);
   app.post('/auth/signin',           require('./routes/auth.js').post_signin);
@@ -53,7 +53,7 @@ var setup = function() {
   app.post('/auth/reset',            require('./routes/auth.js').post_reset);
   app.get( '/auth/signout',          require('./routes/auth.js').get_signout);
 
-  // AGGREGATION
+  /* AGGREGATION */
   app.put( '/agg',                   require('./routes/engine.js').put_agg);
 };
 
@@ -64,10 +64,14 @@ factory.init(function(err) {
     process.exit(1);
   }
 
-  // Setup
+  /* Setup */
   setup();
 
   var http_port = factory.config()['DATTSS_HTTP_PORT'];
   var http_srv = http.createServer(app).listen(parseInt(http_port, 10));
   factory.log().out('HTTP Server started on port: ' + http_port);
+
+  /* Socket.IO */
+  var io = require('socket.io').listen(http_srv);
+  require('./routes/socketio.js').set_io(io);
 });

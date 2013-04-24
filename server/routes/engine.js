@@ -18,8 +18,15 @@ var factory = require('../factory.js').factory;
 //
 exports.put_agg = function(req, res, next) {
   var auth = req.param('auth');
+  var uid = auth.split('.')[0];
 
-  /* If this code is executed, it means that the auth has been verified. */
   console.log(req.body);
-  return res.ok();
+  if(factory.engine().agg(uid, req.body)) {
+    /* DaTtSs */ factory.dattss().agg('routes.put_agg.ok', '1c');
+    return res.ok();
+  }
+  else {
+    /* DaTtSs */ factory.dattss().agg('routes.put_agg.error', '1c');
+    return res.error(new Error('Malformed request'));
+  }
 };

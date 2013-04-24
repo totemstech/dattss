@@ -26,7 +26,7 @@ exports.CONFIG = fwk.populateConfig(require('../config.js').config);
 //     DATTSS_PERCENTILE         the percentile value (0.1 default)
 //
 // ```
-// @spec { auth, name, [http_host], [http_port], [pct] }
+// @spec { auth, [http_host], [http_port], [pct] }
 // ```
 //
 var dattss = function(spec, my) {
@@ -38,7 +38,6 @@ var dattss = function(spec, my) {
   my.http_port = spec.http_port || exports.CONFIG['DATTSS_SERVER_HTTP_PORT'];
   my.pct       = spec.pct       || parseFloat(exports.CONFIG['DATTSS_PERCENTILE']);
 
-  my.name      = spec.name      || 'noname';
   my.stopped = true;
 
   /* accumulators */
@@ -88,6 +87,7 @@ var dattss = function(spec, my) {
             typ: type,
             pth: path,
             nam: my.name,
+            pct: my.pct,
             sum: 0,
             cnt: 0,
             emp: false
@@ -125,6 +125,13 @@ var dattss = function(spec, my) {
       }
     });
 
+    /* Cleanup accumulators */
+    my.acc = {
+      'c':  {},
+      'g':  {},
+      'ms': {}
+    };
+
     return partials;
   };
 
@@ -135,8 +142,6 @@ var dattss = function(spec, my) {
   //
   do_commit = function() {
     var commit = {
-      nam: my.name,
-      upt: process.uptime(),
       prt: make_partials()
     };
 
@@ -239,8 +244,6 @@ var dattss = function(spec, my) {
   /*               IMPLICIT INITIALISATION (COMMIT TIMER, START)              */
   /****************************************************************************/
   start();
-
-  console.log(my);
 
   fwk.method(that, 'agg', agg, _super);
   fwk.method(that, 'start', start, _super);

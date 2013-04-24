@@ -29,6 +29,7 @@ var factory = function(spec, my) {
   //
   var slt;                          /* slt(str);                  */
   var hash;                         /* hash(strings, encoding);   */
+  var aggregate_date;               /* aggregate_date(date);      */
 
   var config;                       /* config();                  */
   var access;                       /* access();                  */
@@ -36,6 +37,7 @@ var factory = function(spec, my) {
   var session_store;                /* session_store();           */
   var email;                        /* email();                   */
   var dattss;                       /* dattss();                  */
+  var engine;                       /* engine();                  */
 
   var init;                         /* init(cb_);                 */
 
@@ -75,6 +77,32 @@ var factory = function(spec, my) {
       hash.update(new Buffer(update));
     });
     return hash.digest(encoding);
+  };
+
+  //
+  // ### aggregate_date
+  // Return aggregate date (UTC) computed from the given date with a minute
+  // precision.
+  // ```
+  // @date {Date} the date to compute
+  // ```
+  //
+  aggregate_date = function(date) {
+    var agg = '';
+    var pad = function(n) {
+      if(n < 10) {
+        return '0' + n;
+      }
+      return n;
+    }
+
+    agg += date.getUTCFullYear();
+    agg += '-' + pad(date.getUTCMonth() + 1);
+    agg += '-' + pad(date.getUTCDate());
+    agg += '-' + pad(date.getUTCHours());
+    agg += '-' + pad(date.getUTCMinutes());
+
+    return agg;
   };
 
   //
@@ -153,6 +181,18 @@ var factory = function(spec, my) {
   }
 
   //
+  // ### engine
+  // Return the engine object
+  //
+  engine = function() {
+    if(!my.engine) {
+      my.engine = require('./lib/engine.js').engine();
+      my.engine.start();
+    }
+    return my.engine;
+  }
+
+  //
   // ### init
   // Initialize modules that need to, like mongo
   // ```
@@ -196,6 +236,7 @@ var factory = function(spec, my) {
 
   fwk.method(that, 'slt', slt, _super);
   fwk.method(that, 'hash', hash, _super);
+  fwk.method(that, 'aggregate_date', aggregate_date, _super);
 
   fwk.method(that, 'config', config, _super);
   fwk.method(that, 'access', access, _super);
@@ -203,10 +244,11 @@ var factory = function(spec, my) {
   fwk.method(that, 'session_store', session_store, _super);
   fwk.method(that, 'email', email, _super);
   fwk.method(that, 'dattss', dattss, _super);
+  fwk.method(that, 'engine', engine, _super);
 
   fwk.method(that, 'init', init, _super);
 
   return that;
 };
 
-exports.factory = factory({ name: 'dattss' });
+exports.factory = factory({ name: 'dattss-server' });

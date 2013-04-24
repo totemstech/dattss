@@ -1,2 +1,10 @@
-<div class="dashboard">
+<div class="wrapper">
+  <div class="loading logo full" ng-show="landing"></div>
+  <div class="dashboard" ng-hide="landing">
+    <topbar></topbar>
+    <div class="content">
+      <menu></menu>
+      <!-- Put the content here -->
+    </div>
+  </div>
 </div>

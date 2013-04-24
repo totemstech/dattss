@@ -20,4 +20,6 @@ config['DATTSS_PUBLIC_ENDPOINTS'] = [ /^\/auth\// ];
 
 config['DATTSS_COOKIE_AGE'] = 1000 * 60 * 60 * 24 * 365;
 
+config['DATTSS_CROND_PERIOD'] = 60 * 1000;
+
 exports.config = config;
