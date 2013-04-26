@@ -20,7 +20,6 @@ exports.put_agg = function(req, res, next) {
   var auth = req.param('auth');
   var uid = auth.split('.')[0];
 
-  console.log(req.body);
   if(factory.engine().agg(uid, req.body)) {
     /* DaTtSs */ factory.dattss().agg('routes.put_agg.ok', '1c');
     return res.ok();
@@ -29,4 +28,26 @@ exports.put_agg = function(req, res, next) {
     /* DaTtSs */ factory.dattss().agg('routes.put_agg.error', '1c');
     return res.error(new Error('Malformed request'));
   }
+};
+
+//
+// ### @GET /status
+// Get the current status
+//
+exports.get_status = function(req, res, next) {
+  if(!req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.get_status.error', '1c');
+    return res.error(new Error('Authentication error'));
+  }
+
+  factory.engine().current(req.user.uid, function(err, current) {
+    if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.get_status.error', '1c');
+      return res.error(err);
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('routes.get_status.ok', '1c');
+      return res.data(current);
+    }
+  });
 };

@@ -53,8 +53,9 @@ var setup = function() {
   app.post('/auth/reset',            require('./routes/auth.js').post_reset);
   app.get( '/auth/signout',          require('./routes/auth.js').get_signout);
 
-  /* AGGREGATION */
+  /* ENGINE */
   app.put( '/agg',                   require('./routes/engine.js').put_agg);
+  app.get( '/status',                require('./routes/engine.js').get_status);
 };
 
 factory.log().out('Starting...');

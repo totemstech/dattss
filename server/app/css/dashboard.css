@@ -1,4 +1,10 @@
-.loading.logo {
+.wrapper .loading.logo {
   width: 500px;
   margin: 10% auto;
+}
+
+.wrapper .dashboard {
+  margin: 50px auto;
+  width: 1200px;
+  background: #fff;
 }

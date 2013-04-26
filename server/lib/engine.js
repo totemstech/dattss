@@ -186,6 +186,8 @@ var engine = function(spec, my) {
       my.envs[uid].agg(data);
     }
 
+    that.emit(uid + ':update', my.envs[uid].current());
+
     return true;
   };
 

@@ -1,0 +1,44 @@
+<div class="status menu">
+  <script type="text/ng-template" id="node.html">
+    <span class="box"
+          ng-style="box_style(node)">{{node.label | uppercase}}</span>
+    <!-- Children -->
+    <ul class="child"
+        ng-show="node.child.length > 0"
+        ng-click="$event.stopPropagation()">
+      <li ng-repeat="node in node.child"
+          ng-include="'node.html'"
+          ng-class="{ open: node.open }"
+          ng-click="node.open = !node.open"></li>
+    </ul>
+    <ul class="status"
+        ng-style="align_left(node)"
+        ng-show="node.status.c.ok || node.status.ms.ok || node.status.g.ok">
+      <li ng-repeat="status in node.status"
+          ng-show="status.ok">
+        <span class="pictos type">{{status.typ | iconStatus}}</span>
+        <span ng-switch="status.typ">
+          <span ng-switch-when="c">
+            <span class="value">{{status.sum}}</span>
+            <span class="average">[ {{status.avg}} ]</span>
+          </span>
+          <span ng-switch-when="g">
+            <span class="value">{{status.lst}}</span>
+            <span class="average">[ {{status.avg}} ]</span>
+          </span>
+          <span ng-switch-when="ms">
+            <span class="value">{{status.avg}}</span>
+            <span class="average">[ {{status.min}}, {{status.max}} ]</span>
+          </span>
+        </span>
+      </li>
+    </ul>
+  </script>
+
+  <ul class="parent">
+    <li ng-repeat="node in status"
+        ng-include="'node.html'"
+        ng-class="{ open: node.open }"
+        ng-click="node.open = !node.open"></li>
+  </ul>
+</div>

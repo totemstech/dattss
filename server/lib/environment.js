@@ -29,7 +29,7 @@ var environment = function(spec, my) {
 
   if(typeof spec.uid !== 'string' ||
      spec.uid === '') {
-    throw new Error('Wrong `uid`');
+    throw new Error('Wrong `uid`: ' + spec.uid);
   }
 
   my.uid = spec.uid;
@@ -396,7 +396,7 @@ var environment = function(spec, my) {
   //
   current = function() {
     var current = fwk.shallow(my.status);
-    ['c', 'h', 'ms'].forEach(function(type) {
+    ['c', 'g', 'ms'].forEach(function(type) {
       current[type].sort(function(a, b) {
         if(a.pth < b.pth) return -1;
         if(a.pth > b.pth) return 1;
