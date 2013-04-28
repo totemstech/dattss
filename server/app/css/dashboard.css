@@ -4,7 +4,39 @@
 }
 
 .wrapper .dashboard {
-  margin: 50px auto;
+  margin: 0 auto 5px;
   width: 1200px;
   background: #fff;
+  border: 1px solid #103B69;
+  border-top: 0;
+
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+
+  -webkit-box-shadow: 0 0px 3px rgba(0,0,0,.5);
+  -moz-box-shadow: 0 0px 3px rgba(0,0,0,.5);
+  box-shadow: 0 0px 3px rgba(0,0,0,.5);
+}
+
+.wrapper > .dashboard > .content {
+  background: #E3F2FF;
+  border-radius: 0 0 4px 4px;
+}
+
+.wrapper > .footer {
+  width: 1200px;
+  text-align: right;
+  margin: 10px auto;
+  color: #072647;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .1);
+}
+
+.wrapper > .footer > span {
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.wrapper > .footer > span.copyright {
+  float: left;
 }

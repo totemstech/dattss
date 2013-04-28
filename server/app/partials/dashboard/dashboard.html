@@ -1,10 +1,24 @@
 <div class="wrapper">
   <div class="loading logo full" ng-show="landing"></div>
+  <topbar ng-hide="landing"></topbar>
   <div class="dashboard" ng-hide="landing">
-    <topbar></topbar>
     <div class="content">
       <status data="current_status"></status>
       <!-- Put the content here -->
     </div>
+  </div>
+  <div class="footer" ng-hide="landing">
+    <span class="copyright">
+      &copy; Copyright Teleportd Labs 2013. All rights reserved.
+    </span>
+    <span class="about">
+      About
+    </span>
+    <span class="support">
+      Support
+    </span>
+    <span class="terms">
+      Terms
+    </span>
   </div>
 </div>

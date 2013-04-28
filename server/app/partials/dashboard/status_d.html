@@ -11,7 +11,50 @@
           ng-class="{ open: node.open }"
           ng-click="node.open = !node.open"></li>
     </ul>
-    <ul class="status"
+    <!-- Status -->
+    <table class="status"
+           ng-style="align_left(node)"
+           ng-click="$event.stopPropagation()"
+           ng-show="node.status.c.ok || node.status.ms.ok || node.status.g.ok">
+      <tbody>
+        <tr ng-repeat="status in node.status"
+            ng-show="status.ok">
+          <td class="icon">
+            <span class="pictos type">{{status.typ | iconStatus}}</span>
+          </td>
+          <td>
+            <span ng-switch="status.typ">
+              <span ng-switch-when="c">
+                <span class="value">{{status.sum}}</span>
+              </span>
+              <span ng-switch-when="g">
+                <span class="value">{{status.lst}}</span>
+              </span>
+              <span ng-switch-when="ms">
+                <span class="value">{{status.avg}}</span>
+              </span>
+            </span>
+          </td>
+          <td>
+            <span ng-switch="status.typ">
+              <span ng-switch-when="c">
+                <span class="average">[ {{status.avg}} ]</span>
+              </span>
+              <span ng-switch-when="g">
+                <span class="average">[ {{status.avg}} ]</span>
+              </span>
+              <span ng-switch-when="ms">
+                <span class="average">[ {{status.min}}, {{status.max}} ]</span>
+              </span>
+            </span>
+          </td>
+          <td class="actions">
+            <span class="pictos favoris">f</span>
+            <span class="pictos view">v</span>
+          </td>
+      </tbody>
+    </table>
+    <!--ul class="status"
         ng-style="align_left(node)"
         ng-show="node.status.c.ok || node.status.ms.ok || node.status.g.ok">
       <li ng-repeat="status in node.status"
@@ -32,9 +75,12 @@
           </span>
         </span>
       </li>
-    </ul>
+    </ul-->
   </script>
 
+  <div class="title">
+    Statistics
+  </div>
   <ul class="parent">
     <li ng-repeat="node in status"
         ng-include="'node.html'"

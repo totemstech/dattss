@@ -44,7 +44,7 @@ exports.set_io = function(io) {
     var session = socket.handshake.session;
 
     var handler = function(current) {
-      //socket.emit('status:update', current);
+      socket.emit('status:update', current);
     };
 
     factory.engine().on(session.uid + ':update', handler);

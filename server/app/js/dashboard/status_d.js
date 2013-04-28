@@ -29,7 +29,7 @@ angular.module('dattss.directives').controller('StatusController',
     $scope.align_left = function(obj) {
       return {
         'left': (obj.depth * -20) + 'px',
-        'margin-right': (obj.depth * -20) + 'px'
+        //'margin-right': (obj.depth * -20) + 'px'
       }
     }
 

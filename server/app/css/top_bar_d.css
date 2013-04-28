@@ -1,17 +1,36 @@
 .top-bar {
   position: relative;
-  width: 100%;
+  width: 1200px;
   height: 50px;
-  background: #aaa;
+  margin: 50px auto 0;
+
+  border: 1px solid #245184;
+  //#325F8E;
+  border-bottom: 1px solid #A5A5A5;
+
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+
+  background-image: linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -o-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -moz-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -webkit-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+  background-image: -ms-linear-gradient(-90deg, #E5E5E5 0%, #C4C4C4 100%);
+
+  -moz-box-shadow:    inset 0px 1px 1px 0 rgba(255,255,255,0.50), 0 0 3px rgba(0,0,0,.3);
+  -webkit-box-shadow: inset 0px 1px 1px 0 rgba(255,255,255,0.50), 0 0 3px rgba(0,0,0,.3);
+  box-shadow:         inset 0px 1px 1px 0 rgba(255,255,255,0.50), 0 0 3px rgba(0,0,0,.3);
 }
 
 .top-bar .logo {
   position: absolute;
-  top: 10px;
+  top: 13px;
   left: 575px;
   width: 50px;
-  height: 50px;
+  height: 30px;
 
+  background: url('/img/logo_topbar.png');
   background-size: 100%;
   background-repeat: no-repeat;
 }
