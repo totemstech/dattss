@@ -24,9 +24,10 @@
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/top_bar_d.css" rel="stylesheet">
     <link href="css/status_d.css" rel="stylesheet">
+    <link href="css/graph_d.css" rel="stylesheet">
   </head>
   <body>
-    <div ng-view></div>
+    <div ng-view cloak></div>
 
     <!-- Errors -->
     <div class="error-manager" ng-controller="ErrorManager">
@@ -71,8 +72,10 @@
     <!-- Directives -->
     <script src="js/dashboard/top_bar_d.js"></script>
     <script src="js/dashboard/status_d.js"></script>
+    <script src="js/dashboard/graph_d.js"></script>
 
     <!-- Filters -->
     <script src="js/filters.js"></script>
+    <script src="js/dashboard/graph_f.js"></script>
   </body>
 </html>

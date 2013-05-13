@@ -21,7 +21,13 @@
 
 .wrapper > .dashboard > .content {
   background: #E3F2FF;
-  border-radius: 0 0 4px 4px;
+  background: url('/img/background.png');
+  background-size: 100% 1px;
+  border-radius: 0 0 3px 3px;
+}
+
+.wrapper > .dashboard > .content > .status.menu {
+  float: left;
 }
 
 .wrapper > .footer {
@@ -39,4 +45,9 @@
 
 .wrapper > .footer > span.copyright {
   float: left;
+}
+
+.wrapper .content > .main {
+  margin-left: 405px;
+  padding: 5px;
 }

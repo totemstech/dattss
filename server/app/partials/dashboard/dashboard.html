@@ -3,8 +3,16 @@
   <topbar ng-hide="landing"></topbar>
   <div class="dashboard" ng-hide="landing">
     <div class="content">
-      <status data="current_status"></status>
+      <status data="current_status"
+              show="view"></status>
       <!-- Put the content here -->
+      <div class="main">
+        <graph ng-repeat="v in view"
+               type="v.typ"
+               caption="{{v.pth | pathify}}"
+               data="data[v.typ + '-' + v.pth]"
+               loading="loading"></graph>
+      </div>
     </div>
   </div>
   <div class="footer" ng-hide="landing">

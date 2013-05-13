@@ -2,6 +2,8 @@
 
 function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
   $scope.landing = true;
+  $scope.view = [];
+  $scope.data = {};
 
   $scope.user = _auth.user(true).then(function(data) {
     if(!data.logged_in) {
@@ -22,6 +24,26 @@ function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
   _socket.on('status:update', function(data) {
     $scope.status = data;
   });
+
+  $scope.$on('show', function(e, status, show) {
+    if(show) {
+      $scope.retrieve_graphs();
+    }
+    else {
+      delete $scope.data[status.typ + '-' + status.pth];
+    }
+  });
+
+  $scope.retrieve_graphs = function() {
+    $scope.loading = true;
+    $scope.view.forEach(function(status) {
+      $scope.data[status.typ + '-' + status.pth] =
+        _dashboard.get_stats(status.pth, status.typ);
+    });
+  };
+
+  /* We update all graphs data every minutes */
+  setInterval($scope.retrieve_graphs, 1000 * 60);
 
   /****************************************************************************/
   /*                                 UPDATE                                   */
@@ -95,4 +117,11 @@ function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
 
     $scope.current_status = tree_to_array(tree);
   }, true);
+
+  $scope.$watch(function() {
+    var menu = jQuery('.dashboard .status.menu').innerHeight();
+    var main = jQuery('.dashboard .main').innerHeight();
+
+    jQuery('.dashboard > .content').css('height', Math.max(menu, main) + 'px');
+  });
 };

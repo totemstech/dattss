@@ -16,6 +16,8 @@
 //
 angular.module('dattss.directives').controller('StatusController',
   function($scope) {
+    $scope.show = [];
+
     /**************************************************************************/
     /*                                 HELPERS                                */
     /**************************************************************************/
@@ -29,7 +31,6 @@ angular.module('dattss.directives').controller('StatusController',
     $scope.align_left = function(obj) {
       return {
         'left': (obj.depth * -20) + 'px',
-        //'margin-right': (obj.depth * -20) + 'px'
       }
     }
 
@@ -59,6 +60,7 @@ angular.module('dattss.directives').controller('StatusController',
           depth: value_upd.depth,
           label: value_upd.label,
           open: value_cur.open ? true : false,
+          viewed: value_cur.viewed,
           child: $scope.update(value_cur.child, value_upd.child)
         };
         future.push(f);
@@ -77,6 +79,34 @@ angular.module('dattss.directives').controller('StatusController',
         }
       }
     }, true);
+
+    $scope.toggle = function(status) {
+      if(status) {
+        var deleted = false;
+        $scope.show.forEach(function(s, idx) {
+          if(status.pth === s.pth &&
+             status.typ === s.typ) {
+            $scope.show.splice(idx, 1);
+            deleted = true;
+          }
+        });
+        if(!deleted) {
+          $scope.show.push(status);
+        }
+        $scope.$emit('show', status, !deleted);
+      }
+    };
+
+    $scope.is_shown = function(status) {
+      var shown = false;
+      $scope.show.forEach(function(s) {
+        if(s.typ === status.typ &&
+           s.pth === status.pth) {
+          shown = true;
+        }
+      });
+      return shown;
+    };
   });
 
 //
@@ -84,6 +114,7 @@ angular.module('dattss.directives').controller('StatusController',
 // The status directive build the tree menu containing all current status
 // ```
 // @data {=object} the current status to build
+// @show {=array} an array containing all status to show
 // ```
 //
 angular.module('dattss.directives').directive('status', function() {
@@ -91,7 +122,8 @@ angular.module('dattss.directives').directive('status', function() {
     restrict: 'E',
     replace: true,
     scope: {
-      data: '='
+      data: '=',
+      show: '='
     },
     templateUrl: '/partials/dashboard/status_d.html',
     controller: 'StatusController'

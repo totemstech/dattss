@@ -49,8 +49,12 @@
             </span>
           </td>
           <td class="actions">
-            <span class="pictos favoris">f</span>
-            <span class="pictos view">v</span>
+            <!--span class="pictos favoris">f</span-->
+            <span class="pictos view"
+                  ng-click="toggle(status)"
+                  ng-class="{ active: is_shown(status) }">
+              v
+            </span>
           </td>
       </tbody>
     </table>
