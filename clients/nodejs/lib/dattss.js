@@ -86,7 +86,6 @@ var dattss = function(spec, my) {
           var partial = {
             typ: type,
             pth: path,
-            nam: my.name,
             pct: my.pct,
             sum: 0,
             cnt: 0,

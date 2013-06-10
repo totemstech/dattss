@@ -30,6 +30,7 @@ var factory = function(spec, my) {
   var slt;                          /* slt(str);                  */
   var hash;                         /* hash(strings, encoding);   */
   var aggregate_date;               /* aggregate_date(date);      */
+  var agg_to_date;                  /* agg_to_date(date);         */
 
   var config;                       /* config();                  */
   var access;                       /* access();                  */
@@ -85,9 +86,10 @@ var factory = function(spec, my) {
   // precision.
   // ```
   // @date {Date} the date to compute
+  // @utc {boolean} whether to use UTC
   // ```
   //
-  aggregate_date = function(date) {
+  aggregate_date = function(date, utc) {
     var agg = '';
     var pad = function(n) {
       if(n < 10) {
@@ -96,13 +98,41 @@ var factory = function(spec, my) {
       return n;
     }
 
-    agg += date.getUTCFullYear();
-    agg += '-' + pad(date.getUTCMonth() + 1);
-    agg += '-' + pad(date.getUTCDate());
-    agg += '-' + pad(date.getUTCHours());
-    agg += '-' + pad(date.getUTCMinutes());
+    var year = 'get' + (utc ? 'UTC' : '') + 'FullYear';
+    var month = 'get' + (utc ? 'UTC' : '') + 'Month';
+    var days = 'get' + (utc ? 'UTC' : '') + 'Date';
+    var hours = 'get' + (utc ? 'UTC' : '') + 'Hours';
+    var minutes = 'get' + (utc ? 'UTC' : '') + 'Minutes';
+
+    agg += date[year]();
+    agg += '-' + pad(date[month]() + 1);
+    agg += '-' + pad(date[days]());
+    agg += '-' + pad(date[hours]());
+    agg += '-' + pad(date[minutes]());
 
     return agg;
+  };
+
+  //
+  // ### agg_to_date
+  // Return a date computed from an aggregate date
+  // ```
+  // @date {string} the aggregated date
+  // ```
+  //
+  agg_to_date = function(date) {
+    var date_r = /^([0-9]{4})-([0-9]{2})-([0-9]{2})-([0-9]{2})-([0-9]{2})$/;
+    var d = date_r.exec(date);
+
+    if(!d || d.length < 6) {
+      throw new Error('Wrong date: ' + date);
+    }
+
+    return new Date(parseInt(d[1], 10),
+                    parseInt(d[2], 10) - 1,
+                    parseInt(d[3], 10),
+                    parseInt(d[4], 10),
+                    parseInt(d[5], 10));
   };
 
   //
@@ -173,8 +203,7 @@ var factory = function(spec, my) {
   dattss = function() {
     if(!my.dattss) {
       my.dattss = require('../clients/nodejs/lib/dattss.js').dattss({
-        auth: 'b22b7b32acb9e606befec211b738316beb191c23.68a3db19f8d51757e3dda7b53a4aa667519ce0ed',
-        name: my.name
+        auth: 'b22b7b32acb9e606befec211b738316beb191c23.68a3db19f8d51757e3dda7b53a4aa667519ce0ed'
       });
     }
     return my.dattss;
@@ -237,6 +266,7 @@ var factory = function(spec, my) {
   fwk.method(that, 'slt', slt, _super);
   fwk.method(that, 'hash', hash, _super);
   fwk.method(that, 'aggregate_date', aggregate_date, _super);
+  fwk.method(that, 'agg_to_date', agg_to_date, _super);
 
   fwk.method(that, 'config', config, _super);
   fwk.method(that, 'access', access, _super);

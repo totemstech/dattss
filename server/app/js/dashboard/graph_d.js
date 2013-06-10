@@ -15,7 +15,7 @@
 // `graph` directive controller.
 //
 angular.module('dattss.directives').controller('GraphController',
-  function($scope, $element, $window, $filter) {
+  function($scope, $element, $window, $filter, $rootScope) {
     /**************************************************************************/
     /*                                 SETUP                                  */
     /**************************************************************************/
@@ -232,6 +232,40 @@ angular.module('dattss.directives').controller('GraphController',
       g_past.append('svg:path')
             .attr('d', past(points.past))
             .classed('past', true);
+
+      if($scope.type === 'ms') {
+        var param = '';
+        var custom_line = d3.svg.line()
+          .x(function(d) {
+            return x(d.x);
+          })
+          .y(function(d) {
+            return y(d[param]);
+          });
+
+        var g_ms = svg.append('svg:g');
+        /* Max */
+        param = 'max';
+        g_ms.append('svg:path')
+          .attr('d', custom_line(points.current))
+          .classed('line max', true);
+        /* Top */
+        param = 'top';
+        g_ms.append('svg:path')
+          .attr('d', custom_line(points.current))
+          .classed('line top', true);
+        /* Min */
+        param = 'min';
+        g_ms.append('svg:path')
+          .attr('d', custom_line(points.current))
+          .classed('line min', true);
+        /* Bottom */
+        param = 'bot';
+        g_ms.append('svg:path')
+          .attr('d', custom_line(points.current))
+          .classed('line bot', true);
+      }
+
       /* Done */
       var g_all = svg.append('svg:g');
       g_all.append('svg:path')
@@ -309,22 +343,21 @@ angular.module('dattss.directives').controller('GraphController',
       var inner = jQuery($element).find('.inner');
 
       inner.bind("mouseover.cursor", function() {
-        $scope.$parent.$broadcast('graph:c_over', $scope);
+        $rootScope.$broadcast('graph:c_over', $scope);
         c_over();
       });
 
       inner.bind("mousemove.cursor", function(evt) {
         var xpos = evt.clientX - inner.offset().left - 4;
-        $scope.$parent.$broadcast('graph:c_move', $scope, xpos);
+        $rootScope.$broadcast('graph:c_move', $scope, xpos);
         c_move(xpos);
       });
 
       inner.bind("mouseout.cursor", function() {
-        $scope.$parent.$broadcast('graph:c_out', $scope);
+        $rootScope.$broadcast('graph:c_out', $scope);
         c_out();
       });
 
-      /* Graph synchronization (works only if same parent scope) */
       $scope.$on('graph:c_over', function(evt, origin) {
         if(origin !== $scope) {
           c_over();

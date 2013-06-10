@@ -11,7 +11,7 @@ var connect = require('connect');
 // ```
 //
 exports.set_io = function(io) {
-  io.set('log level', 3);
+  //io.set('log level', 3);
 
   var io_main = io.of('');
   io_main.authorization(function(data, cb_) {

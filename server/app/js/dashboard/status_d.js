@@ -48,7 +48,7 @@ angular.module('dattss.directives').controller('StatusController',
       var future = [];
       update.forEach(function(value_upd) {
         var value_cur = {};
-        /* Find current value matching the update one */
+        /* Find current value matching the updated one */
         current.forEach(function(c) {
           if(c.label === value_upd.label) {
             value_cur = c;

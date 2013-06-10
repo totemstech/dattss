@@ -350,7 +350,7 @@ var environment = function(spec, my) {
     /* Compute 1m-aggregates and save them */
     slide_partials(true);
     var aggs = aggregate_partials(true);
-    var dte = factory.aggregate_date(new Date());
+    var dte = factory.aggregate_date(new Date(), true);
     var c_aggregates = factory.data().collection('dts_aggregates');
 
     ['c', 'g', 'ms'].forEach(function(type) {

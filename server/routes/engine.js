@@ -121,7 +121,7 @@ exports.get_stats = function(req, res, next) {
   var offset = parseInt(req.param('offset'), 10);
   if(isNaN(offset))
     offset = 0;
-  offset = offset - (new Date().getTimezoneOffset());
+  offset = offset * 60 * 1000;
 
   var c_aggregates = factory.data().collection('dts_aggregates');
 
@@ -129,7 +129,7 @@ exports.get_stats = function(req, res, next) {
   var start = new Date(Date.UTC(now.getUTCFullYear(),
                                 now.getUTCMonth(),
                                 now.getUTCDate(),
-                                0, 0, 0) + offset * 60 * 1000);
+                                0, 0, 0) - offset);
   var end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
 
   fwk.async.parallel({
@@ -147,6 +147,11 @@ exports.get_stats = function(req, res, next) {
           return cb_(err);
         }
         else {
+          points.forEach(function(point) {
+            var d = factory.agg_to_date(point.dte);
+            var d_off = new Date(d.getTime() - offset);
+            point.dte = factory.aggregate_date(d_off);
+          });
           return cb_(null, points);
         }
       });
@@ -168,8 +173,12 @@ exports.get_stats = function(req, res, next) {
           return cb_(err);
         }
         else if(point) {
+          var point_dte = factory.agg_to_date(point.dte);
+          var point_dte_off = new Date(point_dte + offset);
+          var dte_off = factory.aggregate_date(point_dte_off);
+
           var dte_r = /[0-9\-]{11}([0-9\-]+)/;
-          var dte = (dte_r.exec(point.dte) || [, null])[1];
+          var dte = (dte_r.exec(dte_off) || [, null])[1];
 
           aggs[dte] = aggs[dte] || [];
           aggs[dte].push(point);

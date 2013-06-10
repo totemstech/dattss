@@ -21,8 +21,9 @@ function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
   $scope.status = _dashboard.get_status().then(function(data) {
     return data;
   });
-  _socket.on('status:update', function(data) {
+  _socket.on('status:update', function(data, count) {
     $scope.status = data;
+    _socket.emit('received', count);
   });
 
   $scope.$on('show', function(e, status, show) {
@@ -118,6 +119,7 @@ function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
     $scope.current_status = tree_to_array(tree);
   }, true);
 
+  /* Resize dashboard */
   $scope.$watch(function() {
     var menu = jQuery('.dashboard .status.menu').innerHeight();
     var main = jQuery('.dashboard .main').innerHeight();
