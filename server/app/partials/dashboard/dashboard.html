@@ -1,6 +1,8 @@
 <div class="wrapper">
   <div class="loading logo full" ng-show="landing"></div>
-  <topbar ng-hide="landing"></topbar>
+  <div ng-hide="landing">
+    <topbar></topbar>
+  </div>
   <div class="dashboard" ng-hide="landing">
     <div class="content">
       <status data="current_status"

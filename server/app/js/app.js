@@ -35,7 +35,7 @@ angular.module('dattss.services').
           return d.resolve(data);
         })
         .error(function(data, status, headers, config) {
-          if(data.error) {
+          if(data.error && data.error.name !== 'AuthenticationError') {
             $rootScope.$broadcast('error', data.error);
           }
           return d.reject(data);

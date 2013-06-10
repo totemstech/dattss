@@ -1,6 +1,8 @@
 'use strict';
 
 function ErrorManager($scope, $timeout) {
+  $scope.errors = [];
+
   $scope.$on('error', function(scope, err) {
     if(err && err.message) {
       $scope.errors.push({
@@ -41,6 +43,4 @@ function ErrorManager($scope, $timeout) {
       }, 500);
     }
   }
-
-  $scope.errors = [];
 };
