@@ -170,11 +170,13 @@ var dattss = function(spec, my) {
         console.log('/agg ' + res.statusCode + ' [' + my.auth + ']');
       }
       delete my.creq;
-    }).on('error', function(err) {
+    });
+    my.creq.on('error', function(err) {
       if(exports.CONFIG['DATTSS_DEBUG']) {
         console.log('ERROR: /agg ' + err.message + ' [' + my.auth + ']');
       }
-    }).end(JSON.stringify(commit));
+    });
+    my.creq.end(JSON.stringify(commit));
   };
 
   /****************************************************************************/
