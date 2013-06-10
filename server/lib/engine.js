@@ -33,6 +33,7 @@ var engine = function(spec, my) {
   var _super = {};
 
   my.envs = {};
+  my.updates = {};
 
   //
   // #### _public methods_
@@ -186,7 +187,10 @@ var engine = function(spec, my) {
       my.envs[uid].agg(data);
     }
 
-    that.emit(uid + ':update', my.envs[uid].current());
+    if(!my.updates[uid] || my.updates[uid] < Date.now() - 1000 * 5) {
+      my.updates[uid] = Date.now();
+      that.emit(uid + ':update', my.envs[uid].current());
+    }
 
     return true;
   };
