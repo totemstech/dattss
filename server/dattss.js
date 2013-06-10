@@ -69,7 +69,7 @@ factory.init(function(err) {
   /* Setup */
   setup();
 
-  var http_port = factory.config()['DATTSS_HTTP_PORT'];
+  var http_port = factory.config()['DATTSSV2_HTTP_PORT'];
   var http_srv = http.createServer(app).listen(parseInt(http_port, 10));
   factory.log().out('HTTP Server started on port: ' + http_port);
 

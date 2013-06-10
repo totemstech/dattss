@@ -6,7 +6,7 @@ config['DATTSS_HMAC'] = 'dummy-env';
 
 config['DATTSS_SALT_SPACE'] = 60 * 60 * 24 * 7; // number of seconds in a week
 
-config['DATTSS_HTTP_PORT'] = 3000;
+config['DATTSSV2_HTTP_PORT'] = 3002;
 config['DATTSS_DOMAIN'] = 'dummy-env';
 
 config['DATTSS_MONGO_URL'] = 'mongodb://localhost:27017/dts-data';
