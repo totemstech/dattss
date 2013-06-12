@@ -126,10 +126,10 @@ exports.get_stats = function(req, res, next) {
   var c_aggregates = factory.data().collection('dts_aggregates');
 
   var now = new Date();
-  var start = new Date(Date.UTC(now.getUTCFullYear(),
+  var start = new Date(new Date(now.getUTCFullYear(),
                                 now.getUTCMonth(),
                                 now.getUTCDate(),
-                                0, 0, 0) - offset);
+                                0, 0, 0));
   var end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
 
   fwk.async.parallel({
