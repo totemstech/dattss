@@ -129,7 +129,8 @@ exports.get_stats = function(req, res, next) {
   var start = new Date(new Date(now.getUTCFullYear(),
                                 now.getUTCMonth(),
                                 now.getUTCDate(),
-                                0, 0, 0));
+                                0, 0, 0).getTime() +
+                       (new Date().getTimezoneOffset() * 60 * 1000))
   var end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
 
   fwk.async.parallel({
