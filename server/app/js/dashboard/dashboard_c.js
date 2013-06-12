@@ -1,6 +1,7 @@
 'use strict';
 
-function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
+function DashboardCtrl($scope, $location, $timeout,
+                       _auth, _dashboard, _socket) {
   $scope.landing = true;
   $scope.view = [];
   $scope.data = {};
@@ -119,11 +120,27 @@ function DashboardCtrl($scope, $location, _auth, _dashboard, _socket) {
     $scope.current_status = tree_to_array(tree);
   }, true);
 
+  var anti_tickering;
   /* Resize dashboard */
   $scope.$watch(function() {
     var menu = jQuery('.dashboard .status.menu').innerHeight();
     var main = jQuery('.dashboard .main').innerHeight();
 
-    jQuery('.dashboard > .content').css('height', Math.max(menu, main) + 'px');
+    var target = jQuery('.dashboard > .content');
+
+    /* Avoid to resize during $digest */
+    if(target.height() > Math.max(menu, main)) {
+      if(anti_tickering) {
+        $timeout.cancel(anti_tickering);
+        anti_tickering = undefined;
+      }
+
+      anti_tickering = $timeout(function() {
+        target.css('height', Math.max(menu, main) + 'px');
+      }, 100);
+    }
+    else {
+      target.css('height', Math.max(menu, main) + 'px');
+    }
   });
 };

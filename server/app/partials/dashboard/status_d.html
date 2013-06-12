@@ -25,28 +25,50 @@
           <td>
             <span ng-switch="status.typ">
               <span ng-switch-when="c">
-                <span class="value">{{status.sum | bignumber}}</span>
+                <span class="value"
+                      tooltip="status.sum | number">
+                  {{status.sum | bignumber}}
+                </span>
               </span>
               <span ng-switch-when="g">
-                <span class="value">{{status.lst | bignumber}}</span>
+                <span class="value"
+                      tooltip="status.lst | number">
+                  {{status.lst | bignumber}}
+                </span>
               </span>
               <span ng-switch-when="ms">
-                <span class="value">{{status.avg | bignumber}}</span>
+                <span class="value"
+                      tooltip="status.avg | number">
+                  {{status.avg | bignumber}}
+                </span>
               </span>
             </span>
           </td>
           <td>
             <span ng-switch="status.typ">
               <span ng-switch-when="c">
-                <span class="average">[ {{status.avg | bignumber}} ]</span>
+                <span class="average"
+                      tooltip="status.avg | number">
+                  [ {{status.avg | bignumber}} ]
+                </span>
               </span>
               <span ng-switch-when="g">
-                <span class="average">[ {{status.avg | bignumber}} ]</span>
+                <span class="average"
+                      tooltip="status.avg | number">
+                  [ {{status.avg | bignumber}} ]
+                </span>
               </span>
               <span ng-switch-when="ms">
                 <span class="average">
-                  [ {{status.min | bignumber}},
-                    {{status.max | bignumber}} ]
+                  [
+                  <span tooltip="status.min | number">
+                    {{status.min | bignumber}}
+                  </span>
+                  ,
+                  <span tooltip="status.max | number">
+                    {{status.max | bignumber}}
+                  </span>
+                  ]
                 </span>
               </span>
             </span>

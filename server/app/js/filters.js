@@ -47,7 +47,7 @@ angular.module('dattss.filters').
 angular.module('dattss.filters').
   filter('bignumber', function() {
   return function(number) {
-    if(typeof number !== 'number') {
+    if(typeof number !== 'number' && number >= 1000) {
       number = parseInt(number, 10);
     }
     var sign = (number < 0) ? -1 : 1;
@@ -69,10 +69,6 @@ angular.module('dattss.filters').
         z += '0';
       return (((sign > 0) ? '' : '-') +
               m + ',' + z + u);
-    }
-    if(number % 1 !== 0) {
-      return (((sign > 0) ? '' : '-') +
-              (number.toFixed(1).toString()));
     }
     return (((sign > 0) ? '' : '-') +
             (number.toString()));
