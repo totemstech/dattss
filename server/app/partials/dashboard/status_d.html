@@ -25,26 +25,29 @@
           <td>
             <span ng-switch="status.typ">
               <span ng-switch-when="c">
-                <span class="value">{{status.sum}}</span>
+                <span class="value">{{status.sum | bignumber}}</span>
               </span>
               <span ng-switch-when="g">
-                <span class="value">{{status.lst}}</span>
+                <span class="value">{{status.lst | bignumber}}</span>
               </span>
               <span ng-switch-when="ms">
-                <span class="value">{{status.avg}}</span>
+                <span class="value">{{status.avg | bignumber}}</span>
               </span>
             </span>
           </td>
           <td>
             <span ng-switch="status.typ">
               <span ng-switch-when="c">
-                <span class="average">[ {{status.avg}} ]</span>
+                <span class="average">[ {{status.avg | bignumber}} ]</span>
               </span>
               <span ng-switch-when="g">
-                <span class="average">[ {{status.avg}} ]</span>
+                <span class="average">[ {{status.avg | bignumber}} ]</span>
               </span>
               <span ng-switch-when="ms">
-                <span class="average">[ {{status.min}}, {{status.max}} ]</span>
+                <span class="average">
+                  [ {{status.min | bignumber}},
+                    {{status.max | bignumber}} ]
+                </span>
               </span>
             </span>
           </td>
@@ -58,28 +61,6 @@
           </td>
       </tbody>
     </table>
-    <!--ul class="status"
-        ng-style="align_left(node)"
-        ng-show="node.status.c.ok || node.status.ms.ok || node.status.g.ok">
-      <li ng-repeat="status in node.status"
-          ng-show="status.ok">
-        <span class="pictos type">{{status.typ | iconStatus}}</span>
-        <span ng-switch="status.typ">
-          <span ng-switch-when="c">
-            <span class="value">{{status.sum}}</span>
-            <span class="average">[ {{status.avg}} ]</span>
-          </span>
-          <span ng-switch-when="g">
-            <span class="value">{{status.lst}}</span>
-            <span class="average">[ {{status.avg}} ]</span>
-          </span>
-          <span ng-switch-when="ms">
-            <span class="value">{{status.avg}}</span>
-            <span class="average">[ {{status.min}}, {{status.max}} ]</span>
-          </span>
-        </span>
-      </li>
-    </ul-->
   </script>
 
   <div class="title">
