@@ -87,6 +87,24 @@
   stroke: #1E4F84;
 }
 
+.graph .plot path.line.top {
+  stroke: hsla(34, 76%, 100%, 0.4);
+}
+
+.graph .plot path.line.max {
+  stroke: hsla(34, 76%, 100%, 0.8);
+}
+
+.graph .plot path.line.bot {
+  stroke: hsla(109, 59%, 71%, 0.4);
+}
+
+.graph .plot path.line.min {
+  stroke: hsla(109, 59%, 71%, 0.8);
+}
+
+
+
 .graph .plot path.past {
   fill: hsl(0, 0%, 50%);
   opacity: 0.2;
@@ -110,7 +128,6 @@
   font-size: 9px;
   fill: #aaa;
 }
-
 
 .graph .plot .y.axis line.line {
   stroke: hsl(211, 17%, 92%);

@@ -373,7 +373,8 @@ var environment = function(spec, my) {
             uid: prt.uid,
             slt: prt.slt,
             dte: prt.dte,
-            pth: prt.pth
+            pth: prt.pth,
+            typ: prt.typ
           }, prt, {
             upsert: true
           }, function(err) {
