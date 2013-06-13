@@ -21,7 +21,7 @@ angular.module('dattss.directives').controller('GraphController',
     /**************************************************************************/
     /* Constants */
     var margin = {
-      top: 25,
+      top: 10,
       right: 2,
       bottom: 20,
       left: 2
@@ -72,8 +72,10 @@ angular.module('dattss.directives').controller('GraphController',
 
       /* Domains */
       x.domain([0, 1440]);
-      y.domain([0, d3.max(points.current, function(d, i) {
-        return Math.max($filter('g_value')(points.current[i], $scope.type, true),
+      y.domain([0, d3.max(points.past, function(d, i) {
+        return Math.max($filter('g_value')(points.current.length > i ?
+                                           points.current[i] : 0, $scope.type,
+                                           true),
                         $filter('g_value')(points.past[i], $scope.type, true));
       })]);
 
@@ -219,19 +221,15 @@ angular.module('dattss.directives').controller('GraphController',
                    .y1(function(d) {
                      return y($filter('g_value')(d, $scope.type));
                    });
-      /* Past */
-      var past = d3.svg.area()
-                   .x(function(d) { return x(d.x); })
-                   .y0(y.range()[0])
-                   .y1(function(d) {
-                     return y($filter('g_value')(d, $scope.type));
-                   });
 
       /* Past */
       var g_past = svg.append('svg:g');
       g_past.append('svg:path')
-            .attr('d', past(points.past))
-            .classed('past', true);
+            .attr('d', line(points.past))
+            .classed('past line', true);
+      g_past.append('svg:path')
+            .attr('d', area(points.past))
+            .classed('past area', true);
 
       if($scope.type === 'ms') {
         var param = '';

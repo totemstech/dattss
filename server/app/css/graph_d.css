@@ -105,9 +105,14 @@
 
 
 
-.graph .plot path.past {
+.graph .plot path.past.area {
   fill: hsl(0, 0%, 50%);
   opacity: 0.2;
+}
+
+.graph .plot path.past.line {
+  stroke: hsl(0, 0%, 20%);
+  opacity: 0.4;
 }
 
 .graph .plot .x.axis line {
