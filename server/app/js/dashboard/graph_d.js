@@ -324,11 +324,31 @@ angular.module('dattss.directives').controller('GraphController',
           '<div class="date">' +
           $filter('g_xtodate')(points.past[dst].x) +
           '</div>' + ' &nbsp; ' +
-          '<div class="current value">' +
-          (points.current.length > dst ?
-           ($filter('bignumber')(Math.floor($filter('g_value')(points.current[dst], $scope.type)))) :
-           'n/a') +
-          '</div>' +
+          '<div class="current value">';
+
+        if($scope.type === 'ms') {
+          var avg = Math.floor($filter('g_value')(points.current[dst],
+                                                  $scope.type));
+          if(points.current.length > dst) {
+            html += '<span class="average">Avg: ' + $filter('bignumber')(avg) +
+              ' </span>';
+            html += '<span class="max">Max: ' +
+              $filter('bignumber')(points.current[dst].max) + ' </span>';
+            html += '<span class="min">Min: ' +
+              $filter('bignumber')(points.current[dst].min) + ' </span>';
+          }
+          else {
+            html += 'n/a';
+          }
+        }
+        else {
+          html += (points.current.length > dst ?
+                   ($filter('bignumber')(Math.floor($filter('g_value')
+                                                    (points.current[dst],
+                                                     $scope.type)))) : 'n/a');
+        }
+
+        html += '</div>' +
           '<div class="past value">&nbsp;[' +
           $filter('bignumber')(Math.floor($filter('g_value')(points.past[dst], $scope.type))) +
           ']</div>';
