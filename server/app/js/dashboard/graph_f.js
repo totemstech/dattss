@@ -58,13 +58,18 @@ angular.module('dattss.filters').
 // ```
 // @data {object} the object from which to return the value
 // @type {string} the type of graph we want to draw
+// @max {boolean} whether to return the max value
 // ```
 //
 angular.module('dattss.filters').
   filter('g_value', function() {
-    return function(data, type) {
+    return function(data, type, max) {
       if(typeof data !== 'object' ||
          typeof type !== 'string') return 0;
+
+      if(type === 'ms' && max) {
+        return data.max;
+      }
 
       if(type === 'c') {
         return data.sum;

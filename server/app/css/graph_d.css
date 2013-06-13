@@ -88,11 +88,11 @@
 }
 
 .graph .plot path.line.top {
-  stroke: hsla(34, 76%, 100%, 0.4);
+  stroke: hsla(34, 76%, 50%, 0.4);
 }
 
 .graph .plot path.line.max {
-  stroke: hsla(34, 76%, 100%, 0.8);
+  stroke: hsla(34, 76%, 50%, 0.8);
 }
 
 .graph .plot path.line.bot {

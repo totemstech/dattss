@@ -151,7 +151,7 @@ var environment = function(spec, my) {
           acc = 0;
           for(var i = 0; i < work.length; i++) {
             agg.top = work[i].top;
-            acc += Math.ceil(work[i].cnt * agg.pct);
+            acc += work[i].cnt;
             if(acc >= agg.cnt * agg.pct) {
               break;
             }
@@ -164,7 +164,7 @@ var environment = function(spec, my) {
           acc = 0;
           for(var i = 0; i < work.length; i++) {
             agg.bot = work[i].bot;
-            acc += Math.ceil(work[i].cnt * agg.pct);
+            acc += work[i].cnt;
             if(acc >= agg.cnt * agg.pct) {
               break;
             }

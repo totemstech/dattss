@@ -73,8 +73,8 @@ angular.module('dattss.directives').controller('GraphController',
       /* Domains */
       x.domain([0, 1440]);
       y.domain([0, d3.max(points.current, function(d, i) {
-        return Math.max($filter('g_value')(points.current[i], $scope.type),
-                        $filter('g_value')(points.past[i], $scope.type));
+        return Math.max($filter('g_value')(points.current[i], $scope.type, true),
+                        $filter('g_value')(points.past[i], $scope.type, true));
       })]);
 
       drawAxis();
