@@ -76,7 +76,7 @@ angular.module('dattss.directives').controller('GraphController',
         return Math.max($filter('g_value')(points.current.length > i ?
                                            points.current[i] : 0, $scope.type,
                                            true),
-                        $filter('g_value')(points.past[i], $scope.type, true));
+                        $filter('g_value')(points.past[i], $scope.type));
       })]);
 
       drawAxis();
