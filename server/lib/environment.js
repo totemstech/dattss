@@ -114,63 +114,13 @@ var environment = function(spec, my) {
       for(var path in my.aggregates[type]) {
         if(my.aggregates[type].hasOwnProperty(path) &&
            my.aggregates[type][path].length > 0) {
-          var agg = {
-            sum: 0,
-            cnt: 0
-          };
-          var work = [];
-          var acc = 0;
-
           my.aggregates[type][path].forEach(function(partial) {
             if(cleanup) {
               partial.drt = false;
             }
-
-            work.push({
-              cnt: partial.cnt,
-              top: partial.top,
-              bot: partial.bot
-            });
-            agg.typ = partial.typ;
-            agg.pct = partial.pct;
-            agg.sum += partial.sum;
-            agg.cnt += partial.cnt;
-            agg.max = ((agg.max || partial.max) > partial.max) ?
-              agg.max : partial.max;
-            agg.min = ((agg.min || partial.min) < partial.min) ?
-              agg.min : partial.min;
-            agg.lst = partial.lst;
-            agg.fst = (typeof agg.fst === 'undefined') ?
-              partial.fst : agg.fst;
           });
 
-          /* Top calculation */
-          work.sort(function(a, b) {
-            return b.top - a.top;
-          });
-          acc = 0;
-          for(var i = 0; i < work.length; i++) {
-            agg.top = work[i].top;
-            acc += work[i].cnt;
-            if(acc >= agg.cnt * agg.pct) {
-              break;
-            }
-          }
-
-          /* Bottom calculation */
-          work.sort(function(a, b) {
-            return a.bot - b.bot;
-          });
-          acc = 0;
-          for(var i = 0; i < work.length; i++) {
-            agg.bot = work[i].bot;
-            acc += work[i].cnt;
-            if(acc >= agg.cnt * agg.pct) {
-              break;
-            }
-          }
-
-          aggs[type][path] = agg;
+          aggs[type][path] = factory.agg_partials(my.aggregates[type][path]);
         }
       }
     });

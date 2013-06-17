@@ -31,6 +31,7 @@ var factory = function(spec, my) {
   var hash;                         /* hash(strings, encoding);   */
   var aggregate_date;               /* aggregate_date(date);      */
   var agg_to_date;                  /* agg_to_date(date);         */
+  var agg_partials;                 /* agg_partials(partials);    */
 
   var config;                       /* config();                  */
   var access;                       /* access();                  */
@@ -133,6 +134,56 @@ var factory = function(spec, my) {
                     parseInt(d[3], 10),
                     parseInt(d[4], 10),
                     parseInt(d[5], 10));
+  };
+
+  //
+  // agg_partials
+  // Aggregates partials.
+  // The trickiest part are the bot, top fields as their aggregation
+  // is only an approximation of the truth. Other values aggregate naturally.
+  // ```
+  // @partials {array} of partials as stored in my.partials[st]
+  //                   partials are expected to be orderd by arrival time
+  // @return {object} an aggregated partial object
+  // ```
+  //
+  agg_partials = function(partials) {
+    var agg = {sum: 0, cnt: 0};
+    var work = [], acc = 0;
+
+    partials.forEach(function(p) {
+      work.push({cnt: p.cnt, top: p.top, bot: p.bot});
+      agg.typ = p.typ;
+      agg.pct = p.pct;
+      agg.sum += p.sum;
+      agg.cnt += p.cnt;
+      agg.max = ((agg.max || p.max) > p.max) ? agg.max : p.max;
+      agg.min = ((agg.min || p.min) < p.min) ? agg.min : p.min;
+      agg.lst = p.lst;
+      agg.fst = (typeof agg.fst === 'undefined') ? p.fst : agg.fst;
+    });
+
+    /* top calculation */
+    work.sort(function(a,b) { return b.top - a.top; });
+    acc = 0;
+    for(var i = 0; i < work.length; i ++) {
+      agg.top = work[i].top;
+      acc += work[i].cnt;
+      if(acc >= agg.cnt * agg.pct)
+        break;
+    }
+
+    /* bot calculation */
+    work.sort(function(a,b) { return a.bot - b.bot; });
+    acc = 0;
+    for(var i = 0; i < work.length; i ++) {
+      agg.bot = work[i].bot;
+      acc += work[i].cnt;
+      if(acc >= agg.cnt * agg.pct)
+        break;
+    }
+
+    return agg;
   };
 
   //
@@ -267,6 +318,7 @@ var factory = function(spec, my) {
   fwk.method(that, 'hash', hash, _super);
   fwk.method(that, 'aggregate_date', aggregate_date, _super);
   fwk.method(that, 'agg_to_date', agg_to_date, _super);
+  fwk.method(that, 'agg_partials', agg_partials, _super);
 
   fwk.method(that, 'config', config, _super);
   fwk.method(that, 'access', access, _super);

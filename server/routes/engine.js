@@ -12,60 +12,6 @@
 var fwk = require('fwk');
 var factory = require('../factory.js').factory;
 
-/******************************************************************************/
-/*                                HELPER METHODS                              */
-/******************************************************************************/
-//
-// agg_partials
-// Aggregates partials.
-// The trickiest part are the bot, top fields as their aggregation
-// is only an approximation of the truth. Other values aggregate naturally.
-// ```
-// @partials {array} of partials as stored in my.partials[st]
-//                   partials are expected to be orderd by arrival time
-// @return {object} an aggregated partial object
-// ```
-//
-exports.agg_partials = function(partials) {
-  var agg = {sum: 0, cnt: 0};
-  var work = [], acc = 0;
-
-  partials.forEach(function(p) {
-    work.push({cnt: p.cnt, top: p.top, bot: p.bot});
-    agg.typ = p.typ;
-    agg.pct = p.pct;
-    agg.sum += p.sum;
-    agg.cnt += p.cnt;
-    agg.max = ((agg.max || p.max) > p.max) ? agg.max : p.max;
-    agg.min = ((agg.min || p.min) < p.min) ? agg.min : p.min;
-    agg.lst = p.lst;
-    agg.fst = (typeof agg.fst === 'undefined') ? p.fst : agg.fst;
-  });
-
-  /* top calculation */
-  work.sort(function(a,b) { return b.top - a.top; });
-  acc = 0;
-  for(var i = 0; i < work.length; i ++) {
-    agg.top = work[i].top;
-    acc += Math.ceil(work[i].cnt * agg.pct);
-    if(acc >= agg.cnt * agg.pct)
-      break;
-  }
-
-  /* bot calculation */
-  work.sort(function(a,b) { return a.bot - b.bot; });
-  acc = 0;
-  for(var i = 0; i < work.length; i ++) {
-    agg.bot = work[i].bot;
-    acc += Math.ceil(work[i].cnt * agg.pct);
-    if(acc >= agg.cnt * agg.pct)
-      break;
-  }
-
-  return agg;
-};
-
-
 //
 // ### @PUT /agg
 // Aggregates value
@@ -187,11 +133,11 @@ exports.get_stats = function(req, res, next) {
         else {
           for(var date in aggs) {
             if(aggs.hasOwnProperty(date)) {
-              var pt = exports.agg_partials(aggs[date]);
+              var pt = factory.agg_partials(aggs[date]);
               points.push({
                 dte: date,
-                sum: pt.sum,
-                cnt: pt.cnt,
+                sum: pt.sum / aggs[date].length,
+                cnt: pt.cnt / aggs[date].length,
                 typ: pt.typ,
                 pct: pt.pct,
                 max: pt.max,
