@@ -5,7 +5,7 @@ function DashboardCtrl($scope, $location, $timeout,
   $scope.landing = true;
   $scope.view = [];
   $scope.data = {};
-  $scope.step = 1;
+  $scope.step = 2;
 
   $scope.user = _auth.user(true).then(function(data) {
     if(!data.logged_in) {
@@ -39,13 +39,6 @@ function DashboardCtrl($scope, $location, $timeout,
 
   $scope.retrieve_graphs = function() {
     $scope.loading = true;
-    if($scope.view.length > 2) {
-      $scope.step = 2;
-    }
-    else {
-      $scope.step = 1;
-    }
-
     $scope.view.forEach(function(status) {
       $scope.data[status.typ + '-' + status.pth] =
         _dashboard.get_stats(status.pth, status.typ, $scope.step);
