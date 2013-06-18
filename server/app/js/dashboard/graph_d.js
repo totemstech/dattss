@@ -68,7 +68,8 @@ angular.module('dattss.directives').controller('GraphController',
 
       var now = new Date();
       var length = now.getHours() * 60 + now.getMinutes();
-      points = $filter('g_complete')(data, length);
+
+      points = $filter('g_complete')(data, length, $scope.step);
 
       /* Domains */
       x.domain([0, 1440]);
@@ -97,7 +98,7 @@ angular.module('dattss.directives').controller('GraphController',
       var x_masters = [];
       var x_normals = [];
       for(var i = 0; i <= X_TICKS; i++) {
-        var t = Math.floor(d[1] / X_TICKS * i);
+        var t = Math.floor((d[1] / X_TICKS * i) / $scope.step);
         x_masters.push({
           current: points.current[t],
           past: points.past[t]
@@ -411,6 +412,7 @@ angular.module('dattss.directives').controller('GraphController',
 // @data    {=object} object of arrays (current & past) to be diplayed using
 // @caption {@string} graph caption
 // @type {=string} the graph type
+// @step {=number} the step to use
 // @loading {=boolean} whether the graph data is being loaded or not
 // ```
 //
@@ -422,6 +424,7 @@ angular.module('dattss.directives').directive('graph', function() {
       data: '=data',
       caption: '@caption',
       type: '=type',
+      step: '=step',
       loading: '=loading'
     },
     templateUrl: 'partials/dashboard/graph_d.html',

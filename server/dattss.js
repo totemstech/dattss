@@ -46,17 +46,17 @@ var setup = function() {
   /* Routes */
 
   /* AUTH */
-  app.get( '/auth/user',                   require('./routes/auth.js').get_user);
-  app.post('/auth/signup',                 require('./routes/auth.js').post_signup);
-  app.post('/auth/signin',                 require('./routes/auth.js').post_signin);
-  app.post('/auth/password',               require('./routes/auth.js').post_password);
-  app.post('/auth/reset',                  require('./routes/auth.js').post_reset);
-  app.get( '/auth/signout',                require('./routes/auth.js').get_signout);
+  app.get( '/auth/user',                         require('./routes/auth.js').get_user);
+  app.post('/auth/signup',                       require('./routes/auth.js').post_signup);
+  app.post('/auth/signin',                       require('./routes/auth.js').post_signin);
+  app.post('/auth/password',                     require('./routes/auth.js').post_password);
+  app.post('/auth/reset',                        require('./routes/auth.js').post_reset);
+  app.get( '/auth/signout',                      require('./routes/auth.js').get_signout);
 
   /* ENGINE */
-  app.put( '/agg',                         require('./routes/engine.js').put_agg);
-  app.get( '/status',                      require('./routes/engine.js').get_status);
-  app.get( '/stats/:path/:type/:offset',   require('./routes/engine.js').get_stats);
+  app.put( '/agg',                               require('./routes/engine.js').put_agg);
+  app.get( '/status',                            require('./routes/engine.js').get_status);
+  app.get( '/stats/:path/:type/:offset/:step',   require('./routes/engine.js').get_stats);
 };
 
 factory.log().out('Starting...');

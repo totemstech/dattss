@@ -53,7 +53,7 @@ exports.get_status = function(req, res, next) {
 };
 
 //
-// ### @GET /stats/:path/:type/:offset
+// ### @GET /stats/:path/:type/:offset/:step
 // Get the current & past value for the given stat
 //
 exports.get_stats = function(req, res, next) {
@@ -64,6 +64,10 @@ exports.get_stats = function(req, res, next) {
 
   var path = req.param('path');
   var type = req.param('type');
+  var step = req.param('step');
+  step = parseInt(step, 10);
+  if(isNaN(step) || step < 1 || step > 6)
+    step = 2;
   var offset = parseInt(req.param('offset'), 10);
   if(isNaN(offset))
     offset = 0;
@@ -75,12 +79,20 @@ exports.get_stats = function(req, res, next) {
   var start = new Date(new Date(now.getUTCFullYear(),
                                 now.getUTCMonth(),
                                 now.getUTCDate(),
-                                0, 0, 0).getTime() +
-                       (new Date().getTimezoneOffset() * 60 * 1000))
+                                0, 0, 0).getTime() + offset);
   var end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+
+  var pad = function(number) {
+    if(number < 10) {
+      return '0' + number.toString();
+    }
+    return number.toString()
+  }
 
   fwk.async.parallel({
     current: function(cb_) {
+      var aggs = {};
+
       c_aggregates.find({
         uid: req.user.uid,
         pth: path,
@@ -89,23 +101,35 @@ exports.get_stats = function(req, res, next) {
           $gte: factory.aggregate_date(start),
           $lt: factory.aggregate_date(end)
         }
-      }).toArray(function(err, points) {
+      }).each(function(err, point) {
         if(err) {
           return cb_(err);
         }
+        else if(point) {
+          /* Apply offset */
+          var d = factory.agg_to_date(point.dte);
+          var d_off = new Date(d.getTime() - offset);
+          point.dte = factory.aggregate_date(d_off);
+
+          /* Aggregate according to step */
+          var date_r = /[0-9]{4}-[0-9]{2}-[0-9]{2}-([0-9]{2})-([0-9]{2})/;
+          var agg_i = date_r.exec(point.dte);
+          if(!agg_i) {
+            return cb_(new Error('Wrong date: ' + point.dte));
+          }
+
+          var minutes = parseInt(agg_i[2], 10);
+          var agg_on = agg_i[1] + '-' + pad(minutes - (minutes % step));
+          aggs[agg_on] = aggs[agg_on] || [];
+          aggs[agg_on].push(point);
+        }
         else {
-          points.forEach(function(point) {
-            var d = factory.agg_to_date(point.dte);
-            var d_off = new Date(d.getTime() - offset);
-            point.dte = factory.aggregate_date(d_off);
-          });
-          return cb_(null, points);
+          return cb_(null, aggs);
         }
       });
     },
     past: function(cb_) {
       var aggs = {};
-      var points = [];
 
       c_aggregates.find({
         uid: req.user.uid,
@@ -120,42 +144,33 @@ exports.get_stats = function(req, res, next) {
           return cb_(err);
         }
         else if(point) {
+          /* Apply offset */
           var point_dte = factory.agg_to_date(point.dte);
           var point_dte_off = new Date(point_dte + offset);
           var dte_off = factory.aggregate_date(point_dte_off);
 
-          var dte_r = /[0-9\-]{11}([0-9\-]+)/;
-          var dte = (dte_r.exec(dte_off) || [, null])[1];
+          /*
+            var dte_r = /[0-9\-]{11}([0-9\-]+)/;
+            var dte = (dte_r.exec(dte_off) || [, null])[1];
 
-          aggs[dte] = aggs[dte] || [];
-          aggs[dte].push(point);
+            aggs[dte] = aggs[dte] || [];
+            aggs[dte].push(point);
+          */
+
+          /* Aggregate according to step */
+          var date_r = /[0-9]{4}-[0-9]{2}-[0-9]{2}-([0-9]{2})-([0-9]{2})/;
+          var agg_i = date_r.exec(dte_off);
+          if(!agg_i) {
+            return cb_(new Error('Wrong date: ' + dte_off));
+          }
+
+          var minutes = parseInt(agg_i[2], 10);
+          var agg_on = agg_i[1] + '-' + pad(minutes - (minutes % step));
+          aggs[agg_on] = aggs[agg_on] || [];
+          aggs[agg_on].push(point);
         }
         else {
-          for(var date in aggs) {
-            if(aggs.hasOwnProperty(date)) {
-              var pt = factory.agg_partials(aggs[date]);
-              points.push({
-                dte: date,
-                sum: pt.sum / aggs[date].length,
-                cnt: pt.cnt / aggs[date].length,
-                typ: pt.typ,
-                pct: pt.pct,
-                max: pt.max,
-                min: pt.min,
-                lst: pt.lst,
-                fst: pt.fst,
-                bot: pt.bot,
-                top: pt.top
-              });
-            }
-          }
-          points.sort(function(a, b) {
-            if(a.dte > b.dte) return 1;
-            if(a.dte < b.dte) return -1;
-            return 0;
-          });
-
-          return cb_(null, points);
+          return cb_(null, aggs);
         }
       });
     }
@@ -165,11 +180,39 @@ exports.get_stats = function(req, res, next) {
       return res.error(err);
     }
     else {
-      /* DaTtSs */ factory.dattss().agg('routes.get_stats.ok', '1c');
-      return res.data({
-        current: result.current,
-        past: result.past
+      var response = {
+        current: [],
+        past: []
+      };
+
+      ['current', 'past'].forEach(function(type) {
+        for(var date in result[type]) {
+          if(result[type].hasOwnProperty(date)) {
+            var pt = factory.agg_partials(result[type][date]);
+            response[type].push({
+              dte: date,
+              sum: pt.sum / result[type][date].length,
+              cnt: pt.cnt / result[type][date].length,
+              typ: pt.typ,
+              pct: pt.pct,
+              max: pt.max,
+              min: pt.min,
+              lst: pt.lst,
+              fst: pt.fst,
+              bot: pt.bot,
+              top: pt.top
+            });
+          }
+        }
+        response[type].sort(function(a, b) {
+          if(a.dte > b.dte) return 1;
+          if(a.dte < b.dte) return -1;
+          return 0;
+        });
       });
+
+      /* DaTtSs */ factory.dattss().agg('routes.get_stats.ok', '1c');
+      return res.data(response);
     }
   });
 };

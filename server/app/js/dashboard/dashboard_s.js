@@ -17,9 +17,10 @@ angular.module('dattss.services').
       get_status: function() {
         return _req.get('/status');
       },
-      get_stats: function(path, type) {
+      get_stats: function(path, type, step) {
         return _req.get('/stats/' + path + '/' + type + '/' +
-                        new Date().getTimezoneOffset());
+                        new Date().getTimezoneOffset() + '/' +
+                        step);
       }
     };
 
