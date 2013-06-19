@@ -21,6 +21,15 @@ angular.module('dattss.services').
         return _req.get('/stats/' + path + '/' + type + '/' +
                         new Date().getTimezoneOffset() + '/' +
                         step);
+      },
+      get_favorite: function() {
+        return _req.get('/favorite');
+      },
+      add_favorite: function(favorite) {
+        return _req.put('/favorite/' + favorite);
+      },
+      del_favorite: function(favorite) {
+        return _req.del('/favorite/' + favorite);
       }
     };
 

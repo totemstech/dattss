@@ -133,23 +133,10 @@
 
 .status.menu table.status tr td.actions > .pictos.active {
   color: #FFFFFF;
-  text-shadow: 0 -1px 0 #052547;
+  text-shadow: 0 1px 0 #052547;
 }
 
-.status.menu .title {
-  color: #fff;
-  text-shadow: 0 -1px 0 #103B69;
-  padding: 7px;
-  border-top: 1px solid #0C3057;
-  text-align: center;
-
-  background-image: linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
-  background-image: -o-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
-  background-image: -moz-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
-  background-image: -webkit-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
-  background-image: -ms-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
-
-  -moz-box-shadow:    inset 0px 1px 0px 0 #295A8F;
-  -webkit-box-shadow: inset 0px 1px 0px 0 #295A8F;
-  box-shadow:         inset 0px 1px 0px 0 #295A8F;
+.status.menu table.status tr td.actions > .pictos.favorite.active {
+  color: #E4950F;
+  text-shadow: 0 1px 0 #925B00;
 }

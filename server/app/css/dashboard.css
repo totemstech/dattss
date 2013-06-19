@@ -26,8 +26,37 @@
   border-radius: 0 0 3px 3px;
 }
 
-.wrapper > .dashboard > .content > .status.menu {
+.wrapper > .dashboard > .content > .menu {
   float: left;
+  clear: both;
+}
+
+.wrapper > .dashboard > .content > .menu .title {
+  color: #fff;
+  text-shadow: 0 -1px 0 #103B69;
+  padding: 7px;
+  border-top: 1px solid #0C3057;
+  text-align: center;
+
+  background-image: linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -o-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -moz-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -webkit-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -ms-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+
+  -moz-box-shadow:    inset 0px 1px 0px 0 #295A8F;
+  -webkit-box-shadow: inset 0px 1px 0px 0 #295A8F;
+  box-shadow:         inset 0px 1px 0px 0 #295A8F;
+}
+
+.wrapper > .dashboard > .content > .menu .title > .pictos {
+  float: left;
+  color: #052547;
+  text-shadow: 0 1px 0 #2F6095;
+}
+
+.wrapper > .dashboard > .content > .menu .title > .text {
+  margin-left: -22px;
 }
 
 .wrapper > .footer {

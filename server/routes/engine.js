@@ -216,3 +216,97 @@ exports.get_stats = function(req, res, next) {
     }
   });
 };
+
+//
+// ### GET /favorite
+// Return the current favorites
+//
+exports.get_favorite = function(req, res, next) {
+  if(!req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.get_favorite.error', '1c');
+    return res.error(new Error('Authentication error'));
+  }
+
+  var c_favorites = factory.data().collection('dts_favorites');
+  c_favorites.findOne({
+    slt: factory.slt(req.user.uid),
+    uid: req.user.uid
+  }, function(err, favorite) {
+    if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.get_favorite.error', '1c');
+      return res.error(err);
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('routes.get_favorite.ok', '1c');
+      return res.data(favorite ? favorite.fav : []);
+    }
+  });
+};
+
+//
+// ### PUT /favorite/:favorite
+// Favorite a status
+//
+exports.put_favorite = function(req, res, next) {
+  if(!req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.put_favorite.error', '1c');
+    return res.error(new Error('Authentication error'));
+  }
+
+  var favorite = req.param('favorite');
+
+  var c_favorites = factory.data().collection('dts_favorites');
+  c_favorites.update({
+    slt: factory.slt(req.user.uid),
+    uid: req.user.uid
+  }, {
+    $addToSet: {
+      fav: favorite
+    }
+  }, {
+    upsert: true
+  }, function(err) {
+    if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.put_favorite.error', '1c');
+      return res.error(err);
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('routes.put_favorite.ok', '1c');
+      return res.ok();
+    }
+  });
+};
+
+//
+// ### DEL /favorite/:favorite
+// Remove a status from favorites
+//
+exports.del_favorite = function(req, res, next) {
+  if(!req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.del_favorite.error', '1c');
+    return res.error(new Error('Authentication error'));
+  }
+
+  var favorite = req.param('favorite');
+
+  var c_favorites = factory.data().collection('dts_favorites');
+  c_favorites.update({
+    slt: factory.slt(req.user.uid),
+    uid: req.user.uid
+  }, {
+    $pull: {
+      fav: favorite
+    }
+  }, {
+    upsert: true
+  }, function(err) {
+    if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.del_favorite.error', '1c');
+      return res.error(err);
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('routes.del_favorite.ok', '1c');
+      return res.ok();
+    }
+  });
+};

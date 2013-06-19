@@ -24,12 +24,16 @@
 
 .top-bar .logo {
   position: absolute;
-  top: 13px;
-  left: 575px;
-  width: 50px;
+  //top: 13px;
+  top: 10px;
+  //left: 575px;
+  left: 565px;
+  //width: 50px;
+  width: 70px;
   height: 30px;
 
-  background: url('/img/logo_topbar.png');
+  background: url('/img/logo_topbar_t.png');
+  //background: url('/img/logo_topbar.png');
   background-size: 100%;
   background-repeat: no-repeat;
 }

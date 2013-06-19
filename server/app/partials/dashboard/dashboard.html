@@ -5,8 +5,11 @@
   </div>
   <div class="dashboard" ng-hide="landing">
     <div class="content">
+      <favorites data="status"
+                 favorites="favorites"></favorites>
       <status data="current_status"
-              show="view"></status>
+              show="view"
+              favorites="favorites"></status>
       <!-- Put the content here -->
       <div class="main">
         <graph ng-repeat="v in view"

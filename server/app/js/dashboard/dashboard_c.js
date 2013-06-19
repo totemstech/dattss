@@ -4,6 +4,7 @@ function DashboardCtrl($scope, $location, $timeout,
                        _auth, _dashboard, _socket) {
   $scope.landing = true;
   $scope.view = [];
+  $scope.favorites = [];
   $scope.data = {};
   $scope.step = 2;
 
@@ -28,12 +29,28 @@ function DashboardCtrl($scope, $location, $timeout,
     _socket.emit('received', count);
   });
 
+  $scope.favorites = _dashboard.get_favorite().then(function(data) {
+    if(Array.isArray(data)) {
+      return data;
+    }
+    return [];
+  });
+
   $scope.$on('show', function(e, status, show) {
     if(show) {
       $scope.retrieve_graphs();
     }
     else {
       delete $scope.data[status.typ + '-' + status.pth];
+    }
+  });
+
+  $scope.$on('favorite', function(e, status, bool) {
+    if(bool) {
+      _dashboard.add_favorite(status.typ + '-' + status.pth);
+    }
+    else {
+      _dashboard.del_favorite(status.typ + '-' + status.pth);
     }
   });
 
@@ -45,8 +62,8 @@ function DashboardCtrl($scope, $location, $timeout,
     });
   };
 
-  /* We update all graphs data every minutes */
-  setInterval($scope.retrieve_graphs, 1000 * 60);
+  /* We update all graphs data every two minutes */
+  setInterval($scope.retrieve_graphs, 1000 * 60 * 2);
 
   /****************************************************************************/
   /*                                 UPDATE                                   */
@@ -124,7 +141,8 @@ function DashboardCtrl($scope, $location, $timeout,
   var anti_tickering;
   /* Resize dashboard */
   $scope.$watch(function() {
-    var menu = jQuery('.dashboard .status.menu').innerHeight();
+    var menu = jQuery('.dashboard .favorites.menu').innerHeight() +
+      jQuery('.dashboard .status.menu').innerHeight();
     var main = jQuery('.dashboard .main').innerHeight();
 
     var target = jQuery('.dashboard > .content');

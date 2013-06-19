@@ -91,3 +91,25 @@ angular.module('dattss.filters').
       return path.replace(/\./g, ' > ');
     };
   });
+
+//
+// ### truncate
+// Truncate the given string if too long
+// ```
+// @string {string} the string to truncate
+// @length {number} the length to truncate at
+// ```
+//
+angular.module('dattss.filters').
+  filter('truncate', function() {
+    return function(string, length) {
+      if(typeof string !== 'string')
+        string = '';
+      length = length || 50;
+
+      if(string.length > length) {
+        return string.substring(0, length) + '...';
+      }
+      return string;
+    };
+  });

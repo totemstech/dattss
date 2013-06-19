@@ -17,6 +17,7 @@
 angular.module('dattss.directives').controller('StatusController',
   function($scope) {
     $scope.show = [];
+    $scope.hide = [];
 
     /**************************************************************************/
     /*                                 HELPERS                                */
@@ -60,7 +61,6 @@ angular.module('dattss.directives').controller('StatusController',
           depth: value_upd.depth,
           label: value_upd.label,
           open: value_cur.open ? true : false,
-          viewed: value_cur.viewed,
           child: $scope.update(value_cur.child, value_upd.child)
         };
         future.push(f);
@@ -75,23 +75,32 @@ angular.module('dattss.directives').controller('StatusController',
         }
         else {
           /* Recursively update the data */
-          $scope.status = $scope.update($scope.status, data);
+          console.log($scope.status);
+          $scope.status = $scope.update($scope.status || [], data);
         }
       }
     }, true);
 
-    $scope.toggle = function(status) {
+    /**************************************************************************/
+    /*                               VIEW HELPERS                             */
+    /**************************************************************************/
+    $scope.toggle_view = function(status) {
       if(status) {
         var deleted = false;
         $scope.show.forEach(function(s, idx) {
           if(status.pth === s.pth &&
              status.typ === s.typ) {
             $scope.show.splice(idx, 1);
+            $scope.hide.push(status.typ + '-' + status.pth);
             deleted = true;
           }
         });
         if(!deleted) {
           $scope.show.push(status);
+          var idx = $scope.hide.indexOf(status.typ + '-' + status.pth);
+          if(idx !== -1) {
+            $scope.hide.splice(idx, 1);
+          }
         }
         $scope.$emit('show', status, !deleted);
       }
@@ -107,6 +116,38 @@ angular.module('dattss.directives').controller('StatusController',
       });
       return shown;
     };
+
+    /**************************************************************************/
+    /*                            FAVORITES HELPERS                           */
+    /**************************************************************************/
+    $scope.toggle_favorite = function(status) {
+      if(status) {
+        var idx = $scope.favorites.indexOf(status.typ + '-' + status.pth);
+        var deleted = false;
+        if(idx !== -1) {
+          $scope.favorites.splice(idx, 1);
+          deleted = true;
+        }
+        else {
+          $scope.favorites.push(status.typ + '-' + status.pth);
+        }
+        $scope.$emit('favorite', status, !deleted);
+      }
+    };
+
+    $scope.is_favorite = function(status) {
+      if(status && $scope.favorites) {
+        var is_fav = ($scope.favorites.indexOf(status.typ + '-' + status.pth) !== -1);
+        /* Automatically show the associated graph if user doesn't want to    */
+        /* hide it                                                            */
+        if(!$scope.is_shown(status) && is_fav &&
+           $scope.hide.indexOf(status.typ + '-' + status.pth) === -1) {
+          $scope.toggle_view(status);
+        }
+        return is_fav;
+      }
+      return false;
+    }
   });
 
 //
@@ -115,6 +156,7 @@ angular.module('dattss.directives').controller('StatusController',
 // ```
 // @data {=object} the current status to build
 // @show {=array} an array containing all status to show
+// @favorites {=array} an array of favorite paths
 // ```
 //
 angular.module('dattss.directives').directive('status', function() {
@@ -123,7 +165,8 @@ angular.module('dattss.directives').directive('status', function() {
     replace: true,
     scope: {
       data: '=',
-      show: '='
+      show: '=',
+      favorites: '='
     },
     templateUrl: '/partials/dashboard/status_d.html',
     controller: 'StatusController'

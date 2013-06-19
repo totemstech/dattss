@@ -57,6 +57,10 @@ var setup = function() {
   app.put( '/agg',                               require('./routes/engine.js').put_agg);
   app.get( '/status',                            require('./routes/engine.js').get_status);
   app.get( '/stats/:path/:type/:offset/:step',   require('./routes/engine.js').get_stats);
+
+  app.get( '/favorite',                          require('./routes/engine.js').get_favorite);
+  app.put( '/favorite/:favorite',                require('./routes/engine.js').put_favorite);
+  app.del( '/favorite/:favorite',                require('./routes/engine.js').del_favorite);
 };
 
 factory.log().out('Starting...');

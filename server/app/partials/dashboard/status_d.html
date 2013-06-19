@@ -74,9 +74,13 @@
             </span>
           </td>
           <td class="actions">
-            <!--span class="pictos favoris">f</span-->
+            <span class="pictos favorite"
+                  ng-click="toggle_favorite(status)"
+                  ng-class="{ active: is_favorite(status) }">
+              f
+            </span>
             <span class="pictos view"
-                  ng-click="toggle(status)"
+                  ng-click="toggle_view(status)"
                   ng-class="{ active: is_shown(status) }">
               v
             </span>
@@ -86,7 +90,8 @@
   </script>
 
   <div class="title">
-    Statistics
+    <span class="pictos">S</span>
+    <span class="text">Statistics</span>
   </div>
   <ul class="parent">
     <li ng-repeat="node in status"

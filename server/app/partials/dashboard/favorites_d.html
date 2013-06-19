@@ -1,0 +1,26 @@
+<div class="favorites menu">
+  <div class="title">
+    <span class="pictos">f</span>
+    <span class="text">Favorites</span>
+  </div>
+  <table class="favorites">
+    <tr ng-repeat="fav in favorites">
+      <td><span class="pictos">{{ type(fav) | iconStatus }}</span></td>
+      <td>
+        <span class="path" tooltip="path(fav)">
+          {{ path(fav) | truncate:30 }}
+        </span>
+      </td>
+      <td>
+        <span class="value" tooltip="value(fav, true)">
+          {{ value(fav) }}
+        </span>
+      </td>
+      <td>
+        <span class="average" tooltip="average(fav, true)">
+          {{ average(fav) }}
+        </span>
+      </td>
+    </tr>
+  </table>
+</div>
