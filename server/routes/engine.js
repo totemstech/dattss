@@ -81,6 +81,7 @@ exports.get_stats = function(req, res, next) {
                                 now.getUTCDate(),
                                 0, 0, 0).getTime() + offset);
   var end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+  var max_past = new Date(start.getTime() - 7 * 24 * 60 * 60 * 1000);
 
   var pad = function(number) {
     if(number < 10) {
@@ -136,7 +137,7 @@ exports.get_stats = function(req, res, next) {
         pth: path,
         typ: type,
         dte: {
-          $gte: factory.aggregate_date(new Date(0)),
+          $gte: factory.aggregate_date(max_past),
           $lt: factory.aggregate_date(start)
         }
       }).each(function(err, point) {
