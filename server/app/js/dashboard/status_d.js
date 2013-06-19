@@ -14,6 +14,9 @@
 // ### StatusController
 // Status controller used by `status` directive
 //
+
+var debug_array = [];
+
 angular.module('dattss.directives').controller('StatusController',
   function($scope) {
     $scope.show = [];
@@ -75,7 +78,7 @@ angular.module('dattss.directives').controller('StatusController',
         }
         else {
           /* Recursively update the data */
-          console.log($scope.status);
+          debug_array = $scope.status;
           $scope.status = $scope.update($scope.status || [], data);
         }
       }
