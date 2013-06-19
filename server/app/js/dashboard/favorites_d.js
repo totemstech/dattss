@@ -69,7 +69,7 @@ angular.module('dattss.directives').controller('FavoritesController',
              status.pth === path) {
             if(type === 'ms') {
               return '[ ' + $filter(filter)(status.min) +
-                ', ' + $filter(filter)(status.max) + ' ]';
+                ' / ' + $filter(filter)(status.max) + ' ]';
             }
             else {
               return '[ ' + $filter(filter)(status.avg) + ' ]';
