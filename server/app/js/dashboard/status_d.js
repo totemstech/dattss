@@ -49,16 +49,44 @@ angular.module('dattss.directives').controller('StatusController',
     /**************************************************************************/
     /* Recursively update the data and return the updated array               */
     $scope.update = function(current, update) {
+      var srt = function(a, b) {
+        if (a.label > b.label) return 1;
+        if (a.label < b.label) return -1;
+        return 0;
+      };
+      current.sort(srt);
+      update.sort(srt);
+
+      update.forEach(function(value_upd, i) {
+        /* Value already exists, we update it */
+        if(current[i].label === value_upd.label) {
+          current[i].status = value_upd.status;
+          $scope.update(current[i].child, value_upd.child);
+        }
+        /* Value does not exist, we insert it */
+        else {
+          var new_value = {
+            status: value_upd.status,
+            depth: value_upd.depth,
+            label: value_upd.label,
+            open: false,
+            child: $scope.update([], value_upd.child)
+          };
+
+          current.splice(i, 0, new_value);
+        }
+      });
+      /*
       var future = [];
       update.forEach(function(value_upd) {
         var value_cur = {};
-        /* Find current value matching the updated one */
+        /* Find current value matching the updated one *
         current.forEach(function(c) {
           if(c.label === value_upd.label) {
             value_cur = c;
           }
         });
-        /* Update value with new status and keep model properties */
+        /* Update value with new status and keep model properties *
         var f = {
           status: value_upd.status,
           depth: value_upd.depth,
@@ -68,7 +96,7 @@ angular.module('dattss.directives').controller('StatusController',
         };
         future.push(f);
       });
-      return future;
+      return future;*/
     };
 
     $scope.$watch('data', function(data) {
@@ -79,7 +107,8 @@ angular.module('dattss.directives').controller('StatusController',
         else {
           /* Recursively update the data */
           debug_array = $scope.status;
-          $scope.status = $scope.update($scope.status || [], data);
+          //$scope.status = 
+          $scope.update($scope.status || [], data);
         }
       }
     }, true);

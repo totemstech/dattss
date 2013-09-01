@@ -6,7 +6,7 @@ function DashboardCtrl($scope, $location, $timeout,
   $scope.view = [];
   $scope.favorites = [];
   $scope.data = {};
-  $scope.step = 2;
+  $scope.step = 3;
 
   $scope.user = _auth.user(true).then(function(data) {
     if(!data.logged_in) {
