@@ -49,7 +49,6 @@ angular.module('dattss.directives').controller('StatusController',
     /**************************************************************************/
     /* Recursively update the data and return the updated array               */
     $scope.update = function(current, update) {
-      console.log(update);
       var srt = function(a, b) {
         if (a.label > b.label) return 1;
         if (a.label < b.label) return -1;
