@@ -49,6 +49,7 @@ angular.module('dattss.directives').controller('StatusController',
     /**************************************************************************/
     /* Recursively update the data and return the updated array               */
     $scope.update = function(current, update) {
+      console.log(update);
       var srt = function(a, b) {
         if (a.label > b.label) return 1;
         if (a.label < b.label) return -1;
@@ -57,10 +58,20 @@ angular.module('dattss.directives').controller('StatusController',
       current.sort(srt);
       update.sort(srt);
 
+      var update_status = function(current, update) {
+        ['c', 'g', 'ms'].forEach(function(type) {
+          current[type] = current[type] || {};
+          [ 'typ', 'pth', 'sum', 'cnt', 'max', 'min', 'top', 'bot', 'fst',
+            'lst' ].forEach(function(val) {
+              current[type][val] = update[type][val];
+            });
+        });
+      };
+
       update.forEach(function(value_upd, i) {
         /* Value already exists, we update it */
         if(current[i].label === value_upd.label) {
-          current[i].status = value_upd.status;
+          update_status(current[i].status, value_upd.status);
           $scope.update(current[i].child, value_upd.child);
         }
         /* Value does not exist, we insert it */
