@@ -61,23 +61,19 @@ angular.module('dattss.directives').controller('StatusController',
         /* Value already exists, we update it */
         if(current[i].label === value_upd.label) {
           current[i].status = value_upd.status;
-          $timeout(function() {
-            $scope.update(current[i].child, value_upd.child);
-          });
+          $scope.update(current[i].child, value_upd.child);
         }
         /* Value does not exist, we insert it */
         else {
-          $timeout(function() {
-            var new_value = {
-              status: value_upd.status,
-              depth: value_upd.depth,
-              label: value_upd.label,
-              open: false,
-              child: $scope.update([], value_upd.child)
-            };
+          var new_value = {
+            status: value_upd.status,
+            depth: value_upd.depth,
+            label: value_upd.label,
+            open: false,
+            child: $scope.update([], value_upd.child)
+          };
 
-            current.splice(i, 0, new_value);
-          });
+          current.splice(i, 0, new_value);
         }
       });
       /*
