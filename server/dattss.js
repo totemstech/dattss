@@ -18,6 +18,8 @@
 var util = require('util');
 var express = require('express');
 var http = require('http');
+var cookie = require('cookie');
+var cookie_signature = require('cookie-signature');
 
 var app = express();
 
@@ -63,6 +65,53 @@ var setup = function() {
   app.del( '/favorite/:favorite',                require('./routes/engine.js').del_favorite);
 };
 
+var setup_io = function(io) {
+  if(!factory.config()['DEBUG'])
+    io.set('log level', 1);
+  else
+    io.set('log level', 3);
+
+  var io_main = io.of('');
+  io_main.authorization(function(data, cb_) {
+    if(!data.headers.cookie) {
+      return cb_('No cookie transmitted', false);
+    }
+
+    var cookies = cookie.parse(data.headers.cookie);
+    var sid;
+    if(cookies['dattss.sid'].indexOf('s:') === 0) {
+      var val = cookies['dattss.sid'].slice(2);
+      sid = cookie_signature.unsign(val, factory.config()['DATTSS_SECRET']);
+    }
+
+    factory.session_store().get(sid, function(err, session) {
+      if(err) {
+        return cb_('Error: ' + err.message, false);
+      }
+      else if(!session || !session.uid) {
+        return cb_('Authentication error', false);
+      }
+      else {
+        data.session = session;
+        return cb_(null, true);
+      }
+    });
+  });
+
+  io_main.on('connection', function(socket) {
+    var session = socket.handshake.session;
+
+    var handler = function(current) {
+      socket.emit('status:update', current);
+    };
+
+    factory.engine().on(session.uid + ':update', handler);
+    socket.on('disconnect', function() {
+      factory.engine().removeListener(session.uid + ':update', handler);
+    });
+  });
+};
+
 factory.log().out('Starting...');
 factory.init(function(err) {
   if(err) {
@@ -79,5 +128,5 @@ factory.init(function(err) {
 
   /* Socket.IO */
   var io = require('socket.io').listen(http_srv);
-  require('./routes/socketio.js').set_io(io);
+  setup_io(io);
 });
