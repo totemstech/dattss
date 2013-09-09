@@ -16,7 +16,7 @@ config['DATTSS_SENDGRID_PASS'] = 'dummy-env';
 config['DATTSS_SENDGRID_FROM'] = 'dummy-env';
 config['DATTSS_SENDGRID_FROMNAME'] = 'dummy-env';
 
-config['DATTSS_PUBLIC_ENDPOINTS'] = [ /^\/auth\// ];
+config['DATTSS_PUBLIC_ENDPOINTS'] = [ /^\/s\/auth\// ];
 
 config['DATTSS_COOKIE_AGE'] = 1000 * 60 * 60 * 24 * 365;
 

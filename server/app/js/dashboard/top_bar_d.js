@@ -31,7 +31,7 @@ angular.module('dattss.directives').controller('TopbarController',
         text: 'Settings'
       }, */{
         click: function() {
-          window.location.href = '/auth/signout';
+          window.location.href = '/s/auth/signout';
         },
         icon: 'O',
         text: 'Sign Out'
