@@ -22,6 +22,9 @@ config['DATTSS_COOKIE_AGE'] = 1000 * 60 * 60 * 24 * 365;
 
 config['DATTSS_CROND_PERIOD'] = 60 * 1000;
 
+/* we remove before 8 days because we want 7 days available for all timezones */
+config['DATTSS_HISTORY_PERIOD'] = 8 * 24 * 60 * 60 * 1000;
+
 config['DATTSS_DEMO_UID'] = 'b22b7b32acb9e606befec211b738316beb191c23';
 
 exports.config = config;

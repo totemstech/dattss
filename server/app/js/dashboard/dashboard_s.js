@@ -15,21 +15,21 @@ angular.module('dattss.services').
   factory('_dashboard', function(_req) {
     var _dashboard = {
       get_status: function() {
-        return _req.get('/status');
+        return _req.get('/s/status');
       },
       get_stats: function(path, type, step) {
-        return _req.get('/stats/' + path + '/' + type + '/' +
+        return _req.get('/s/stats/' + path + '/' + type + '/' +
                         new Date().getTimezoneOffset() + '/' +
                         step);
       },
       get_favorite: function() {
-        return _req.get('/favorite');
+        return _req.get('/s/favorite');
       },
       add_favorite: function(favorite) {
-        return _req.put('/favorite/' + favorite);
+        return _req.put('/s/favorite/' + favorite);
       },
       del_favorite: function(favorite) {
-        return _req.del('/favorite/' + favorite);
+        return _req.del('/s/favorite/' + favorite);
       }
     };
 

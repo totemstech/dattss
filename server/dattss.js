@@ -29,7 +29,7 @@ var setup = function() {
   /* Configuration */
   app.configure(function(){
     app.use(express.cookieParser());
-    app.use(express.session({
+    app.use('/s', express.session({
       secret: factory.config()['DATTSS_SECRET'],
       store: factory.session_store(),
       key: 'dattss.sid',
@@ -52,22 +52,22 @@ var setup = function() {
   /* Routes */
 
   /* AUTH */
-  app.get( '/auth/user',                         require('./routes/auth.js').get_user);
-  app.get( '/auth/user',                         require('./routes/auth.js').get_user);
-  app.post('/auth/signup',                       require('./routes/auth.js').post_signup);
-  app.post('/auth/signin',                       require('./routes/auth.js').post_signin);
-  app.post('/auth/password',                     require('./routes/auth.js').post_password);
-  app.post('/auth/reset',                        require('./routes/auth.js').post_reset);
-  app.get( '/auth/signout',                      require('./routes/auth.js').get_signout);
+  app.get( '/s/auth/user',                         require('./routes/auth.js').get_user);
+  app.get( '/s/auth/user',                         require('./routes/auth.js').get_user);
+  app.post('/s/auth/signup',                       require('./routes/auth.js').post_signup);
+  app.post('/s/auth/signin',                       require('./routes/auth.js').post_signin);
+  app.post('/s/auth/password',                     require('./routes/auth.js').post_password);
+  app.post('/s/auth/reset',                        require('./routes/auth.js').post_reset);
+  app.get( '/s/auth/signout',                      require('./routes/auth.js').get_signout);
 
   /* ENGINE */
-  app.put( '/agg',                               require('./routes/engine.js').put_agg);
-  app.get( '/status',                            require('./routes/engine.js').get_status);
-  app.get( '/stats/:path/:type/:offset/:step',   require('./routes/engine.js').get_stats);
+  app.put( '/agg',                                 require('./routes/engine.js').put_agg);
+  app.get( '/s/status',                            require('./routes/engine.js').get_status);
+  app.get( '/s/stats/:path/:type/:offset/:step',   require('./routes/engine.js').get_stats);
 
-  app.get( '/favorite',                          require('./routes/engine.js').get_favorite);
-  app.put( '/favorite/:favorite',                require('./routes/engine.js').put_favorite);
-  app.del( '/favorite/:favorite',                require('./routes/engine.js').del_favorite);
+  app.get( '/s/favorite',                          require('./routes/engine.js').get_favorite);
+  app.put( '/s/favorite/:favorite',                require('./routes/engine.js').put_favorite);
+  app.del( '/s/favorite/:favorite',                require('./routes/engine.js').del_favorite);
 };
 
 var setup_io = function(io) {
@@ -76,7 +76,7 @@ var setup_io = function(io) {
   else
     io.set('log level', 3);
 
-  var io_main = io.of('');
+  var io_main = io.of('/s');
   io_main.authorization(function(data, cb_) {
     if(!data.headers.cookie) {
       return cb_('No cookie transmitted', false);

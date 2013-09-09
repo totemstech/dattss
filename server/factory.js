@@ -41,6 +41,8 @@ var factory = function(spec, my) {
   var dattss;                       /* dattss();                  */
   var engine;                       /* engine();                  */
 
+  var cleanup;                      /* cleanup();                 */
+
   var init;                         /* init(cb_);                 */
 
   //
@@ -227,7 +229,7 @@ var factory = function(spec, my) {
     if(!my.session_store) {
       my.session_store = new MongoSessionStore({
         db: that.data(),
-        collection: 'dts-sessions',
+        collection: 'dts_sessions',
         reapInterval: 10 * 60 * 1000
       });
     }
@@ -258,7 +260,7 @@ var factory = function(spec, my) {
       });
     }
     return my.dattss;
-  }
+  };
 
   //
   // ### engine
@@ -270,7 +272,35 @@ var factory = function(spec, my) {
       my.engine.start();
     }
     return my.engine;
-  }
+  };
+
+  //
+  // ### cleanup
+  // Clean database aggregates according to `DATTSS_HISTORY_PERIOD`
+  //
+  cleanup = function() {
+    if(!my.initialized)
+      return;
+
+    var c_aggregates = that.data().collection('dts_aggregates');
+    var date = aggregate_date(new Date(Date.now() -
+                                       that.config()['DATTSS_HISTORY_PERIOD']),
+                              true);
+
+    that.log().out('[CLEANUP] Starting...');
+    c_aggregates.remove({
+      dte: {
+        $lt: date
+      }
+    }, function(err) {
+      if(err) {
+        that.log().error(err);
+      }
+      else {
+        that.log().out('[CLEANUP] Done.');
+      }
+    });
+  };
 
   //
   // ### init
@@ -309,6 +339,9 @@ var factory = function(spec, my) {
                      else {
                        that.log().out('Mongo [data]:  OK');
                        my.data = db;
+
+                       cleanup();
+                       setInterval(cleanup, 60 * 60 * 1000);
                        return cb_();
                      }
                    });
