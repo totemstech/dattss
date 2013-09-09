@@ -15,8 +15,37 @@
 // Top bar controller used by `topbar` directive
 //
 angular.module('dattss.directives').controller('TopbarController',
-  function($scope) {
+  function($scope, $location, _auth) {
+    $scope.user = _auth.user(true).then(function(data) {
+      return data;
+    });
+    $scope.is_demo = /\/demo\/#\//.test($location.absUrl());
 
+    /* The menu is defined like that and not simply in the view   */
+    /* with ng-hide/ng-show to handle different cases, because    */
+    /* of CSS properties on last child, as it is sometimes hidden */
+    if(!$scope.is_demo) {
+      $scope.menu = [ /*{
+        click: $scope.settings,
+        icon: 'L',
+        text: 'Settings'
+      }, */{
+        click: function() {
+          window.location.href = '/auth/signout';
+        },
+        icon: 'O',
+        text: 'Sign Out'
+      } ];
+    }
+    else {
+      $scope.menu = [ {
+        click: function() {
+          window.location.href = '/#/auth/signup';
+        },
+        icon: 'u',
+        text: 'Sign Up'
+      } ];
+    }
   });
 
 //

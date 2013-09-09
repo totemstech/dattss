@@ -3,7 +3,7 @@
     <span class="pictos">f</span>
     <span class="text">Favorites</span>
   </div>
-  <table class="favorites">
+  <table class="favorites" ng-hide="no_data">
     <tr ng-repeat="fav in favorites">
       <td><span class="pictos">{{ type(fav) | iconStatus }}</span></td>
       <td>
@@ -23,4 +23,7 @@
       </td>
     </tr>
   </table>
+  <div class="no-data" ng-show="no_data">
+    No favorites
+  </div>
 </div>

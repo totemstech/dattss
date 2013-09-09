@@ -79,6 +79,15 @@ angular.module('dattss.directives').controller('FavoritesController',
       }
       return 'N/A';
     };
+
+    $scope.$watch('favorites', function(fav) {
+      if(Array.isArray(fav) && fav.length > 0) {
+        $scope.no_data = false;
+      }
+      else {
+        $scope.no_data = true;
+      }
+    });
   });
 
 //

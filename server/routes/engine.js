@@ -150,14 +150,6 @@ exports.get_stats = function(req, res, next) {
           var point_dte_off = new Date(point_dte + offset);
           var dte_off = factory.aggregate_date(point_dte_off);
 
-          /*
-            var dte_r = /[0-9\-]{11}([0-9\-]+)/;
-            var dte = (dte_r.exec(dte_off) || [, null])[1];
-
-            aggs[dte] = aggs[dte] || [];
-            aggs[dte].push(point);
-          */
-
           /* Aggregate according to step */
           var date_r = /[0-9]{4}-[0-9]{2}-[0-9]{2}-([0-9]{2})-([0-9]{2})/;
           var agg_i = date_r.exec(dte_off);
@@ -254,6 +246,11 @@ exports.put_favorite = function(req, res, next) {
     return res.error(new Error('Authentication error'));
   }
 
+  /* Do not allow modification from demo */
+  if(req.is_demo) {
+    return res.ok();
+  }
+
   var favorite = req.param('favorite');
 
   var c_favorites = factory.data().collection('dts_favorites');
@@ -286,6 +283,11 @@ exports.del_favorite = function(req, res, next) {
   if(!req.user) {
     /* DaTtSs */ factory.dattss().agg('routes.del_favorite.error', '1c');
     return res.error(new Error('Authentication error'));
+  }
+
+  /* Do not allow modification from demo */
+  if(req.is_demo) {
+    return res.ok();
   }
 
   var favorite = req.param('favorite');

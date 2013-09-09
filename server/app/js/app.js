@@ -13,7 +13,7 @@ angular.module('dattss', ['dattss.services', 'dattss.directives', 'dattss.filter
            { templateUrl: 'partials/auth/auth.html',
              controller: AuthCtrl }).
 
-    otherwise({ redirectTo: '/dashboard' });
+    otherwise({ redirectTo: '/home' });
   }]);
 
 angular.module('dattss.directives', []);
@@ -30,7 +30,7 @@ angular.module('dattss.services').
   });
 
 angular.module('dattss.services').
-  factory('_req', function($http, $q, $rootScope) {
+  factory('_req', function($http, $q, $rootScope, $location) {
     function go(httpPromise) {
       var d = $q.defer();
       httpPromise
@@ -46,17 +46,28 @@ angular.module('dattss.services').
       return d.promise;
     };
 
+    function url_middleware(url) {
+      var is_demo = /\/demo\/#\//.test($location.absUrl());
+      if(is_demo)
+        return '/demo' + url;
+      return url;
+    };
+
     return {
       get: function(url, config) {
+        url = url_middleware(url);
         return go($http.get(url, config));
       },
       post: function(url, data, config) {
+        url = url_middleware(url);
         return go($http.post(url, data, config));
       },
       put: function(url, data, config) {
+        url = url_middleware(url);
         return go($http.put(url, data, config));
       },
       del: function(url, config) {
+        url = url_middleware(url);
         return go($http.delete(url, config));
       }
     };

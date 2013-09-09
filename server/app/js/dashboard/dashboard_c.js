@@ -7,6 +7,7 @@ function DashboardCtrl($scope, $location, $timeout,
   $scope.favorites = [];
   $scope.data = {};
   $scope.step = 3;
+  $scope.no_data = true;
 
   $scope.user = _auth.user(true).then(function(data) {
     if(!data.logged_in) {
@@ -69,6 +70,18 @@ function DashboardCtrl($scope, $location, $timeout,
   /*                                 UPDATE                                   */
   /****************************************************************************/
   $scope.$watch('status', function(data) {
+    if(typeof data === 'object') {
+      if((Array.isArray(data.c) && data.c.length > 0) ||
+         (Array.isArray(data.ms) && data.ms.length > 0) ||
+         (Array.isArray(data.g) && data.g.length > 0))
+        $scope.no_data = false;
+      else
+        $scope.no_data = true;
+    }
+    else {
+      $scope.no_data = true;
+    }
+
     /* Inline function that propagate the given path in an object             */
     var propagate = function(status, path, obj, depth) {
       if(path.length === 0)

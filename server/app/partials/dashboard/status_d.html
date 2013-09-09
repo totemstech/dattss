@@ -75,7 +75,14 @@
           </td>
           <td class="actions">
             <span class="pictos favorite"
+                  ng-hide="is_demo"
                   ng-click="toggle_favorite(status)"
+                  ng-class="{ active: is_favorite(status) }">
+              f
+            </span>
+            <span class="pictos favorite"
+                  ng-show="is_demo"
+                  tooltip="'Not available during demo'"
                   ng-class="{ active: is_favorite(status) }">
               f
             </span>
@@ -93,10 +100,13 @@
     <span class="pictos">S</span>
     <span class="text">Statistics</span>
   </div>
-  <ul class="parent">
+  <ul class="parent" ng-hide="no_data">
     <li ng-repeat="node in status"
         ng-include="'node.html'"
         ng-class="{ open: node.open }"
         ng-click="node.open = !node.open"></li>
   </ul>
+  <div class="no-data" ng-show="no_data">
+    Nothing to show yet...
+  </div>
 </div>

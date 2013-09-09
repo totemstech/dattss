@@ -30,10 +30,69 @@
   left: 565px;
   //width: 50px;
   width: 70px;
-  height: 30px;
+  height: 32px;
 
   background: url('/img/logo_topbar_t.png');
   //background: url('/img/logo_topbar.png');
   background-size: 100%;
   background-repeat: no-repeat;
+}
+
+/* Dropdown menu */
+.top-bar > .dropdown {
+  position: relative;
+  top: 7px;
+  right: 7px;
+}
+
+.top-bar > .dropdown a.dropdown-toggle {
+  padding: 7px 12px;
+}
+
+.top-bar > .dropdown ul.dropdown-menu {
+  top: -2px;
+  border: none;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+
+.top-bar > .dropdown ul.dropdown-menu > li > a {
+  border-left: 1px solid #3563A3;
+  border-right: 1px solid #3563A3;
+  background: #2C7BD0;
+  color: #fff;
+  padding: 5px 0 5px 10px;
+  text-shadow: 0 -1px #3563A3;
+  cursor: pointer;
+}
+
+.top-bar > .dropdown a > span.text {
+  display: inline-block;
+  min-width: 100px;
+  text-align: left;
+}
+
+.top-bar > .dropdown ul.dropdown-menu > li > a.dropdown-toggle:hover,
+.top-bar > .dropdown ul.dropdown-menu > li > a.dropdown-toggle {
+  border-radius: 5px 5px 0 0;
+  border-bottom: none;
+  padding: 7px 12px;
+  outline: none;
+
+  background-image: linear-gradient(-180deg, #2869B0 0%, #2C7BD0 31%, #2C7BD0 100%);
+  background-image: -o-linear-gradient(-90deg, #2869B0 0%, #2C7BD0 31%, #2C7BD0 100%);
+  background-image: -moz-linear-gradient(-90deg, #2869B0 0%, #2C7BD0 31%, #2C7BD0 100%);
+  background-image: -webkit-linear-gradient(-90deg, #2869B0 0%, #2C7BD0 31%, #2C7BD0 100%);
+  background-image: -ms-linear-gradient(-90deg, #2869B0 0%, #2C7BD0 31%, #2C7BD0 100%);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2);
+}
+
+.top-bar > .dropdown ul.dropdown-menu > li > a:hover {
+  background: #3988DE;
+}
+
+.top-bar > .dropdown ul.dropdown-menu > li:last-child > a {
+  border-bottom: 1px solid #3563A3;
+  border-radius: 0 0 5px 5px;
 }

@@ -22,4 +22,6 @@ config['DATTSS_COOKIE_AGE'] = 1000 * 60 * 60 * 24 * 365;
 
 config['DATTSS_CROND_PERIOD'] = 60 * 1000;
 
+config['DATTSS_DEMO_UID'] = 'b22b7b32acb9e606befec211b738316beb191c23';
+
 exports.config = config;

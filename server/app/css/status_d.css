@@ -3,6 +3,15 @@
   min-height: 100px;
 }
 
+.status.menu .no-data {
+  border-top: 1px solid rgba(0,0,0,.3);
+  background: #164271;
+  width: 100%;
+  text-align: center;
+  color: #999;
+  padding: 20px 0;
+}
+
 .status.menu ul {
   list-style: none;
   margin: 0 0 3px 0;

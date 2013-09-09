@@ -37,6 +37,10 @@ var setup = function() {
         maxAge: factory.config()['DATTSS_COOKIE_AGE']
       }
     }));
+    app.use('/demo', function(req, res, next) {
+      req.is_demo = true;
+      return express.static(__dirname + '/app')(req, res, next);
+    });
     app.use('/', express.static(__dirname + '/app'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
@@ -48,6 +52,7 @@ var setup = function() {
   /* Routes */
 
   /* AUTH */
+  app.get( '/auth/user',                         require('./routes/auth.js').get_user);
   app.get( '/auth/user',                         require('./routes/auth.js').get_user);
   app.post('/auth/signup',                       require('./routes/auth.js').post_signup);
   app.post('/auth/signin',                       require('./routes/auth.js').post_signin);

@@ -18,9 +18,11 @@
 var debug_array = [];
 
 angular.module('dattss.directives').controller('StatusController',
-  function($scope, $timeout) {
+  function($scope, $timeout, $location) {
     $scope.show = [];
     $scope.hide = [];
+
+    $scope.is_demo = /\/demo\/#\//.test($location.absUrl());
 
     /**************************************************************************/
     /*                                 HELPERS                                */
@@ -86,40 +88,22 @@ angular.module('dattss.directives').controller('StatusController',
           current.splice(i, 0, new_value);
         }
       });
-      /*
-      var future = [];
-      update.forEach(function(value_upd) {
-        var value_cur = {};
-        /* Find current value matching the updated one *
-        current.forEach(function(c) {
-          if(c.label === value_upd.label) {
-            value_cur = c;
-          }
-        });
-        /* Update value with new status and keep model properties *
-        var f = {
-          status: value_upd.status,
-          depth: value_upd.depth,
-          label: value_upd.label,
-          open: value_cur.open ? true : false,
-          child: $scope.update(value_cur.child, value_upd.child)
-        };
-        future.push(f);
-      });
-      return future;*/
     };
 
     $scope.$watch('data', function(data) {
       if(Array.isArray(data) && data.length > 0) {
+        $scope.no_data = false;
         if(!$scope.status) {
           $scope.status = data;
         }
         else {
           /* Recursively update the data */
           debug_array = $scope.status;
-          //$scope.status = 
           $scope.update($scope.status || [], data);
         }
+      }
+      else {
+        $scope.no_data = true;
       }
     }, true);
 

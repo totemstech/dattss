@@ -1,3 +1,16 @@
+.wrapper > .container {
+  width: 1200px;
+  margin: 30px auto;
+}
+
+.wrapper > .container > .title {
+  background: url('/img/title.png');
+  background-size: 100% auto;
+  width: 140px;
+  height: 30px;
+  background-repeat: no-repeat;
+}
+
 .wrapper .loading.logo {
   width: 500px;
   margin: 10% auto;
@@ -79,4 +92,15 @@
 .wrapper .content > .main {
   margin-left: 405px;
   padding: 5px;
+}
+
+.wrapper .content > .main .no-data .gist {
+  min-height: 228px;
+  margin: 0 0 -8px;
+}
+
+.wrapper .content > .main .no-data > h3,
+.wrapper .content > .main .no-data > p {
+  padding: 5px 10px;
+  text-shadow: 0 1px #fff;
 }

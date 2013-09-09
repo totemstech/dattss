@@ -54,6 +54,14 @@ var access = function(spec, my) {
     var uid = (req.session ? req.session.uid : null);
     var auth = req.param('auth');
     var url_p = url.parse(req.url);
+    var is_demo = req.is_demo;
+
+    if(is_demo) {
+      if(/^\/demo\//.test(req.url)) {
+        req.url = req.url.substr(5);
+      }
+      uid = factory.config()['DATTSS_DEMO_UID'];
+    }
 
     factory.log().debug('EVAL: ' + req.url + ' (' + req.method + ')');
 

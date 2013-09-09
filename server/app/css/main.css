@@ -3,6 +3,14 @@ body {
   background: #3F6FA3;
 }
 
+input, button, select, textarea {
+  font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+code {
+  color: #2c7bd0;
+}
+
 .pictos {
   font-family: 'Pictos Custom';
   font-size: 1.3em;
@@ -33,6 +41,7 @@ body {
 .btn.btn-primary.disabled,
 .btn.btn-primary:hover,
 .btn.btn-primary {
+  outline: none;
   border-radius: 5px;
   padding: 5px 10px;
   background: none;
@@ -57,6 +66,7 @@ body {
 .btn.btn-warning.disabled,
 .btn.btn-warning:hover,
 .btn.btn-warning {
+  outline: none;
   border-radius: 5px;
   padding: 5px 10px;
   background: none;
@@ -78,6 +88,7 @@ body {
   line-height: 16px;
   text-shadow: 0px -1px 0px #D29B52;
 }
+
 
 .btn.btn-primary[disabled],
 .btn.btn-warning[disabled],

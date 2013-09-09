@@ -12,6 +12,17 @@
               favorites="favorites"></status>
       <!-- Put the content here -->
       <div class="main">
+        <div class="no-data" ng-show="no_data">
+          <h3>Start by sending us some data:</h3>
+          <p>Your Auth Key: <code>{{user.auth}}</code></p>
+          <div class="gist" data-gist="6450066"></div>
+          <p>DaTtSs clients:
+            <a href="https://github.com/teleportd/dattss/tree/master/clients"
+               target="_blank">
+              https://github.com/teleportd/dattss/tree/master/clients
+            </a>
+          </p>
+        </div>
         <graph ng-repeat="v in view"
                type="v.typ"
                caption="{{v.pth | pathify}}"
@@ -23,16 +34,11 @@
   </div>
   <div class="footer" ng-hide="landing">
     <span class="copyright">
-      &copy; Copyright Teleportd Labs 2013. All rights reserved.
+      &copy; Copyright Teleportd Ltd 2013. All rights reserved.
     </span>
-    <span class="about">
-      About
-    </span>
-    <span class="support">
-      Support
-    </span>
-    <span class="terms">
-      Terms
+    <span class="contact"
+          ng-click="contact()">
+      Contact us
     </span>
   </div>
 </div>
