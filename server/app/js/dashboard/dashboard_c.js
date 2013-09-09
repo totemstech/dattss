@@ -7,7 +7,6 @@ function DashboardCtrl($scope, $location, $timeout,
   $scope.favorites = [];
   $scope.data = {};
   $scope.step = 3;
-  $scope.no_data = true;
 
   $scope.user = _auth.user(true).then(function(data) {
     if(!data.logged_in) {
