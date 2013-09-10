@@ -3,6 +3,7 @@ var config = fwk.baseConfig();
 
 config['DATTSS_SECRET'] = 'dummy-env';
 config['DATTSS_HMAC'] = 'dummy-env';
+config['DATTSS_SRV_AUTH_KEY'] = 'dummy-env';
 
 config['DATTSS_SALT_SPACE'] = 60 * 60 * 24 * 7; // number of seconds in a week
 
