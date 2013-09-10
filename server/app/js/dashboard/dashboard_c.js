@@ -57,8 +57,10 @@ function DashboardCtrl($scope, $location, $timeout,
   $scope.retrieve_graphs = function() {
     $scope.loading = true;
     $scope.view.forEach(function(status) {
-      $scope.data[status.typ + '-' + status.pth] =
-        _dashboard.get_stats(status.pth, status.typ, $scope.step);
+      _dashboard.get_stats(status.pth, status.typ, $scope.step).
+        then(function(data) {
+          $scope.data[status.typ + '-' + status.pth] = data;
+        });
     });
   };
 

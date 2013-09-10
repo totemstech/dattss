@@ -89,6 +89,11 @@
   float: left;
 }
 
+.wrapper > .footer > a.contact {
+  color: #072647;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .1);
+}
+
 .wrapper .content > .main {
   margin-left: 405px;
   padding: 5px;
