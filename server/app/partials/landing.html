@@ -1,0 +1,73 @@
+<div class="landing">
+  <div class="block">
+    <div class="logo full"></div>
+    <h1>Statistics aggregation as a Service</h1>
+    <h3>
+      The insanely simple cloud-based replacement for <em>statsd + graphite</em>
+    </h3>
+    <div class="container small">
+      <button class="btn btn-warning btn-demo"
+              ng-click="demo()">Demo</button>
+      <button class="btn btn-primary btn-login"
+              ng-click="signin()">Sign In/Up</button>
+    </div>
+  </div>
+  <div class="block blue1">
+    <div class="container">
+      <div class="title text">Getting started</div>
+      <div data-gist="6450066"></div>
+      <div class="text spaced">
+        DaTtSs client libraries pre-aggregate the statistics they receive
+        before periodically sending partial-aggregates values to a DaTtSs
+        server every 5s [configurable]. Each process running a DaTtSs client
+        library therefore only makes one HTTP request every 5s which is very
+        lightweight and won't overcharge your systems. The use of TCP (HTTP)
+        makes connections reliable compared to UDP and pre-aggregation makes
+        DaTtSs extremely resilient to very large volumes of data-points
+        aggregated.
+      </div>
+      <em class="text spaced">
+        DaTtSs makes aggregating millions of data points
+        per seconds a breeze, with no additional server to maintain,
+        and no extra load on your systems or network.
+      </em>
+      <div class="title text spaced">Ressources</div>
+      <div class="text">
+        Opensource DaTtSs SDK:
+        <a href="https://github.com/teleportd/dattss/tree/master/clients"
+           target="_blank">
+          https://github.com/teleportd/dattss/tree/master/clients
+        </a>
+      </div>
+      <div class="text">
+        API Documentation:
+        <a href="https://github.com/teleportd/dattss-sdk/wiki/DaTtSs-API-Documentation"
+           target="_blank">
+          https://github.com/teleportd/dattss-sdk/wiki/DaTtSs-API-Documentation
+        </a>
+      </div>
+      <div class="text">
+        Join us at #dattss on
+        <a href="http://webchat.freenode.net"
+           target="_blank">
+          irc.freenode.net
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="container">
+      <div class="title text">Explore your Systems</div>
+      <a href="/demo/#/dashboard">
+        <img class="screenshot"
+             src="img/screenshot.png" />
+      </a>
+
+      <div class="text pull-left">
+        &copy; Copyright Teleportd Ltd 2013.
+        All rights reserved.
+      </div>
+      <a href="mailto:team@dattss.com" class="pull-right text">Contact us</a>
+    </div>
+  </div>
+</div>

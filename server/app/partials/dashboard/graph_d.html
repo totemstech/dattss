@@ -1,0 +1,19 @@
+<div class="graph">
+  <div class="inner">
+    <div class="top">
+      <div class="summary frame light">
+        <span class="pictos type">{{type | iconStatus}}</span>
+        <div class="caption">{{caption}}</div>
+      </div>
+    </div>
+    <div class="plot frame" ng-hide="show_loading">
+      <div class="bubble">
+        <div class="tail"></div>
+        <div class="content"></div>
+      </div>
+    </div>
+    <div class="plot frame loading" ng-show="show_loading">
+      Thinking...
+    </div>
+  </div>
+</div>

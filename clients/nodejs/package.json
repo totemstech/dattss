@@ -1,0 +1,10 @@
+{
+  "name": "dattss",
+  "version": "1.0.5",
+  "description": "NodeJS Driver for DaTtSs",
+  "author": { "name": "Stanislas Polu",
+              "email": "stan@teleportd.com",
+              "url": "http://twitter.com/spolu" },
+  "dependencies": { "fwk": "1.1.x" },
+  "main" : "./lib/dattss"
+}

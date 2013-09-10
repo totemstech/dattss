@@ -1,0 +1,30 @@
+.favorites.menu {
+  width: 400px;
+  min-height: 100px;
+  background-color: #0C2F55;
+}
+
+.favorites.menu .title {
+  border-bottom: 1px solid #08203B;
+}
+
+.favorites.menu .no-data {
+  text-align: center;
+  color: #aaa;
+  padding: 20px 0;
+}
+
+.favorites.menu > table {
+  width: 400px;
+  background: #0C2F55;
+}
+
+.favorites.menu > table td {
+  color: #fff;
+  text-shadow: 0 -1px 0 #052547;
+  padding: 5px 0 5px 0;
+}
+
+.favorites.menu > table td:first-child {
+  padding: 5px 0 5px 10px;
+}

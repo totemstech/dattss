@@ -1,0 +1,112 @@
+<div class="status menu">
+  <script type="text/ng-template" id="node.html">
+    <span class="box"
+          ng-style="box_style(node)">{{node.label | uppercase}}</span>
+    <!-- Children -->
+    <ul class="child"
+        ng-show="node.child.length > 0"
+        ng-click="$event.stopPropagation()">
+      <li ng-repeat="node in node.child"
+          ng-include="'node.html'"
+          ng-class="{ open: node.open }"
+          ng-click="node.open = !node.open"></li>
+    </ul>
+    <!-- Status -->
+    <table class="status"
+           ng-style="align_left(node)"
+           ng-click="$event.stopPropagation()"
+           ng-show="node.status.c.ok || node.status.ms.ok || node.status.g.ok">
+      <tbody>
+        <tr ng-repeat="status in node.status"
+            ng-show="status.ok">
+          <td class="icon">
+            <span class="pictos type">{{status.typ | iconStatus}}</span>
+          </td>
+          <td>
+            <span ng-switch="status.typ">
+              <span ng-switch-when="c">
+                <span class="value"
+                      tooltip="status.sum | number">
+                  {{status.sum | bignumber}}
+                </span>
+              </span>
+              <span ng-switch-when="g">
+                <span class="value"
+                      tooltip="status.lst | number">
+                  {{status.lst | bignumber}}
+                </span>
+              </span>
+              <span ng-switch-when="ms">
+                <span class="value"
+                      tooltip="status.avg | number">
+                  {{status.avg | bignumber}}
+                </span>
+              </span>
+            </span>
+          </td>
+          <td>
+            <span ng-switch="status.typ">
+              <span ng-switch-when="c">
+                <span class="average"
+                      tooltip="status.avg | number">
+                  [ {{status.avg | bignumber}} ]
+                </span>
+              </span>
+              <span ng-switch-when="g">
+                <span class="average"
+                      tooltip="status.avg | number">
+                  [ {{status.avg | bignumber}} ]
+                </span>
+              </span>
+              <span ng-switch-when="ms">
+                <span class="average">
+                  [
+                  <span tooltip="status.min | number">
+                    {{status.min | bignumber}}
+                  </span>
+                  ,
+                  <span tooltip="status.max | number">
+                    {{status.max | bignumber}}
+                  </span>
+                  ]
+                </span>
+              </span>
+            </span>
+          </td>
+          <td class="actions">
+            <span class="pictos favorite"
+                  ng-hide="is_demo"
+                  ng-click="toggle_favorite(status)"
+                  ng-class="{ active: is_favorite(status) }">
+              f
+            </span>
+            <span class="pictos favorite"
+                  ng-show="is_demo"
+                  tooltip="'Not available during demo'"
+                  ng-class="{ active: is_favorite(status) }">
+              f
+            </span>
+            <span class="pictos view"
+                  ng-click="toggle_view(status)"
+                  ng-class="{ active: is_shown(status) }">
+              v
+            </span>
+          </td>
+      </tbody>
+    </table>
+  </script>
+
+  <div class="title">
+    <span class="pictos">S</span>
+    <span class="text">Statistics</span>
+  </div>
+  <ul class="parent" ng-hide="no_data">
+    <li ng-repeat="node in status"
+        ng-include="'node.html'"
+        ng-class="{ open: node.open }"
+        ng-click="node.open = !node.open"></li>
+  </ul>
+  <div class="no-data" ng-show="no_data">
+    Nothing to show yet...
+  </div>
+</div>

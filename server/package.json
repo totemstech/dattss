@@ -1,0 +1,26 @@
+{
+  "name": "dattss-srv",
+  "author": "Stanislas Polu <stan@nitrogr.am>",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "./dattss.js"
+  },
+  "dependencies": {
+    "express": "3.0.x",
+    "cookie": "0.0.x",
+    "cookie-signature": "1.0.x",
+    "socket.io": "0.9.x",
+    "fwk": "1.1.x",
+    "mongodb": "1.2.x",
+    "connect-mongodb": "1.1.x",
+    "sendgrid": "0.2.x"
+  },
+  "bin": {
+    "dattss": "./dattss.js"
+  },
+  "analyze": false,
+  "private": true,
+  "engines": {
+    "node": "v0.8.x"
+  }
+}

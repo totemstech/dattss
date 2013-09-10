@@ -1,0 +1,212 @@
+.frame {
+  background: #f3f5f6;
+}
+
+.frame.light {
+  color: #fff;
+  text-shadow: 0 -1px 0 #103B69;
+
+  background-image: linear-gradient(-90deg, #4479B3 0%, #275585 100%);
+  background-image: -o-linear-gradient(-90deg, #4479B3 0%, #275585 100%);
+  background-image: -moz-linear-gradient(-90deg, #4479B3 0%, #275585 100%);
+  background-image: -webkit-linear-gradient(-90deg, #4479B3 0%, #275585 100%);
+  background-image: -ms-linear-gradient(-90deg, #4479B3 0%, #275585 100%);
+
+  -webkit-border-radius: 2px 2px 0 0;
+  -moz-border-radius: 2px 2px 0 0;
+  border-radius: 2px 2px 0 0;
+
+  -moz-box-shadow: inset 0px 1px 0px 0 #628FBF;
+  -webkit-box-shadow: inset 0px 1px 0px 0 #628FBF;
+  box-shadow: inset 0px 1px 0px 0 #628FBF;
+}
+
+.graph {
+  width: 760px;
+  height: 180px;
+  margin: 10px auto;
+  border: 1px solid #1E4F84;
+  border-radius: 3px;
+}
+
+.graph > .inner {
+  width: 760px;
+  height: 170px;
+  position: absolute;
+}
+
+.graph .top {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 30px;
+  width: 760px;
+  z-index: 10;
+}
+
+.graph .top > .summary {
+  float: left;
+  height: 30px;
+  width: 100%;
+}
+
+.graph .top > .summary > .pictos.type {
+  float: left;
+  margin: 7px 10px;
+}
+
+.graph .top > .summary > .caption {
+  float: left;
+  padding-right: 20px;
+  line-height: 30px;
+  height: 30px;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+}
+
+.graph .plot {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  height: 150px;
+  -webkit-border-radius: 0 0 2px 2px;
+  -moz-border-radius: 0 0 2px 2px;
+  border-radius: 0 0 2px 2px;
+}
+
+.graph .plot path {
+  fill: none;
+  stroke: none;
+}
+
+.graph .plot path.area {
+  fill: hsl(211, 70%, 85%);
+  opacity: 0.4;
+}
+
+.graph .plot path.line {
+  stroke: #1E4F84;
+}
+
+.graph .plot path.line.top {
+  stroke: hsla(34, 76%, 50%, 0.4);
+}
+
+.graph .plot path.line.max {
+  stroke: hsla(34, 76%, 50%, 0.8);
+}
+
+.graph .plot path.line.bot {
+  stroke: hsla(109, 59%, 71%, 0.4);
+}
+
+.graph .plot path.line.min {
+  stroke: hsla(109, 59%, 71%, 0.8);
+}
+
+
+
+.graph .plot path.past.area {
+  fill: hsl(0, 0%, 50%);
+  opacity: 0.2;
+}
+
+.graph .plot path.past.line {
+  stroke: hsl(0, 0%, 20%);
+  opacity: 0.4;
+}
+
+.graph .plot .x.axis line {
+  stroke: hsl(211, 20%, 85%);
+  shape-rendering: crispEdges;
+}
+.graph .plot .x.axis line.tick.master {
+  stroke: hsl(211, 20%, 90%);
+  shape-rendering: crispEdges;
+}
+.graph .plot .x.axis line.line {
+  stroke: hsl(211, 20%, 87%);
+  shape-rendering: crispEdges;
+  stroke-dasharray: 5, 5
+}
+.graph .plot .x.axis text.value {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 9px;
+  fill: #aaa;
+}
+
+.graph .plot .y.axis line.line {
+  stroke: hsl(211, 17%, 92%);
+  shape-rendering: crispEdges;
+}
+.graph .plot .y.axis line.tick {
+  stroke: hsla(211, 60%, 30%, 0.6);
+  shape-rendering: crispEdges;
+}
+.graph .plot .y.axis text.value {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 9px;
+  fill: hsla(211, 60%, 30%, 0.5);
+  cursor: default;
+}
+
+.graph .plot line.cursor {
+  stroke: hsla(211, 90%, 70%, 0.6);
+  shape-rendering: crispEdges;
+}
+
+.graph .plot .bubble {
+  visibility: hidden;
+  position: absolute;
+  z-index: 20;
+  height: 20px;
+  min-width: 80px;
+  text-align: center;
+  font-size: 0.9em;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+  background: hsla(211, 0%, 10%, 0.5);
+  padding-left: 5px;
+  padding-right: 5px;
+  color: white;
+  white-space: nowrap;
+}
+
+.graph .plot .bubble .tail {
+  width: 0px;
+  height: 0px;
+  border: 5px solid;
+  border-color: transparent hsla(211, 0%, 10%, 0.5) transparent transparent;
+  position:absolute;
+  top: 5px;
+  left: -10px;
+}
+
+.graph .plot .bubble .content > div {
+  display: inline;
+}
+
+.graph .plot .bubble .content .date {
+  opacity: 0.8;
+  font-size: 0.8em;
+}
+
+.graph .plot .bubble .content .value.current {
+  font-weight: bold;
+}
+
+.graph .plot .bubble .content .value.past {
+  color: #ccc;
+}
+
+.graph .plot.loading {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 760px;
+  height: 150px;
+  text-align: center;
+  line-height: 150px;
+  margin: 0;
+}

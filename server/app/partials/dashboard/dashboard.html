@@ -1,0 +1,45 @@
+<div class="wrapper">
+  <div class="loading logo full" ng-show="landing"></div>
+  <div ng-hide="landing">
+    <topbar></topbar>
+  </div>
+  <div class="dashboard" ng-hide="landing">
+    <div class="content">
+      <favorites data="status"
+                 favorites="favorites"></favorites>
+      <status data="current_status"
+              show="view"
+              favorites="favorites"></status>
+      <!-- Put the content here -->
+      <div class="main">
+        <div class="no-data" ng-show="no_data">
+          <h3>Start by sending us some data:</h3>
+          <p>Your Auth Key: <code>{{user.auth}}</code></p>
+          <div class="gist" data-gist="6450066"></div>
+          <p>DaTtSs clients:
+            <a href="https://github.com/teleportd/dattss/tree/master/clients"
+               target="_blank">
+              https://github.com/teleportd/dattss/tree/master/clients
+            </a>
+          </p>
+        </div>
+        <graph ng-repeat="v in view"
+               type="v.typ"
+               caption="{{v.pth | pathify}}"
+               data="data[v.typ + '-' + v.pth]"
+               step="step"
+               loading="loading"></graph>
+      </div>
+    </div>
+  </div>
+  <div class="footer" ng-hide="landing">
+    <span class="copyright">
+      &copy; Copyright Teleportd Ltd 2013. All rights reserved.
+    </span>
+    <a class="contact"
+       href="mailto:team@dattss.com"
+       target="_blank">
+      Contact us
+    </a>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+.wrapper > .container {
+  width: 1200px;
+  margin: 30px auto;
+}
+
+.wrapper > .container > .title {
+  background: url('/img/title.png');
+  background-size: 100% auto;
+  width: 140px;
+  height: 30px;
+  background-repeat: no-repeat;
+}
+
+.wrapper .loading.logo {
+  width: 500px;
+  margin: 10% auto;
+}
+
+.wrapper .dashboard {
+  margin: 0 auto 5px;
+  width: 1200px;
+  background: #fff;
+  border: 1px solid #103B69;
+  border-top: 0;
+
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+
+  -webkit-box-shadow: 0 0px 3px rgba(0,0,0,.5);
+  -moz-box-shadow: 0 0px 3px rgba(0,0,0,.5);
+  box-shadow: 0 0px 3px rgba(0,0,0,.5);
+}
+
+.wrapper > .dashboard > .content {
+  background: #E3F2FF;
+  background: url('/img/background.png');
+  background-size: 100% 1px;
+  border-radius: 0 0 3px 3px;
+}
+
+.wrapper > .dashboard > .content > .menu {
+  float: left;
+  clear: both;
+}
+
+.wrapper > .dashboard > .content > .menu .title {
+  color: #fff;
+  text-shadow: 0 -1px 0 #103B69;
+  padding: 7px;
+  border-top: 1px solid #0C3057;
+  text-align: center;
+
+  background-image: linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -o-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -moz-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -webkit-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+  background-image: -ms-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
+
+  -moz-box-shadow:    inset 0px 1px 0px 0 #295A8F;
+  -webkit-box-shadow: inset 0px 1px 0px 0 #295A8F;
+  box-shadow:         inset 0px 1px 0px 0 #295A8F;
+}
+
+.wrapper > .dashboard > .content > .menu .title > .pictos {
+  float: left;
+  color: #052547;
+  text-shadow: 0 1px 0 #2F6095;
+}
+
+.wrapper > .dashboard > .content > .menu .title > .text {
+  margin-left: -22px;
+}
+
+.wrapper > .footer {
+  width: 1200px;
+  text-align: right;
+  margin: 10px auto;
+  color: #072647;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .1);
+}
+
+.wrapper > .footer > span {
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.wrapper > .footer > span.copyright {
+  float: left;
+}
+
+.wrapper > .footer > a.contact {
+  color: #072647;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .1);
+}
+
+.wrapper .content > .main {
+  margin-left: 405px;
+  padding: 5px;
+}
+
+.wrapper .content > .main .no-data .gist {
+  min-height: 228px;
+  margin: 0 0 -8px;
+}
+
+.wrapper .content > .main .no-data > h3,
+.wrapper .content > .main .no-data > p {
+  padding: 5px 10px;
+  text-shadow: 0 1px #fff;
+}

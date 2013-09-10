@@ -1,0 +1,31 @@
+<div class="top-bar">
+  <div class="logo"></div>
+  <div class="dropdown pull-right">
+    <a class="name dropdown-toggle btn btn-primary"
+       href="#"
+       data-toggle="dropdown">
+      <span class="pictos">n</span>
+      <span class="text" ng-hide="is_demo">{{user.email}}</span>
+      <span class="text" ng-show="is_demo">Live demo</span>
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="name dropdown-toggle btn btn-primary"
+           href="#"
+           data-toggle="dropdown">
+          <span class="pictos">n</span>
+          <span class="text" ng-hide="is_demo">{{user.email}}</span>
+          <span class="text" ng-show="is_demo">Live demo</span>
+          <b class="caret"></b>
+        </a>
+      </li>
+      <li ng-repeat="item in menu">
+        <a ng-click="item.click()">
+          <span class="pictos">{{item.icon}}</span>
+          <span>{{item.text}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

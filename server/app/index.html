@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dattss">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>DaTtSs - statsd+graphite as a service</title>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Icons
+    <link rel="shortcut icon" href="http://teleportd.com/assets/ico/favicon.ico">
+    -->
+
+    <!-- Pictos -->
+    <link href="//get.pictos.cc/fonts/1770/8" rel="stylesheet" type="text/css">
+
+    <!-- Styles -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/landing.css" rel="stylesheet">
+    <link href="css/auth.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/top_bar_d.css" rel="stylesheet">
+    <link href="css/status_d.css" rel="stylesheet">
+    <link href="css/favorites_d.css" rel="stylesheet">
+    <link href="css/graph_d.css" rel="stylesheet">
+  </head>
+  <body ng-cloak>
+    <div ng-view></div>
+
+    <!-- Errors -->
+    <div class="error-manager" ng-controller="ErrorManager">
+      <div class="error"
+           ng-hide="errors.length == 0"
+           ng-repeat="error in errors"
+           ng-class="{ show: error.show }">
+        <span class="pictos">W</span>
+        {{error.reason}}
+      </div>
+    </div>
+
+    <!-- Libs -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="lib/jquery-1.9.0.min.js"></script>
+    <script src="lib/d3.v3.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Typekit -->
+    <script type="text/javascript">
+      (function() {
+        var config = {
+        kitId: 'axu1dmb',
+        scriptTimeout: 3000
+      };
+      var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+      })();
+    </script>
+
+    <script src="js/app.js"></script>
+
+    <!-- Services -->
+    <script src="js/auth/auth_s.js"></script>
+    <script src="js/dashboard/dashboard_s.js"></script>
+    <script src="js/socket_s.js"></script>
+
+    <!-- Controllers -->
+    <script src="js/landing.js"></script>
+    <script src="js/auth/auth_c.js"></script>
+    <script src="js/dashboard/dashboard_c.js"></script>
+    <script src="js/error_manager_c.js"></script>
+
+    <!-- Directives -->
+    <script src="js/tooltip_d.js"></script>
+    <script src="js/dashboard/top_bar_d.js"></script>
+    <script src="js/dashboard/status_d.js"></script>
+    <script src="js/dashboard/favorites_d.js"></script>
+    <script src="js/dashboard/graph_d.js"></script>
+
+    <!-- Filters -->
+    <script src="js/filters.js"></script>
+    <script src="js/dashboard/graph_f.js"></script>
+  </body>
+</html>
