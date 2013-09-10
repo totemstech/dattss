@@ -12,8 +12,9 @@
 'use strict';
 
 angular.module('dattss.services').
-  factory('_socket', function($rootScope) {
-    var socket = io.connect();
+  factory('_socket', function($rootScope, $location) {
+    var is_demo = /\/demo\/#\//.test($location.absUrl());
+    var socket = io.connect(is_demo ? '/demo' : '/s');
     return {
       on: function (name, cb_) {
         socket.on(name, function () {

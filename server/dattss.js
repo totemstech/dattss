@@ -77,6 +77,8 @@ var setup_io = function(io) {
     io.set('log level', 3);
 
   var io_main = io.of('/s');
+  var io_demo = io.of('/demo');
+
   io_main.authorization(function(data, cb_) {
     if(!data.headers.cookie) {
       return cb_('No cookie transmitted', false);
@@ -113,6 +115,18 @@ var setup_io = function(io) {
     factory.engine().on(session.uid + ':update', handler);
     socket.on('disconnect', function() {
       factory.engine().removeListener(session.uid + ':update', handler);
+    });
+  });
+
+  io_demo.on('connection', function(socket) {
+    var handler = function(current) {
+      socket.emit('status:update', current);
+    };
+    var uid = factory.config()['DATTSS_DEMO_UID'];
+
+    factory.engine().on(uid + ':update', handler);
+    socket.on('disconnect', function() {
+      factory.engine().removeListener(uid + ':update', handler);
     });
   });
 };
