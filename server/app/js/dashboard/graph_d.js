@@ -407,7 +407,7 @@ angular.module('dattss.directives').controller('GraphController',
 //
 // ## graph
 //
-// Nitrogram Graph Directive
+// DaTtSs Graph Directive
 // ```
 // @data    {=object} object of arrays (current & past) to be diplayed using
 // @caption {@string} graph caption
