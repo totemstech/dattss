@@ -256,7 +256,9 @@ var factory = function(spec, my) {
   dattss = function() {
     if(!my.dattss) {
       my.dattss = require('../clients/nodejs/lib/dattss.js').dattss({
-        auth: that.config()['DATTSS_SRV_AUTH_KEY']
+        auth: that.config()['DATTSS_SRV_AUTH_KEY'],
+        http_host: 'localhost',
+        http_port: 3002
       });
     }
     return my.dattss;
