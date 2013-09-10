@@ -224,7 +224,7 @@ var dattss = function(spec, my) {
   // aggregates. `start` is called implicitely at creation time.
   //
   start = function() {
-    my.itv = setInterval(do_commit, exports.CONFIG['DATTSS_PUSH_PERIOD']);
+    my.itv = setInterval(do_commit, exports.CONFIG['DATTSS_PUSH_PERIOD'] * 1000);
     my.stopped = false;
   };
 

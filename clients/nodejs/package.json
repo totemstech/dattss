@@ -1,6 +1,6 @@
 {
-  "name": "dattss-v2",
-  "version": "1.0.4",
+  "name": "dattss",
+  "version": "1.0.5",
   "description": "NodeJS Driver for DaTtSs",
   "author": { "name": "Stanislas Polu",
               "email": "stan@teleportd.com",
