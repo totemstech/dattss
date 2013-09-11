@@ -29,11 +29,11 @@ function DashboardCtrl($scope, $location, $timeout,
     _socket.emit('received', count);
   });
 
-  $scope.favorites = _dashboard.get_favorite().then(function(data) {
+  _dashboard.get_favorite().then(function(data) {
     if(Array.isArray(data)) {
-      return data;
+      return $scope.favorites = data;
     }
-    return [];
+    return $scope.favorites = [];
   });
 
   $scope.$on('show', function(e, status, show) {
@@ -56,6 +56,13 @@ function DashboardCtrl($scope, $location, $timeout,
 
   $scope.retrieve_graphs = function() {
     $scope.loading = true;
+    $scope.view.sort(function(a, b) {
+      var idx_a = $scope.favorites.indexOf(a.typ + '-' + a.pth);
+      var idx_b = $scope.favorites.indexOf(b.typ + '-' + b.pth);
+      if(idx_a === -1) idx_a = 1000;
+      if(idx_b === -1) idx_b = 1000;
+      return idx_a - idx_b;
+    });
     $scope.view.forEach(function(status) {
       _dashboard.get_stats(status.pth, status.typ, $scope.step).
         then(function(data) {
