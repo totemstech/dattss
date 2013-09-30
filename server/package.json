@@ -13,7 +13,8 @@
     "fwk": "1.1.x",
     "mongodb": "1.2.x",
     "connect-mongodb": "1.1.x",
-    "sendgrid": "0.2.x"
+    "sendgrid": "0.2.x",
+    "swig": "1.0.x"
   },
   "bin": {
     "dattss": "./dattss.js"

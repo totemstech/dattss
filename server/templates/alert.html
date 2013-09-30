@@ -1,0 +1,44 @@
+<div style="width: 500px; margin: 20px;">
+  <table style="border-collapse:collapse; border: 1px solid #000; text-align: center;">
+    <tr>
+      <td style="{{ 'email_td'|cssStyle}}">
+        <strong>Type</strong>
+      </td>
+      <td style="{{ 'email_td'|cssStyle}}">
+        <strong>Path</strong>
+      </td>
+      <td style="{{ 'email_td'|cssStyle}}">
+        <strong>Condition</strong>
+      </td>
+      <td style="{{ 'email_td'|cssStyle}}">
+        <strong>Seen value</strong>
+      </td>
+    </tr>
+    {% for alert in alerts %}
+    <tr>
+      <td style="{{ 'email_td'|cssStyle}}"> <!-- type -->
+        {{ alert.type|typeName }}
+      </td>
+      <td style="{{ 'email_td'|cssStyle}}"> <!-- path -->
+        {{ alert.path }}
+      </td>
+      <td style="{{ 'email_td'|cssStyle}}"> <!-- condition -->
+        {{ alert.key|keyName }}
+        <em>{{ alert.operator|operatorName}}</em>
+        {{ alert.expected|number }}
+      </td>
+      <td style="{{ 'email_td'|cssStyle}}"> <!-- value -->
+        {{ alert.value|number }}
+      </td>
+    </tr>
+    {% endfor %}
+    {% if others %}
+    <tr>
+      <td style="{{ 'email_td'|cssStyle}}" colspan="4">
+        {{others}} others alerts have been generated, check that everything is
+        ok on <a href="http://dattss.com/#/dashboard">DaTtSs</a>
+      </td>
+    </tr>
+    {% endif %}
+  </table>
+</div>

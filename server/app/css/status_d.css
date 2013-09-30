@@ -85,7 +85,7 @@
 .status.menu ul.child > li::before {
   position: relative;
   display: block;
-  z-index: 10000;
+  z-index: 1001;
   float: left;
   width: 0;
   height: 0;

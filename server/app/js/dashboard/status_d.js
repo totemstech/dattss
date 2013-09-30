@@ -174,6 +174,13 @@ angular.module('dattss.directives').controller('StatusController',
       }
       return false;
     }
+
+    /**************************************************************************/
+    /*                              ALERTS HELPERS                            */
+    /**************************************************************************/
+    $scope.add_alert = function(status) {
+      $scope.alert_status = angular.copy(status);
+    };
   });
 
 //

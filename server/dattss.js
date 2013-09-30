@@ -68,6 +68,11 @@ var setup = function() {
   app.get( '/s/favorite',                          require('./routes/engine.js').get_favorite);
   app.put( '/s/favorite/:favorite',                require('./routes/engine.js').put_favorite);
   app.del( '/s/favorite/:favorite',                require('./routes/engine.js').del_favorite);
+
+  /* ALERTS */
+  app.get( '/s/alert',                             require('./routes/alerts.js').get_alerts);
+  app.put( '/s/alert/:type/:path',                 require('./routes/alerts.js').put_alert);
+  app.del( '/s/alert/:aid',                        require('./routes/alerts.js').del_alert);
 };
 
 var setup_io = function(io) {
@@ -141,7 +146,7 @@ factory.init(function(err) {
   /* Setup */
   setup();
 
-  var http_port = factory.config()['DATTSSV2_HTTP_PORT'];
+  var http_port = factory.config()['DATTSS_HTTP_PORT'];
   var http_srv = http.createServer(app).listen(parseInt(http_port, 10));
   factory.log().out('HTTP Server started on port: ' + http_port);
 

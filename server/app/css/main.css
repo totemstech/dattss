@@ -97,6 +97,11 @@ code {
   opacity: 0.8;
 }
 
+.tooltip {
+  color: #fff;
+  text-shadow: none;
+}
+
 /* ------ Error manager ------ */
 
 .error-manager {

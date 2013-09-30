@@ -74,9 +74,21 @@
             </span>
           </td>
           <td class="actions">
+            <span class="pictos add-alert"
+                  ng-hide="is_demo"
+                  tooltip="'Add an alert'"
+                  ng-click="add_alert(status)">
+              Q
+            </span>
+            <span class="pictos add-alert"
+                  ng-show="is_demo"
+                  tooltip="'Not available during demo'">
+              Q
+            </span>
             <span class="pictos favorite"
                   ng-hide="is_demo"
                   ng-click="toggle_favorite(status)"
+                  tooltip="'Toggle favorite'"
                   ng-class="{ active: is_favorite(status) }">
               f
             </span>
@@ -88,6 +100,7 @@
             </span>
             <span class="pictos view"
                   ng-click="toggle_view(status)"
+                  tooltip="'Toggle view'"
                   ng-class="{ active: is_shown(status) }">
               v
             </span>
@@ -109,4 +122,5 @@
   <div class="no-data" ng-show="no_data">
     Nothing to show yet...
   </div>
+  <alert-creator status="alert_status"></alert-creator>
 </div>

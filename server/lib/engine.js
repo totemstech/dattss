@@ -64,14 +64,14 @@ var engine = function(spec, my) {
     for(var uid in my.envs) {
       if(my.envs.hasOwnProperty(uid)) {
         my.envs[uid].commit();
-        if((now - my.envs[uid].last()) >
-           factory.config()['DATTSS_EVICTION_PERIOD']) {
-          delete my.envs[uid];
-        }
-        else {
+        //if((now - my.envs[uid].last()) >
+        //   factory.config()['DATTSS_EVICTION_PERIOD']) {
+        //  delete my.envs[uid];
+        //}
+        //else {
           envs_count ++;
           stats_count += my.envs[uid].count();
-        }
+        //}
       }
     }
     /* DaTtSs */ factory.dattss().agg('environment.active', envs_count + 'g');
@@ -83,9 +83,36 @@ var engine = function(spec, my) {
   // Does everything that needs to be done before starting the work
   //
   start = function() {
-    if(!my.crond_itv) {
-      my.crond_itv = setInterval(crond, factory.config()['DATTSS_CROND_PERIOD']);
-    }
+    /* Loads envs for each user */
+    var c_users = factory.data().collection('dts_users');
+    c_users.find({}).each(function(err, user) {
+      if(err) {
+        factory.log().error(err);
+        /* DaTtSs */ factory.dattss().agg('engine.start.error', '1c');
+      }
+      else if(user) {
+        var uid = user.uid;
+
+        if(!my.envs[uid]) {
+          my.envs[uid] = require('./environment.js').environment({
+            uid: uid
+          });
+
+          my.envs[uid].init(function(err) {
+            if(err) {
+              factory.log().error(err);
+              /* DaTtSs */ factory.dattss().agg('engine.start.error', '1c');
+            }
+          });
+        }
+      }
+      else {
+        if(!my.crond_itv) {
+          factory.log().out('Engine started');
+          my.crond_itv = setInterval(crond, factory.config()['DATTSS_CROND_PERIOD']);
+        }
+      }
+    });
   };
 
   //

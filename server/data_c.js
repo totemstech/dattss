@@ -69,3 +69,22 @@ var dts_aggregates = {
   fst: 0,                                            // First value
   lst: 0                                             // Last value
 };
+
+//
+// ### dts_alerts
+// Contains all alerts
+// ```
+// @Shard_key { slt: 1 }
+// @Indexes: slt, uid
+// ```
+//
+var dts_alerts = {
+  slt: 68376,                                        // Salt slt(aid)
+  aid: '133435ni4j36ni3534534',                      // Alert id hash(typ, pth, uid, dte)
+  uid: '434j324jo32ij4o2342',                        // User id (owner)
+  typ: 'c',                                          // Status type
+  pth: 'routes.get_alert',                           // Status path
+  key: 'sum',                                        // The key to watch
+  ope: '>',                                          // The operator to use to compare
+  val: 123                                           // The value to compare
+};

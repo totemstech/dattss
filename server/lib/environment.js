@@ -46,20 +46,22 @@ var environment = function(spec, my) {
     'g':  {},
     'ms': {}
   };
+  my.alerts = {};
 
   //
   // #### _public methods_
   //
   var init;               /* init(cb_);                    */
+  var load_alerts;        /* load_alerts(cb_);             */
   var agg;                /* agg(data);                    */
   var commit;             /* commit();                     */
   var current;            /* current();                    */
   var count;              /* count();                      */
 
-
   //
   // #### _private methods_
   //
+  var check_alerts;       /* check_alerts();               */
   var slide_partials;     /* slide_partials(force);        */
   var aggregate_partials; /* aggregate_partials(cleanup);  */
 
@@ -67,6 +69,60 @@ var environment = function(spec, my) {
   // #### _that_
   //
   var that = new events.EventEmitter();
+
+  //
+  // ### check_alerts
+  // Check if everything is running as expected, and send an alert if not
+  //
+  check_alerts = function() {
+    var wrong = [];
+    ['c', 'g', 'ms'].forEach(function(type) {
+      my.status[type].forEach(function(status) {
+        /* if at least one alert has been set for this status */
+        if(my.alerts[status.typ + '-' + status.pth]) {
+          var alerts = my.alerts[status.typ + '-' + status.pth];
+
+          alerts.forEach(function(alert) {
+            status[alert.key] = parseInt(status[alert.key], 10);
+            if(!isNaN(status[alert.key])) {
+              var good = true;
+
+              switch(alert.ope) {
+                case '<': {
+                  if(status[alert.key] < alert.val)
+                    good = false;
+                  break;
+                }
+                case '>': {
+                  if(status[alert.key] > alert.val)
+                    good = false;
+                  break;
+                }
+                case '=': {
+                  if(status[alert.key] === alert.val)
+                    good = false;
+                  break;
+                }
+              };
+
+              if(!good) {
+                wrong.push({
+                  type: status.typ,
+                  path: status.pth,
+                  key: alert.key,
+                  expected: alert.val,
+                  operator: alert.ope,
+                  value: status[alert.key]
+                });
+              }
+            }
+          });
+        }
+      });
+    });
+
+    factory.alerts().add(my.uid, wrong);
+  };
 
   //
   // ### slide_partials
@@ -134,24 +190,68 @@ var environment = function(spec, my) {
   //
   init = function(cb_) {
     var now = Date.now();
-    var c_statuses = factory.data().collection('dts_statuses');
-    c_statuses.findOne({
-      uid: my.uid,
-      slt: factory.slt(my.uid)
-    }, function(err, status) {
+
+    fwk.async.parallel({
+      statuses: function(cb_) {
+        var c_statuses = factory.data().collection('dts_statuses');
+        c_statuses.findOne({
+          uid: my.uid,
+          slt: factory.slt(my.uid)
+        }, function(err, status) {
+          if(err) {
+            return cb_(err);
+          }
+          else {
+            if(status) {
+              my.status = status.sts;
+            }
+            return cb_();
+          }
+        });
+      },
+      alerts: load_alerts
+    }, function(err, results) {
       if(err) {
         /* DaTtSs */ factory.dattss().agg('environment.init.error', '1c');
         return cb_(err);
       }
-      else if(!status) {
-        /* DaTtSs */ factory.dattss().agg('environment.init.ok', '1c');
-        /* DaTtSs */ factory.dattss().agg('environment.init.ok', (Date.now() - now) + 'ms');
-        return cb_();
-      }
       else {
         /* DaTtSs */ factory.dattss().agg('environment.init.ok', '1c');
         /* DaTtSs */ factory.dattss().agg('environment.init.ok', (Date.now() - now) + 'ms');
-        my.status = status.sts;
+
+        /* We verify that everything is ok every 30 seconds */
+        if(!my.alerts_itv) {
+          my.alerts_itv = setInterval(check_alerts, 30 * 1000);
+        }
+
+        return cb_();
+      }
+    });
+  };
+
+  //
+  // ### load_alerts
+  // Load alerts for the current user
+  // ```
+  // @cb_ {function(err)}
+  // ```
+  //
+  load_alerts = function(cb_) {
+    my.alerts = {};
+
+    var c_alerts = factory.data().collection('dts_alerts');
+    c_alerts.find({
+      uid: my.uid
+    }).each(function(err, alert) {
+      if(err) {
+        return cb_(err);
+      }
+      else if(alert) {
+        my.alerts[alert.typ + '-' + alert.pth] =
+          my.alerts[alert.typ + '-' + alert.pth] || [];
+        my.alerts[alert.typ + '-' + alert.pth].push(alert);
+      }
+      else {
         return cb_();
       }
     });
@@ -372,6 +472,7 @@ var environment = function(spec, my) {
   fwk.getter(that, 'last', my, 'last');
 
   fwk.method(that, 'init', init, _super);
+  fwk.method(that, 'load_alerts', load_alerts, _super);
   fwk.method(that, 'agg', agg, _super);
   fwk.method(that, 'commit', commit, _super);
   fwk.method(that, 'current', current, _super);

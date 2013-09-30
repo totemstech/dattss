@@ -40,6 +40,7 @@ var factory = function(spec, my) {
   var email;                        /* email();                   */
   var dattss;                       /* dattss();                  */
   var engine;                       /* engine();                  */
+  var alerts;                       /* alerts();                  */
 
   var cleanup;                      /* cleanup();                 */
 
@@ -258,7 +259,7 @@ var factory = function(spec, my) {
       my.dattss = require('../clients/nodejs/lib/dattss.js').dattss({
         auth: that.config()['DATTSS_SRV_AUTH_KEY'],
         http_host: 'localhost',
-        http_port: 3002
+        http_port: that.config()['DATTSS_HTTP_PORT']
       });
     }
     return my.dattss;
@@ -271,9 +272,19 @@ var factory = function(spec, my) {
   engine = function() {
     if(!my.engine) {
       my.engine = require('./lib/engine.js').engine();
-      my.engine.start();
     }
     return my.engine;
+  };
+
+  //
+  // ### alerts
+  // Return the alerts object
+  //
+  alerts = function() {
+    if(my.initialized) {
+      return my.alerts;
+    }
+    throw new Error('Use factory.init() first');
   };
 
   //
@@ -342,8 +353,17 @@ var factory = function(spec, my) {
                        that.log().out('Mongo [data]:  OK');
                        my.data = db;
 
+                       /* Cleanup */
                        cleanup();
                        setInterval(cleanup, 60 * 60 * 1000);
+
+                       /* Start engine */
+                       that.engine().start();
+
+                       /* Start alerts manager */
+                       my.alerts = require('./lib/alerts.js').alerts({});
+                       my.alerts.init();
+
                        return cb_();
                      }
                    });
@@ -362,6 +382,7 @@ var factory = function(spec, my) {
   fwk.method(that, 'email', email, _super);
   fwk.method(that, 'dattss', dattss, _super);
   fwk.method(that, 'engine', engine, _super);
+  fwk.method(that, 'alerts', alerts, _super);
 
   fwk.method(that, 'init', init, _super);
 
