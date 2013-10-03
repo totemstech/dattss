@@ -77,6 +77,7 @@ var alerts = function(spec, my) {
 
         var alerts = my.alerts[uid].splice(0, factory.config()['DATTSS_MAX_ALERTS']);
         var others = my.alerts[uid].length;
+        console.log(others);
         delete my.alerts[uid];
 
         var template = swig.compileFile('./templates/alert.html');

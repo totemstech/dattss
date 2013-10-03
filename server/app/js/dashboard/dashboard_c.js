@@ -54,6 +54,10 @@ function DashboardCtrl($scope, $location, $timeout,
     }
   });
 
+  $scope.$on('show_alerts', function(e) {
+    $scope.show_alerts = true;
+  });
+
   $scope.retrieve_graphs = function() {
     $scope.loading = true;
     $scope.view.sort(function(a, b) {

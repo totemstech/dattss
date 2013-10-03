@@ -96,3 +96,20 @@
   border-bottom: 1px solid #3563A3;
   border-radius: 0 0 5px 5px;
 }
+
+.top-bar > .btn.alerts {
+  margin: 8px;
+  padding: 6px 30px;
+  background: #DADADA;
+  border: 1px solid #868686;
+  box-shadow: inset 0 1px 0 #FCFCFC, 0 1px 0 #FCFCFC;
+}
+
+.top-bar > .btn.alerts:hover {
+  background: #E5E5E5;
+}
+
+.top-bar > .btn.alerts:active {
+  background: #CACACA;
+  box-shadow: inset 0 1px 0 #aaa, 0 1px 0 #FCFCFC;
+}

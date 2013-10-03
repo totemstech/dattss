@@ -26,13 +26,13 @@ exports.get_alerts = function(req, res, next) {
   var c_alerts = factory.data().collection('dts_alerts');
   c_alerts.find({
     uid: req.user.uid,
-  }, function(err, alert) {
+  }).each(function(err, alert) {
     if(err) {
       /* DaTtSs */ factory.dattss().agg('routes.get_alert.error', '1c');
       return res.error(err);
     }
     else if(alert) {
-      alert.push({
+      alerts.push({
         id: alert.aid,
         type: alert.typ,
         path: alert.pth,
@@ -101,7 +101,7 @@ exports.put_alert = function(req, res, next) {
     }
     else {
       /* DaTtSs */ factory.dattss().agg('routes.put_alert.ok', '1c');
-      return res.ok();
+      return factory.engine().refresh_alerts(req.user.uid, res.ok);
     }
   });
 };
@@ -128,7 +128,7 @@ exports.del_alert = function(req, res, next) {
     }
     else {
       /* DaTtSs */ factory.dattss().agg('routes.del_alert.ok', '1c');
-      return res.ok();
+      return factory.engine().refresh_alerts(req.user.uid, res.ok);
     }
   });
 };

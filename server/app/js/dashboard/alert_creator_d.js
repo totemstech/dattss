@@ -9,6 +9,7 @@ angular.module('dattss.directives').controller('AlertCreatorController',
     $scope.selected_key = '';
     $scope.selected_operator = '>';
     $scope.selected_value = 0;
+    $scope.last_type = '';
 
     /**************************************************************************/
     /*                             POSSIBLE VALUES                            */
@@ -60,8 +61,10 @@ angular.module('dattss.directives').controller('AlertCreatorController',
           keys.push(key);
       });
 
-      if(keys.length > 0)
+      if(keys.length > 0 && $scope.last_type !== type) {
         $scope.selected_key = keys[0].value;
+        $scope.last_type = type;
+      }
 
       return keys;
     };

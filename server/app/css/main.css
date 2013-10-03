@@ -89,6 +89,30 @@ code {
   text-shadow: 0px -1px 0px #D29B52;
 }
 
+.btn.btn-basic[disabled],
+.btn.btn-basic.disabled,
+.btn.btn-basic:hover,
+.btn.btn-basic {
+  outline: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background: none;
+  background-image: linear-gradient(-90deg, #ECECEC 0%, #D1D1D1 100%);
+  background-image: -o-linear-gradient(-90deg, #ECECEC 0%, #D1D1D1 100%);
+  background-image: -moz-linear-gradient(-90deg, #ECECEC 0%, #D1D1D1 100%);
+  background-image: -webkit-linear-gradient(-90deg, #ECECEC 0%, #D1D1D1 100%);
+  background-image: -ms-linear-gradient(-90deg, #ECECEC 0%, #D1D1D1 100%);
+
+  border: 1px solid #838383;
+
+  -moz-box-shadow:    inset 0px 1px 0 0 #fff;
+  -webkit-box-shadow: inset 0px 1px 0 0 #fff;
+  box-shadow:         inset 0px 1px 0 0 #fff;
+
+  color: #000;
+  line-height: 16px;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, .7);
+}
 
 .btn.btn-primary[disabled],
 .btn.btn-warning[disabled],

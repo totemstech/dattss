@@ -1,0 +1,26 @@
+<div class="alert-manager" ng-show="show_manager">
+  <modal ng-model="show_manager">
+    <div class="modal-header">
+      <h3>My alerts</h3>
+    </div>
+    <div class="modal-body">
+      <table class="list" ng-hide="alerts.length == 0">
+        <tr ng-repeat="alert in alerts">
+          <td><span class="pictos">{{alert.type|iconStatus}}</span></td>
+          <td>{{alert.path}}</td>
+          <td>
+            {{alert.key|keyName}}
+            {{alert.operator|operatorName}}
+            {{alert.value}}</td>
+          <td class="btn btn-warning"
+              ng-click="remove(alert.id)">&times;</td>
+        </tr>
+      </table>
+      <p class="empty"
+         ng-show="alerts.length == 0">You do not have alerts yet</p>
+    </div>
+    <div class="modal-footer">
+      <a class="btn btn-basic" ng-click="show_manager = false">Close</a>
+    </div>
+  </modal>
+</div>

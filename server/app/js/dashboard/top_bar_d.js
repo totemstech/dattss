@@ -23,13 +23,14 @@ angular.module('dattss.directives').controller('TopbarController',
 
     /* The menu is defined like that and not simply in the view   */
     /* with ng-hide/ng-show to handle different cases, because    */
-    /* of CSS properties on last child, as it is sometimes hidden */
+    /* of CSS properties on last child, since there is no way to  */
+    /* select the last `visible` child                            */
     if(!$scope.is_demo) {
       $scope.menu = [ /*{
         click: $scope.settings,
         icon: 'L',
         text: 'Settings'
-      }, */{
+      }, */ {
         click: function() {
           window.location.href = '/s/auth/signout';
         },
@@ -45,6 +46,10 @@ angular.module('dattss.directives').controller('TopbarController',
         icon: 'u',
         text: 'Sign Up'
       } ];
+    }
+
+    $scope.show_alerts = function() {
+      $scope.$emit('show_alerts');
     }
   });
 

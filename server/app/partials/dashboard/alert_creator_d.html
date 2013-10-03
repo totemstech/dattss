@@ -1,15 +1,19 @@
 <div class="alert-creator" ng-show="status">
   <modal ng-model="show_modal">
     <div class="modal-header">
-      <h3>Add an alert on {{status.pth}}!</h3>
+      <h3>Alert me when <strong>{{status.pth}}'s</strong></h3>
     </div>
     <div class="modal-body">
-      <select ng-model="selected_key"
-              ng-options="o.value as o.label for o in get_keys(status.typ)">
-      </select>
-      <select ng-model="selected_operator"
-              ng-options="o.value as o.label for o in operators">
-      </select>
+      <span>
+        <select ng-model="selected_key"
+                ng-options="o.value as o.label for o in get_keys(status.typ)">
+        </select>
+      </span>
+      <span>
+        <select ng-model="selected_operator"
+                ng-options="o.value as o.label for o in operators">
+        </select>
+      </span>
       <input type="number"
              ng-model="selected_value">
       </input>
@@ -18,7 +22,7 @@
       <a class="btn btn-basic" ng-click="show_modal = false">Dismiss</a>
       <a class="btn btn-primary"
          ng-click="create_alert()"
-         ng-disabled="!is_valid()">Create it!</a>
+         ng-disabled="!is_valid()">Confirm</a>
     </div>
   </modal>
 </div>

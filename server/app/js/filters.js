@@ -113,3 +113,41 @@ angular.module('dattss.filters').
       return string;
     };
   });
+
+//
+// ### keyName
+// Return the key name
+// ```
+// @key {string} the key to name
+// ```
+//
+angular.module('dattss.filters').
+  filter('keyName', function() {
+    return function(key) {
+      switch(key) {
+      case 'sum': return 'Total';
+      case 'avg': return 'Average';
+      case 'lst': return 'Last value';
+      case 'max': return 'Maximum';
+      case 'min': return 'Minimum';
+      };
+    };
+  });
+
+//
+// ### operatorName
+// Return the operator name
+// ```
+// @operator {string} the operator to name
+// ```
+//
+angular.module('dattss.filters').
+  filter('operatorName', function() {
+    return function(operator) {
+      switch(operator) {
+      case '<': return 'is smaller than';
+      case '>': return 'is greater than';
+      case '=': return 'equals to';
+      };
+    };
+  });

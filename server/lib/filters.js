@@ -49,7 +49,7 @@ exports.operatorName = function(operator) {
 //
 exports.cssStyle = function(type) {
   switch(type) {
-    case 'email_td': return 'border: 1px solid #000; padding: 5px;';
+    case 'email_td': return 'border: 1px solid #B9B9B9; padding: 5px;';
   };
 }
 

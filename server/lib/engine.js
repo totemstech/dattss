@@ -38,9 +38,10 @@ var engine = function(spec, my) {
   //
   // #### _public methods_
   //
-  var start;      /* start();              */
-  var agg;        /* agg(uid, data);       */
-  var current;    /* current(uid);         */
+  var start;           /* start();                  */
+  var agg;             /* agg(uid, data);           */
+  var refresh_alerts;  /* refresh_alerts(uid, cb_); */
+  var current;         /* current(uid);             */
 
   //
   // #### _private methods_
@@ -69,8 +70,8 @@ var engine = function(spec, my) {
         //  delete my.envs[uid];
         //}
         //else {
-          envs_count ++;
-          stats_count += my.envs[uid].count();
+        envs_count ++;
+        stats_count += my.envs[uid].count();
         //}
       }
     }
@@ -223,6 +224,35 @@ var engine = function(spec, my) {
   };
 
   //
+  // ### refresh_alerts
+  // Refresh alerts on the given environment after the user added/removed one.
+  // ```
+  // @uid {string} the user unique id
+  // @cb_ {function(err)}
+  // ```
+  refresh_alerts = function(uid, cb_) {
+    if(!my.envs[uid]) {
+      my.envs[uid] = require('./environment.js').environment({
+        uid: uid
+      });
+      my.envs[uid].init(function(err) {
+        if(err) {
+          /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.error', '1c');
+          return cb_(err);
+        }
+        else {
+          /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.ok', '1c');
+          return my.envs[uid].load_alerts(cb_);
+        }
+      });
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.ok', '1c');
+      return my.envs[uid].load_alerts(cb_);
+    }
+  };
+
+  //
   // ### current
   // The current state for a given user represents a dictionnary with the status
   // of all paths right now: type, counts, averages, ...
@@ -255,6 +285,7 @@ var engine = function(spec, my) {
 
   fwk.method(that, 'start', start, _super);
   fwk.method(that, 'agg', agg, _super);
+  fwk.method(that, 'refresh_alerts', refresh_alerts, _super);
   fwk.method(that, 'current', current, _super);
 
   return that;
