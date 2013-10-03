@@ -24,12 +24,12 @@
   border-top: 0;
 
   -webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
+     -moz-border-radius: 0 0 5px 5px;
+          border-radius: 0 0 5px 5px;
 
   -webkit-box-shadow: 0 0px 3px rgba(0,0,0,.5);
-  -moz-box-shadow: 0 0px 3px rgba(0,0,0,.5);
-  box-shadow: 0 0px 3px rgba(0,0,0,.5);
+     -moz-box-shadow: 0 0px 3px rgba(0,0,0,.5);
+          box-shadow: 0 0px 3px rgba(0,0,0,.5);
 }
 
 .wrapper > .dashboard > .content {
@@ -57,9 +57,9 @@
   background-image: -webkit-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
   background-image: -ms-linear-gradient(-90deg, #234E7C 0%, #0F3A68 100%);
 
-  -moz-box-shadow:    inset 0px 1px 0px 0 #295A8F;
   -webkit-box-shadow: inset 0px 1px 0px 0 #295A8F;
-  box-shadow:         inset 0px 1px 0px 0 #295A8F;
+     -moz-box-shadow:    inset 0px 1px 0px 0 #295A8F;
+          box-shadow:         inset 0px 1px 0px 0 #295A8F;
 }
 
 .wrapper > .dashboard > .content > .menu .title > .pictos {
