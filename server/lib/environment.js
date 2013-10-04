@@ -46,6 +46,7 @@ var environment = function(spec, my) {
     'g':  {},
     'ms': {}
   };
+  my.processes = {};
   my.alerts = {};
 
   //
@@ -53,10 +54,12 @@ var environment = function(spec, my) {
   //
   var init;               /* init(cb_);                    */
   var load_alerts;        /* load_alerts(cb_);             */
+  var add_process;        /* add_process(process, socket); */
   var agg;                /* agg(data);                    */
   var commit;             /* commit();                     */
   var current;            /* current();                    */
   var count;              /* count();                      */
+  var processes;          /* processes();                  */
 
   //
   // #### _private methods_
@@ -70,6 +73,9 @@ var environment = function(spec, my) {
   //
   var that = new events.EventEmitter();
 
+  /****************************************************************************/
+  /*                             PRIVATE METHODS                              */
+  /****************************************************************************/
   //
   // ### check_alerts
   // Check if everything is running as expected, and send an alert if not
@@ -184,9 +190,15 @@ var environment = function(spec, my) {
     return aggs;
   };
 
+  /****************************************************************************/
+  /*                               PUBLIC INTERFACE                           */
+  /****************************************************************************/
   //
   // ### init
   // Loads all data relative to the current user
+  // ```
+  // @cb_ {function(err)}
+  // ```
   //
   init = function(cb_) {
     var now = Date.now();
@@ -254,6 +266,27 @@ var environment = function(spec, my) {
       else {
         return cb_();
       }
+    });
+  };
+
+  //
+  // ### add_process
+  // Add a process to the current environment
+  // ```
+  // @process {string} the process name
+  // @socket {object} the socket linked to the process
+  // ```
+  //
+  add_process = function(process, socket) {
+    my.processes[process] = my.processes[process] || [];
+    my.processes[process].push(socket);
+
+    socket.on('disconnect', function() {
+      my.processes[process].forEach(function(so, i) {
+        if(so === socket) {
+          my.processes[process].splice(i, 1);
+        }
+      });
     });
   };
 
@@ -469,14 +502,33 @@ var environment = function(spec, my) {
     return count;
   };
 
+  //
+  // ### processes
+  // Return current processes
+  processes = function() {
+    var processes = [];
+    for(var name in my.processes) {
+      if(my.processes.hasOwnProperty(name)) {
+        var process = {
+          status: my.processes[name].length === 0 ? 'down' : 'up',
+          name: name
+        };
+        processes.push(process);
+      }
+    }
+    return processes;
+  };
+
   fwk.getter(that, 'last', my, 'last');
 
   fwk.method(that, 'init', init, _super);
   fwk.method(that, 'load_alerts', load_alerts, _super);
+  fwk.method(that, 'add_process', add_process, _super);
   fwk.method(that, 'agg', agg, _super);
   fwk.method(that, 'commit', commit, _super);
   fwk.method(that, 'current', current, _super);
   fwk.method(that, 'count', count, _super);
+  fwk.method(that, 'processes', processes, _super);
 
   return that;
 };

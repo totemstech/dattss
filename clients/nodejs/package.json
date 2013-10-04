@@ -5,6 +5,9 @@
   "author": { "name": "Stanislas Polu",
               "email": "stan@teleportd.com",
               "url": "http://twitter.com/spolu" },
-  "dependencies": { "fwk": "1.1.x" },
+  "dependencies": {
+    "fwk": "1.1.x",
+    "socket.io-client": "0.9.x"
+  },
   "main" : "./lib/dattss"
 }

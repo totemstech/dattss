@@ -41,6 +41,7 @@ var factory = function(spec, my) {
   var dattss;                       /* dattss();                  */
   var engine;                       /* engine();                  */
   var alerts;                       /* alerts();                  */
+  var socket;                       /* socket();                  */
 
   var cleanup;                      /* cleanup();                 */
 
@@ -259,7 +260,8 @@ var factory = function(spec, my) {
       my.dattss = require('../clients/nodejs/lib/dattss.js').dattss({
         auth: that.config()['DATTSS_SRV_AUTH_KEY'],
         http_host: 'localhost',
-        http_port: that.config()['DATTSS_HTTP_PORT']
+        http_port: that.config()['DATTSS_HTTP_PORT'],
+        process: 'dattss'
       });
     }
     return my.dattss;
@@ -283,6 +285,17 @@ var factory = function(spec, my) {
   alerts = function() {
     if(my.initialized) {
       return my.alerts;
+    }
+    throw new Error('Use factory.init() first');
+  };
+
+  //
+  // ### socket
+  // Return the socket.io object
+  //
+  socket = function() {
+    if(my.initialized) {
+      return my.socket;
     }
     throw new Error('Use factory.init() first');
   };
@@ -319,15 +332,24 @@ var factory = function(spec, my) {
   // ### init
   // Initialize modules that need to, like mongo
   // ```
+  // @http_server {object} the http_server to use
   // @cb_ {function(err)}
   // ```
   //
-  init = function(cb_) {
+  init = function(http_server, cb_) {
     if(my.initialized)
       return cb_();
 
     my.initialized = true;
 
+    if(that.config()['DEBUG']) {
+      that.log().out('DEBUG mode');
+      my.DEBUG = true;
+    }
+
+    my.socket = require('socket.io').listen(http_server);
+
+    /* Initialized database */
     var options = {
       db: {
         native_parser: false,
@@ -336,12 +358,6 @@ var factory = function(spec, my) {
         auto_reconnect: true
       }
     };
-
-    if(that.config()['DEBUG']) {
-      that.log().out('DEBUG mode');
-      my.DEBUG = true;
-    }
-
     client.connect(that.config()['DATTSS_MONGO_URL'],
                    options,
                    function(err, db) {
@@ -383,6 +399,7 @@ var factory = function(spec, my) {
   fwk.method(that, 'dattss', dattss, _super);
   fwk.method(that, 'engine', engine, _super);
   fwk.method(that, 'alerts', alerts, _super);
+  fwk.method(that, 'socket', socket, _super);
 
   fwk.method(that, 'init', init, _super);
 

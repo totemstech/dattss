@@ -53,6 +53,28 @@ exports.get_status = function(req, res, next) {
 };
 
 //
+// ### @GET /processes
+// Get the current processes
+//
+exports.get_processes = function(req, res, next) {
+  if(!req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.get_processes.error', '1c');
+    return res.error(new Error('Authentication error'));
+  }
+
+  factory.engine().processes(req.user.uid, function(err, processes) {
+    if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.get_processes.error', '1c');
+      return res.error(err);
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('routes.get_processes.ok', '1c');
+      return res.data(processes);
+    }
+  });
+};
+
+//
 // ### @GET /stats/:path/:type/:offset/:step
 // Get the current & past value for the given stat
 //

@@ -41,7 +41,8 @@ var engine = function(spec, my) {
   var start;           /* start();                  */
   var agg;             /* agg(uid, data);           */
   var refresh_alerts;  /* refresh_alerts(uid, cb_); */
-  var current;         /* current(uid);             */
+  var current;         /* current(uid, cb_);        */
+  var processes;       /* processes(uid, cb_);      */
 
   //
   // #### _private methods_
@@ -53,6 +54,9 @@ var engine = function(spec, my) {
   //
   var that = new events.EventEmitter();
 
+  /****************************************************************************/
+  /*                             PRIVATE METHODS                              */
+  /****************************************************************************/
   //
   // ### crond
   // Takes care of environments (commit, eviction, ..). This function is called
@@ -79,6 +83,43 @@ var engine = function(spec, my) {
     /* DaTtSs */ factory.dattss().agg('environment.stats', stats_count + 'g');
   };
 
+  //
+  // ### init_socket
+  // Initialized the socket
+  //
+  init_socket = function() {
+    /* Set socket connection used for processes */
+    var io = factory.socket().of('/process');
+
+    /* We authorize all connection but wait a 'authenticate' message */
+    io.authorization(function(data, cb_) {
+      return cb_(null, true);
+    });
+
+    io.on('connection', function(socket) {
+      /* if we do not receive the auth message in 30secondes, we close */
+      /* the socket                                                    */
+      var auth_timeout = setTimeout(function() {
+        socket.disconnect();
+      }, 30 * 1000);
+
+      socket.on('authenticate', function(auth_key, process) {
+        clearTimeout(auth_timeout);
+
+        var hash = /^([^.]+).(.*)$/.exec(auth_key);
+        if(hash && hash[2] === factory.hash([ hash[1] ])) {
+          my.envs[hash[1]].add_process(process, socket);
+        }
+        else {
+          socket.disconnect();
+        }
+      });
+    });
+  };
+
+  /****************************************************************************/
+  /*                             PUBLIC INTERFACE                             */
+  /****************************************************************************/
   //
   // ### start
   // Does everything that needs to be done before starting the work
@@ -112,6 +153,8 @@ var engine = function(spec, my) {
           factory.log().out('Engine started');
           my.crond_itv = setInterval(crond, factory.config()['DATTSS_CROND_PERIOD']);
         }
+
+        init_socket();
       }
     });
   };
@@ -217,7 +260,10 @@ var engine = function(spec, my) {
 
     if(!my.updates[uid] || my.updates[uid] < Date.now() - 1000 * 5) {
       my.updates[uid] = Date.now();
-      that.emit(uid + ':update', my.envs[uid].current());
+      that.emit(uid + ':update', {
+        status: my.envs[uid].current(),
+        processes: my.envs[uid].processes
+      });
     }
 
     return true;
@@ -283,10 +329,41 @@ var engine = function(spec, my) {
     }
   }
 
+  //
+  // ### processes
+  // Compute processes for a given user
+  // ```
+  // @uid {string} the user ID
+  // @cb_ {function(err, processes)}
+  // ```
+  //
+  processes = function(uid, cb_) {
+    if(my.envs[uid]) {
+      /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
+      return cb_(null, my.envs[uid].processes());
+    }
+    else {
+      my.envs[uid] = require('./environment.js').environment({
+        uid: uid
+      });
+      my.envs[uid].init(function(err) {
+        if(err) {
+          /* DaTtSs */ factory.dattss().agg('engine.processes.error', '1c');
+          return cb_(err);
+        }
+        else {
+          /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
+          return cb_(null, my.envs[uid].processes());
+        }
+      });
+    }
+  }
+
   fwk.method(that, 'start', start, _super);
   fwk.method(that, 'agg', agg, _super);
   fwk.method(that, 'refresh_alerts', refresh_alerts, _super);
   fwk.method(that, 'current', current, _super);
+  fwk.method(that, 'processes', processes, _super);
 
   return that;
 };

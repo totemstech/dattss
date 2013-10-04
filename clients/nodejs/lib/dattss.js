@@ -11,6 +11,7 @@
 
 var fwk = require('fwk');
 var http = require('http');
+var io = require('socket.io-client');
 
 exports.CONFIG = fwk.populateConfig(require('../config.js').config);
 
@@ -26,7 +27,7 @@ exports.CONFIG = fwk.populateConfig(require('../config.js').config);
 //     DATTSS_PERCENTILE         the percentile value (0.1 default)
 //
 // ```
-// @spec { auth, [http_host], [http_port], [pct] }
+// @spec { auth, [http_host], [http_port], [pct], [process] }
 // ```
 //
 var dattss = function(spec, my) {
@@ -37,6 +38,7 @@ var dattss = function(spec, my) {
   my.http_host = spec.http_host || exports.CONFIG['DATTSS_SERVER_HTTP_HOST'];
   my.http_port = spec.http_port || exports.CONFIG['DATTSS_SERVER_HTTP_PORT'];
   my.pct       = spec.pct       || parseFloat(exports.CONFIG['DATTSS_PERCENTILE']);
+  my.process   = spec.process;
 
   my.stopped = true;
 
@@ -226,6 +228,28 @@ var dattss = function(spec, my) {
   start = function() {
     my.itv = setInterval(do_commit, exports.CONFIG['DATTSS_PUSH_PERIOD'] * 1000);
     my.stopped = false;
+
+    /* If a process name has been specified, we connect to the socket. This */
+    /* is used to determine uptime and allow kill switch usage              */
+    if(typeof my.process === 'string' &&
+       my.process.trim() !== '') {
+      var socket = io.connect(
+        'http://' + my.http_host + ':' + my.http_port + '/process'
+      , {
+        'reconnect': true,
+        'reconnection delay': 500,
+        'max reconnection attempts': 10
+      });
+
+      socket.on('connect', function() {
+        socket.emit('authenticate', my.auth, my.process);
+
+        socket.on('kill', function() {
+          console.log('DaTtSs Kill signal received');
+          process.exit(1);
+        });
+      });
+    }
   };
 
   //

@@ -63,6 +63,7 @@ var setup = function() {
   /* ENGINE */
   app.put( '/agg',                                 require('./routes/engine.js').put_agg);
   app.get( '/s/status',                            require('./routes/engine.js').get_status);
+  app.get( '/s/processes',                         require('./routes/engine.js').get_processes);
   app.get( '/s/stats/:path/:type/:offset/:step',   require('./routes/engine.js').get_stats);
 
   app.get( '/s/favorite',                          require('./routes/engine.js').get_favorite);
@@ -137,7 +138,10 @@ var setup_io = function(io) {
 };
 
 factory.log().out('Starting...');
-factory.init(function(err) {
+var http_port = factory.config()['DATTSS_HTTP_PORT'];
+var http_srv = http.createServer(app).listen(parseInt(http_port, 10));
+factory.log().out('HTTP Server started on port: ' + http_port);
+factory.init(http_srv, function(err) {
   if(err) {
     factory.log().error(err);
     process.exit(1);
@@ -146,11 +150,6 @@ factory.init(function(err) {
   /* Setup */
   setup();
 
-  var http_port = factory.config()['DATTSS_HTTP_PORT'];
-  var http_srv = http.createServer(app).listen(parseInt(http_port, 10));
-  factory.log().out('HTTP Server started on port: ' + http_port);
-
   /* Socket.IO */
-  var io = require('socket.io').listen(http_srv);
-  setup_io(io);
+  setup_io(factory.socket());
 });
