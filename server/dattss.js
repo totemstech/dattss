@@ -114,8 +114,9 @@ var setup_io = function(io) {
   io_main.on('connection', function(socket) {
     var session = socket.handshake.session;
 
-    var handler = function(current) {
-      socket.emit('status:update', current);
+    var handler = function(data) {
+      data.status && socket.emit('status:update', data.status);
+      data.processes && socket.emit('processes:update', data.processes);
     };
 
     factory.engine().on(session.uid + ':update', handler);
@@ -125,8 +126,9 @@ var setup_io = function(io) {
   });
 
   io_demo.on('connection', function(socket) {
-    var handler = function(current) {
-      socket.emit('status:update', current);
+    var handler = function(data) {
+      data.status && socket.emit('status:update', data.status);
+      data.processes && socket.emit('processes:update', data.processes);
     };
     var uid = factory.config()['DATTSS_DEMO_UID'];
 

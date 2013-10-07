@@ -262,7 +262,7 @@ var engine = function(spec, my) {
       my.updates[uid] = Date.now();
       that.emit(uid + ':update', {
         status: my.envs[uid].current(),
-        processes: my.envs[uid].processes
+        processes: my.envs[uid].processes()
       });
     }
 

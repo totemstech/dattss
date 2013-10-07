@@ -24,9 +24,14 @@ function DashboardCtrl($scope, $location, $timeout,
   $scope.status = _dashboard.get_status().then(function(data) {
     return data;
   });
-  _socket.on('status:update', function(data, count) {
+  $scope.processes = _dashboard.get_processes().then(function(data) {
+    return data;
+  });
+  _socket.on('status:update', function(data) {
     $scope.status = data;
-    _socket.emit('received', count);
+  });
+  _socket.on('processes:update', function(processes) {
+    $scope.processes = processes;
   });
 
   _dashboard.get_favorite().then(function(data) {
