@@ -33,6 +33,9 @@ angular.module('dattss.services').
       },
       del_favorite: function(favorite) {
         return _req.del('/s/favorite/' + favorite);
+      },
+      kill_process: function(name) {
+        return _req.del('/s/process/' + name);
       }
     };
 

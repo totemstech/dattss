@@ -180,7 +180,8 @@ function DashboardCtrl($scope, $location, $timeout,
   /* Resize dashboard */
   $scope.$watch(function() {
     var menu = jQuery('.dashboard .favorites.menu').innerHeight() +
-      jQuery('.dashboard .status.menu').innerHeight();
+      jQuery('.dashboard .status.menu').innerHeight() +
+      jQuery('.dashboard .processes.menu').innerHeight();
     var main = jQuery('.dashboard .main').innerHeight();
 
     var target = jQuery('.dashboard > .content');

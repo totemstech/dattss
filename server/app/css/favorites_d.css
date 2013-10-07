@@ -27,4 +27,5 @@
 
 .favorites.menu > table td:first-child {
   padding: 5px 0 5px 10px;
+  width: 37px;
 }

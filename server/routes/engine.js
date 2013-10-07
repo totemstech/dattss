@@ -75,6 +75,28 @@ exports.get_processes = function(req, res, next) {
 };
 
 //
+// ### @DELETE /process/:name
+// Kill the given process
+//
+exports.del_process = function(req, res, next) {
+  if(!req.user) {
+    /* DaTtSs */ factory.dattss().agg('routes.del_process.error', '1c');
+    return res.error(new Error('Authentication error'));
+  }
+
+  factory.engine().kill_process(req.user.uid, req.param('name'), function(err) {
+    if(err) {
+      /* DaTtSs */ factory.dattss().agg('routes.del_process.error', '1c');
+      return res.error(err);
+    }
+    else {
+      /* DaTtSs */ factory.dattss().agg('routes.del_process.ok', '1c');
+      return res.ok();
+    }
+  });
+};
+
+//
 // ### @GET /stats/:path/:type/:offset/:step
 // Get the current & past value for the given stat
 //

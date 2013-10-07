@@ -1,7 +1,7 @@
 /*
  * DaTtSs: status_d.js
  *
- * (c) Copyright Teleportd Labs 2013
+ * (c) Copyright Teleportd Ltd 2013
  *
  * @author: n1t0
  *
@@ -14,8 +14,6 @@
 // ### StatusController
 // Status controller used by `status` directive
 //
-
-var debug_array = [];
 
 angular.module('dattss.directives').controller('StatusController',
   function($scope, $timeout, $location) {
@@ -98,7 +96,6 @@ angular.module('dattss.directives').controller('StatusController',
         }
         else {
           /* Recursively update the data */
-          debug_array = $scope.status;
           $scope.update($scope.status || [], data);
         }
       }

@@ -60,6 +60,7 @@ var environment = function(spec, my) {
   var current;            /* current();                    */
   var count;              /* count();                      */
   var processes;          /* processes();                  */
+  var kill_process;       /* kill_process(name, cb_);      */
 
   //
   // #### _private methods_
@@ -287,7 +288,9 @@ var environment = function(spec, my) {
           my.processes[process].splice(i, 1);
         }
       });
+      that.emit('update');
     });
+    that.emit('update');
   };
 
   //
@@ -393,7 +396,6 @@ var environment = function(spec, my) {
     });
 
     /* DaTtSs */ factory.dattss().agg('environment.agg.ok', '1c');
-    that.emit('update');
 
     return true;
   };
@@ -520,6 +522,26 @@ var environment = function(spec, my) {
     return processes;
   };
 
+  //
+  // ### kill_process
+  // Kill the given process
+  // ```
+  // @name {string} the process name
+  // @cb_  {function(err)}
+  // ```
+  //
+  kill_process = function(name, cb_) {
+    if(!(my.processes[name] && my.processes[name].length > 0)) {
+      return cb_(new Error('No process found with this name: ' + name))
+    }
+    else {
+      my.processes[name].forEach(function(socket) {
+        socket.emit('kill');
+      });
+      return cb_();
+    }
+  };
+
   fwk.getter(that, 'last', my, 'last');
 
   fwk.method(that, 'init', init, _super);
@@ -530,6 +552,7 @@ var environment = function(spec, my) {
   fwk.method(that, 'current', current, _super);
   fwk.method(that, 'count', count, _super);
   fwk.method(that, 'processes', processes, _super);
+  fwk.method(that, 'kill_process', kill_process, _super);
 
   return that;
 };

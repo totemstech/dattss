@@ -1,0 +1,33 @@
+<div class="processes menu">
+  <div class="title">
+    <span class="pictos">L</span>
+    <span class="text">Processes</span>
+  </div>
+  <table class="processes" ng-hide="no_data">
+    <tr ng-repeat="process in data">
+      <td>
+        <span class="pictos process"
+              ng-class="{ up: process.status == 'up' }">
+          P
+        </span>
+      </td>
+      <td class="name">
+        <span class="name">
+          {{ process.name }}
+        </span>
+      </td>
+      <td>
+        <span class="pictos kill"
+              tooltip="'Kill this process'"
+              ng-hide="process.status == 'down'"
+              ng-click="kill(process.name)"
+              ng-disabled="is_demo">
+          K
+        </span>
+      </td>
+    </tr>
+  </table>
+  <div class="no-data" ng-show="no_data">
+    No processes
+  </div>
+</div>

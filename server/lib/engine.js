@@ -38,16 +38,18 @@ var engine = function(spec, my) {
   //
   // #### _public methods_
   //
-  var start;           /* start();                  */
-  var agg;             /* agg(uid, data);           */
-  var refresh_alerts;  /* refresh_alerts(uid, cb_); */
-  var current;         /* current(uid, cb_);        */
-  var processes;       /* processes(uid, cb_);      */
+  var start;           /* start();                      */
+  var agg;             /* agg(uid, data);               */
+  var refresh_alerts;  /* refresh_alerts(uid, cb_);     */
+  var current;         /* current(uid, cb_);            */
+  var processes;       /* processes(uid, cb_);          */
+  var kill_process;    /* kill_process(uid, name, cb_); */
 
   //
   // #### _private methods_
   //
   var crond;      /* crond();              */
+  var get_env;    /* get_env(uid, cb_);    */
 
   //
   // #### _that_
@@ -69,18 +71,47 @@ var engine = function(spec, my) {
     for(var uid in my.envs) {
       if(my.envs.hasOwnProperty(uid)) {
         my.envs[uid].commit();
-        //if((now - my.envs[uid].last()) >
-        //   factory.config()['DATTSS_EVICTION_PERIOD']) {
-        //  delete my.envs[uid];
-        //}
-        //else {
         envs_count ++;
         stats_count += my.envs[uid].count();
-        //}
       }
     }
     /* DaTtSs */ factory.dattss().agg('environment.active', envs_count + 'g');
     /* DaTtSs */ factory.dattss().agg('environment.stats', stats_count + 'g');
+  };
+
+  //
+  // ### get_env
+  // Initialized the environment for a specific user if it does not
+  // exist then return it
+  // ```
+  // @uid {string} the user ID
+  // @cb_ {function(err)}
+  // ```
+  //
+  get_env = function(uid, cb_) {
+    if(my.envs[uid]) {
+      return cb_(null, my.envs[uid]);
+    }
+    else {
+      my.envs[uid] = require('./environment.js').environment({
+        uid: uid
+      });
+
+      my.envs[uid].init(function(err) {
+        if(err) {
+          return cb_(err);
+        }
+        else {
+          my.envs[uid].on('update', function() {
+            that.emit(uid + ':update', {
+              status: my.envs[uid].current(),
+              processes: my.envs[uid].processes()
+            });
+          });
+          return cb_(null, my.envs[uid]);
+        }
+      });
+    }
   };
 
   //
@@ -135,18 +166,13 @@ var engine = function(spec, my) {
       else if(user) {
         var uid = user.uid;
 
-        if(!my.envs[uid]) {
-          my.envs[uid] = require('./environment.js').environment({
-            uid: uid
-          });
-
-          my.envs[uid].init(function(err) {
-            if(err) {
-              factory.log().error(err);
-              /* DaTtSs */ factory.dattss().agg('engine.start.error', '1c');
-            }
-          });
-        }
+        /* initialize env by getting it */
+        get_env(uid, function(err, env) {
+          if(err) {
+            factory.log().error(err);
+            /* DaTtSs */ factory.dattss().agg('engine.start.error', '1c');
+          }
+        });
       }
       else {
         if(!my.crond_itv) {
@@ -240,23 +266,15 @@ var engine = function(spec, my) {
       }
     };
 
-    if(!my.envs[uid]) {
-      my.envs[uid] = require('./environment.js').environment({
-        uid: uid
-      });
-      my.envs[uid].init(function(err) {
-        if(err) {
-          factory.log().error(err);
-          /* DaTtSs */ factory.dattss().agg('engine.agg.error', '1c');
-        }
-        else {
-          my.envs[uid].agg(data);
-        }
-      });
-    }
-    else {
-      my.envs[uid].agg(data);
-    }
+    get_env(uid, function(err, env) {
+      if(err) {
+        factory.log().error(err);
+        /* DaTtSs */ factory.dattss().agg('engine.agg.error', '1c');
+      }
+      else {
+        env.agg(data);
+      }
+    });
 
     if(!my.updates[uid] || my.updates[uid] < Date.now() - 1000 * 5) {
       my.updates[uid] = Date.now();
@@ -277,25 +295,16 @@ var engine = function(spec, my) {
   // @cb_ {function(err)}
   // ```
   refresh_alerts = function(uid, cb_) {
-    if(!my.envs[uid]) {
-      my.envs[uid] = require('./environment.js').environment({
-        uid: uid
-      });
-      my.envs[uid].init(function(err) {
-        if(err) {
-          /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.error', '1c');
-          return cb_(err);
-        }
-        else {
-          /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.ok', '1c');
-          return my.envs[uid].load_alerts(cb_);
-        }
-      });
-    }
-    else {
-      /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.ok', '1c');
-      return my.envs[uid].load_alerts(cb_);
-    }
+    get_env(uid, function(err, env) {
+      if(err) {
+        /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.error', '1c');
+        return cb_(err);
+      }
+      else {
+        /* DaTtSs */ factory.dattss().agg('engine.refresh_alerts.ok', '1c');
+        return env.load_alerts(cb_);
+      }
+    });
   };
 
   //
@@ -308,26 +317,17 @@ var engine = function(spec, my) {
   // ```
   //
   current = function(uid, cb_) {
-    if(my.envs[uid]) {
-      /* DaTtSs */ factory.dattss().agg('engine.current.ok', '1c');
-      return cb_(null, my.envs[uid].current());
-    }
-    else {
-      my.envs[uid] = require('./environment.js').environment({
-        uid: uid
-      });
-      my.envs[uid].init(function(err) {
-        if(err) {
-          /* DaTtSs */ factory.dattss().agg('engine.current.error', '1c');
-          return cb_(err);
-        }
-        else {
-          /* DaTtSs */ factory.dattss().agg('engine.current.ok', '1c');
-          return cb_(null, my.envs[uid].current());
-        }
-      });
-    }
-  }
+    get_env(uid, function(err, env) {
+      if(err) {
+        /* DaTtSs */ factory.dattss().agg('engine.current.error', '1c');
+        return cb_(err);
+      }
+      else {
+        /* DaTtSs */ factory.dattss().agg('engine.current.ok', '1c');
+        return cb_(null, env.current());
+      }
+    });
+  };
 
   //
   // ### processes
@@ -338,32 +338,46 @@ var engine = function(spec, my) {
   // ```
   //
   processes = function(uid, cb_) {
-    if(my.envs[uid]) {
-      /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
-      return cb_(null, my.envs[uid].processes());
-    }
-    else {
-      my.envs[uid] = require('./environment.js').environment({
-        uid: uid
-      });
-      my.envs[uid].init(function(err) {
-        if(err) {
-          /* DaTtSs */ factory.dattss().agg('engine.processes.error', '1c');
-          return cb_(err);
-        }
-        else {
-          /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
-          return cb_(null, my.envs[uid].processes());
-        }
-      });
-    }
-  }
+    get_env(uid, function(err, env) {
+      if(err) {
+        /* DaTtSs */ factory.dattss().agg('engine.processes.error', '1c');
+        return cb_(err);
+      }
+      else {
+        /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
+        return cb_(null, env.processes());
+      }
+    });
+  };
+
+  //
+  // ### kill_process
+  // Kill the given process
+  // ```
+  // @uid {string} the user ID
+  // @name {string} the process name
+  // @cb_ {function(err)}
+  // ```
+  //
+  kill_process = function(uid, name, cb_) {
+    get_env(uid, function(err, env) {
+      if(err) {
+        /* DaTtSs */ factory.dattss().agg('engine.processes.error', '1c');
+        return cb_(err);
+      }
+      else {
+        /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
+        return env.kill_process(name, cb_);
+      }
+    });
+  };
 
   fwk.method(that, 'start', start, _super);
   fwk.method(that, 'agg', agg, _super);
   fwk.method(that, 'refresh_alerts', refresh_alerts, _super);
   fwk.method(that, 'current', current, _super);
   fwk.method(that, 'processes', processes, _super);
+  fwk.method(that, 'kill_process', kill_process, _super);
 
   return that;
 };

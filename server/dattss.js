@@ -64,6 +64,7 @@ var setup = function() {
   app.put( '/agg',                                 require('./routes/engine.js').put_agg);
   app.get( '/s/status',                            require('./routes/engine.js').get_status);
   app.get( '/s/processes',                         require('./routes/engine.js').get_processes);
+  app.del( '/s/process/:name',                     require('./routes/engine.js').del_process);
   app.get( '/s/stats/:path/:type/:offset/:step',   require('./routes/engine.js').get_stats);
 
   app.get( '/s/favorite',                          require('./routes/engine.js').get_favorite);

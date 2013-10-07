@@ -1,0 +1,51 @@
+.processes.menu {
+  width: 400px;
+  min-height: 65px;
+  background-color: #0C2F55;
+}
+
+.processes.menu .title {
+  border-bottom: 1px solid #08203B;
+}
+
+.processes.menu .no-data {
+  text-align: center;
+  color: #aaa;
+  padding: 20px 0;
+}
+
+.processes.menu > table {
+  width: 400px;
+  background: #0C2F55;
+}
+
+.processes.menu > table td {
+  color: #fff;
+  text-shadow: 0 -1px 0 #052547;
+  padding: 5px 0 5px 0;
+}
+
+.processes.menu > table td:first-child {
+  padding: 5px 0 5px 10px;
+  width: 37px;
+}
+
+.processes.menu > table td.name {
+  width: 325px;
+}
+
+.processes.menu > table span.pictos.process {
+  color: #B92929;
+  text-shadow: 0 -1px #310000;
+}
+
+.processes.menu > table span.pictos.process.up {
+  color: #25AD25;
+  text-shadow: 0 -1px #1C351C;
+}
+
+.processes.menu > table span.pictos.kill {
+  color: #B92929;
+  cursor: pointer;
+  text-shadow: 0 -1px #310000;
+}
