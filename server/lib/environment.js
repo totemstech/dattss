@@ -164,10 +164,10 @@ var environment = function(spec, my) {
   // aggregation is only an approximation of the truth. Other values aggregate
   // naturally
   // ```
-  // @cleanup {boolean} whether to remove the partials dirtiness
+  // @dirty_only {boolean} aggregate dirty partials only (used at commit time)
   // ```
   //
-  aggregate_partials = function(cleanup) {
+  aggregate_partials = function(dirty_only) {
     var aggs = {};
 
     ['c', 'g', 'ms'].forEach(function(type) {
@@ -176,13 +176,13 @@ var environment = function(spec, my) {
       for(var path in my.aggregates[type]) {
         if(my.aggregates[type].hasOwnProperty(path) &&
            my.aggregates[type][path].length > 0) {
-          my.aggregates[type][path].forEach(function(partial) {
-            if(cleanup) {
-              partial.drt = false;
-            }
-          });
+          aggs[type][path] = factory.agg_partials(my.aggregates[type][path],
+                                                  true);
 
-          aggs[type][path] = factory.agg_partials(my.aggregates[type][path]);
+          // remove dirtiness
+          my.aggregates[type][path].forEach(function(partial) {
+            partial.drt = false;
+          });
         }
       }
     });
@@ -301,6 +301,7 @@ var environment = function(spec, my) {
     my.dirty = true;
     my.last = Date.now();
 
+    slide_partials();
     ['c', 'g', 'ms'].forEach(function(type) {
       /* We keep all partials */
       data.prt[type].forEach(function(partial) {
@@ -431,7 +432,7 @@ var environment = function(spec, my) {
     });
 
     /* Compute 1m-aggregates and save them */
-    slide_partials(true);
+    slide_partials();
     var aggs = aggregate_partials(true);
     var dte = factory.aggregate_date(new Date(), true);
     var c_aggregates = factory.data().collection('dts_aggregates');

@@ -18,6 +18,14 @@ function DashboardCtrl($scope, $location, $timeout,
     }
   });
 
+  window.set_graph_step = function(step) {
+    if(typeof step !== 'number' || step < 0 || step > 10)
+      return;
+
+    $scope.step = step;
+    $scope.retrieve_graphs();
+  };
+
   /****************************************************************************/
   /*                              INITIALIZATION                              */
   /****************************************************************************/

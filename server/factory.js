@@ -148,14 +148,18 @@ var factory = function(spec, my) {
   // ```
   // @partials {array} of partials as stored in my.partials[st]
   //                   partials are expected to be orderd by arrival time
+  // @dirty_only {boolean} count dirty partials only
   // @return {object} an aggregated partial object
   // ```
   //
-  agg_partials = function(partials) {
+  agg_partials = function(partials, dirty_only) {
     var agg = {sum: 0, cnt: 0};
     var work = [], acc = 0;
 
     partials.forEach(function(p) {
+      if(dirty_only && !p.drt)
+        return;
+
       work.push({cnt: p.cnt, top: p.top, bot: p.bot});
       agg.typ = p.typ;
       agg.pct = p.pct;
