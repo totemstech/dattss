@@ -25,10 +25,10 @@
       <td style="{{ 'email_td'|cssStyle}}"> <!-- condition -->
         {{ alert.key|keyName }}
         <em>{{ alert.operator|operatorName}}</em>
-        {{ alert.expected|number }}
+        {{ alert.expected|number(2) }}
       </td>
       <td style="{{ 'email_td'|cssStyle}}"> <!-- value -->
-        {{ alert.value|number }}
+        {{ alert.value|number(2) }}
       </td>
     </tr>
     {% endfor %}

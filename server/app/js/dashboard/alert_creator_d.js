@@ -15,11 +15,11 @@ angular.module('dattss.directives').controller('AlertCreatorController',
     /*                             POSSIBLE VALUES                            */
     /**************************************************************************/
     /* List of keys */
-    $scope.keys = [ {
+    $scope.keys = [ /* {
       label: 'Total',
       value: 'sum',
       available_for: 'c'
-    }, {
+    },*/ {
       label: 'Average',
       value: 'avg',
       available_for: 'c-g-ms'

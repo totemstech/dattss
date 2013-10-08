@@ -36,6 +36,10 @@ var environment = function(spec, my) {
   my.dirty = false;
   my.last = Date.now();
 
+  my.alert_manager = require('./alert_manager.js').alert_manager({
+    uid: my.uid
+  });
+
   my.status = {
     'c':  [],
     'g':  [],
@@ -46,6 +50,7 @@ var environment = function(spec, my) {
     'g':  {},
     'ms': {}
   };
+
   my.processes = {};
   my.alerts = {};
 
@@ -222,7 +227,7 @@ var environment = function(spec, my) {
           }
         });
       },
-      alerts: load_alerts
+      alert_manager: my.alert_manager.init
     }, function(err, results) {
       if(err) {
         /* DaTtSs */ factory.dattss().agg('environment.init.error', '1c');
@@ -231,11 +236,6 @@ var environment = function(spec, my) {
       else {
         /* DaTtSs */ factory.dattss().agg('environment.init.ok', '1c');
         /* DaTtSs */ factory.dattss().agg('environment.init.ok', (Date.now() - now) + 'ms');
-
-        /* We verify that everything is ok every 30 seconds */
-        if(!my.alerts_itv) {
-          my.alerts_itv = setInterval(check_alerts, 30 * 1000);
-        }
 
         return cb_();
       }
@@ -250,24 +250,7 @@ var environment = function(spec, my) {
   // ```
   //
   load_alerts = function(cb_) {
-    my.alerts = {};
-
-    var c_alerts = factory.data().collection('dts_alerts');
-    c_alerts.find({
-      uid: my.uid
-    }).each(function(err, alert) {
-      if(err) {
-        return cb_(err);
-      }
-      else if(alert) {
-        my.alerts[alert.typ + '-' + alert.pth] =
-          my.alerts[alert.typ + '-' + alert.pth] || [];
-        my.alerts[alert.typ + '-' + alert.pth].push(alert);
-      }
-      else {
-        return cb_();
-      }
-    });
+    my.alert_manager.load_alerts(cb_);
   };
 
   //
@@ -455,6 +438,7 @@ var environment = function(spec, my) {
             }
           }
 
+          my.alert_manager.add_partial(prt);
           c_aggregates.update({
             uid: prt.uid,
             slt: prt.slt,
