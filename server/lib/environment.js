@@ -52,7 +52,6 @@ var environment = function(spec, my) {
   };
 
   my.processes = {};
-  my.alerts = {};
 
   //
   // #### _public methods_
@@ -82,60 +81,6 @@ var environment = function(spec, my) {
   /****************************************************************************/
   /*                             PRIVATE METHODS                              */
   /****************************************************************************/
-  //
-  // ### check_alerts
-  // Check if everything is running as expected, and send an alert if not
-  //
-  check_alerts = function() {
-    var wrong = [];
-    ['c', 'g', 'ms'].forEach(function(type) {
-      my.status[type].forEach(function(status) {
-        /* if at least one alert has been set for this status */
-        if(my.alerts[status.typ + '-' + status.pth]) {
-          var alerts = my.alerts[status.typ + '-' + status.pth];
-
-          alerts.forEach(function(alert) {
-            status[alert.key] = parseInt(status[alert.key], 10);
-            if(!isNaN(status[alert.key])) {
-              var good = true;
-
-              switch(alert.ope) {
-                case '<': {
-                  if(status[alert.key] < alert.val)
-                    good = false;
-                  break;
-                }
-                case '>': {
-                  if(status[alert.key] > alert.val)
-                    good = false;
-                  break;
-                }
-                case '=': {
-                  if(status[alert.key] === alert.val)
-                    good = false;
-                  break;
-                }
-              };
-
-              if(!good) {
-                wrong.push({
-                  type: status.typ,
-                  path: status.pth,
-                  key: alert.key,
-                  expected: alert.val,
-                  operator: alert.ope,
-                  value: status[alert.key]
-                });
-              }
-            }
-          });
-        }
-      });
-    });
-
-    factory.alerts().add(my.uid, wrong);
-  };
-
   //
   // ### slide_partials
   // Slide the partials to only keep the ones that are within the

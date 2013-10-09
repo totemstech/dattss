@@ -40,7 +40,6 @@ var factory = function(spec, my) {
   var email;                        /* email();                   */
   var dattss;                       /* dattss();                  */
   var engine;                       /* engine();                  */
-  var alerts;                       /* alerts();                  */
   var socket;                       /* socket();                  */
 
   var cleanup;                      /* cleanup();                 */
@@ -283,17 +282,6 @@ var factory = function(spec, my) {
   };
 
   //
-  // ### alerts
-  // Return the alerts object
-  //
-  alerts = function() {
-    if(my.initialized) {
-      return my.alerts;
-    }
-    throw new Error('Use factory.init() first');
-  };
-
-  //
   // ### socket
   // Return the socket.io object
   //
@@ -379,10 +367,6 @@ var factory = function(spec, my) {
 
                        /* Start engine */
                        that.engine().start();
-
-                       /* Start alerts manager */
-                       my.alerts = require('./lib/alerts.js').alerts({});
-                       my.alerts.init();
 
                        return cb_();
                      }
