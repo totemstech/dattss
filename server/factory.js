@@ -386,7 +386,6 @@ var factory = function(spec, my) {
   fwk.method(that, 'email', email, _super);
   fwk.method(that, 'dattss', dattss, _super);
   fwk.method(that, 'engine', engine, _super);
-  fwk.method(that, 'alerts', alerts, _super);
   fwk.method(that, 'socket', socket, _super);
 
   fwk.method(that, 'init', init, _super);
