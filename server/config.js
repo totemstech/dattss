@@ -27,7 +27,7 @@ config['DATTSS_CROND_PERIOD'] = 60 * 1000;
 
 config['DATTSS_BTW_ALERTS'] = 10 * 60 * 1000;
 config['DATTSS_MAX_ALERTS'] = 20;
-config['DATTSS_ALERTS_AVG_ITV'] = 2;  /* Moving average use by alerts in minutes */
+config['DATTSS_ALERTS_AVG_ITV'] = 5;  /* Moving average use by alerts in minutes */
 
 config['DATTSS_DEMO_UID'] = 'b22b7b32acb9e606befec211b738316beb191c23';
 
