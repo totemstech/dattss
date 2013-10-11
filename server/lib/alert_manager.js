@@ -40,6 +40,7 @@ var alert_manager = function(spec, my) {
   var add_alert;         /* add_alert(alert);              */
   var check;             /* check();                       */
   var send;              /* send();                        */
+  var clean;             /* clean();                       */
 
   //
   // #### _public methods_
@@ -70,6 +71,7 @@ var alert_manager = function(spec, my) {
 
     var value = 0;
     if(key === 'avg') {
+      var last_commit = false;
       for(var i = 0; i < nr_points; i++) {
         /* We start from the older one as `partials` should be ordered        */
         var prt_date = factory.aggregate_date(
@@ -79,16 +81,29 @@ var alert_manager = function(spec, my) {
         for(var n = 0; n < partials.length; n++) {
           if(partials[n].dte === prt_date) {
             value += partials[n].sum;
+
+            if(prt_date === factory.aggregate_date(new Date(end), true)) {
+              last_commit = true;
+            }
             break;
           }
         }
       }
-      value = (value / (nr_points * 60)).toFixed(2);
+      /* If we didn't receive the last commit yet, it should not be           */
+      /* considered as a 0, so we divide by `nr_points - 1` minutes           */
+      if(last_commit) {
+        value = (value / (nr_points * 60)).toFixed(2);
+      }
+      else {
+        value = (value / ((nr_points - 1) * 60)).toFixed(2);
+      }
     }
     else if(key === 'lst') {
       value = partials[partials.length - 1].lst;
     }
     else {
+      /* We check the two last minutes in case we didn't receive the last     */
+      /* commit yet                                                           */
       var prt_date = factory.aggregate_date(
         new Date(end),
         true
@@ -228,6 +243,32 @@ var alert_manager = function(spec, my) {
     }
   };
 
+  //
+  // ### clean
+  // Clean the partials
+  //
+  clean = function() {
+    var older = factory.aggregate_date(
+      new Date(Date.now() - factory.config()['DATTSS_ALERTS_AVG_ITV'] * 60 * 1000),
+      true
+    );
+
+    for(var name in my.partials) {
+      if(my.partials.hasOwnProperty(name)) {
+        var done = false;
+        while(!done) {
+          if(my.partials[name].length > 0 &&
+             my.partials[name][0].dte < older) {
+            my.partials[name].shift();
+          }
+          else {
+            done = true;
+          }
+        }
+      }
+    }
+  };
+
   /****************************************************************************/
   /*                              PUBLIC METHODS                              */
   /****************************************************************************/
@@ -253,11 +294,8 @@ var alert_manager = function(spec, my) {
           }
         }
 
-        //setInterval(function() {
-        //  console.log(my.to_send);
-        //}, 10 * 1000);
-
         my.check_itv = setInterval(check, 30 * 1000);
+        my.clean_itv = setInterval(clean, 60 * 1000);
         my.batch_itv = setInterval(send, 30 * 1000);
       }
     });
