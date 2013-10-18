@@ -168,10 +168,16 @@ var dattss = function(spec, my) {
     };
 
     my.creq = http.request(options, function(res) {
-      if(exports.CONFIG['DATTSS_DEBUG']) {
-        console.log('/agg ' + res.statusCode + ' [' + my.auth + ']');
-      }
-      delete my.creq;
+      var body = '';
+      res.on('data', function(chunk) {
+        body += chunk;
+      });
+      res.on('end', function() {
+        if(exports.CONFIG['DATTSS_DEBUG']) {
+          console.log('/agg ' + res.statusCode + ' [' + my.auth + ']');
+        }
+        delete my.creq;
+      });
     });
     my.creq.on('error', function(err) {
       if(exports.CONFIG['DATTSS_DEBUG']) {
