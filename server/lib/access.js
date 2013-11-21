@@ -93,7 +93,9 @@ var access = function(spec, my) {
       return next(error);
     };
 
-    if(auth && /^\/agg/.exec(req.url)) {
+    if(auth &&
+       (/^\/agg/.exec(req.url) ||
+        /^\/process/.exec(req.url))) {
       var c_users = factory.data().collection('dts_users');
 
       var hash = /^([^.]+).(.*)$/.exec(auth);

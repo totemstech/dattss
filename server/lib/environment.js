@@ -58,7 +58,7 @@ var environment = function(spec, my) {
   //
   var init;               /* init(cb_);                    */
   var load_alerts;        /* load_alerts(cb_);             */
-  var add_process;        /* add_process(process, socket); */
+  var add_process;        /* add_process(process, cb);     */
   var agg;                /* agg(data);                    */
   var commit;             /* commit();                     */
   var current;            /* current();                    */
@@ -70,6 +70,7 @@ var environment = function(spec, my) {
   // #### _private methods_
   //
   var check_alerts;       /* check_alerts();               */
+  var check_processes;    /* check_processes();            */
   var slide_partials;     /* slide_partials(force);        */
   var aggregate_partials; /* aggregate_partials(cleanup);  */
 
@@ -182,6 +183,9 @@ var environment = function(spec, my) {
         /* DaTtSs */ factory.dattss().agg('environment.init.ok', '1c');
         /* DaTtSs */ factory.dattss().agg('environment.init.ok', (Date.now() - now) + 'ms');
 
+        /* Check processes uptime */
+        my.pro_itv = setInterval(check_processes, 30 * 1000);
+
         return cb_();
       }
     });
@@ -202,22 +206,42 @@ var environment = function(spec, my) {
   // ### add_process
   // Add a process to the current environment
   // ```
-  // @process {string} the process name
-  // @socket {object} the socket linked to the process
+  // @process {string}     the process name
+  // @btn     {function()} the kill switch button
   // ```
   //
-  add_process = function(process, socket) {
-    my.processes[process] = my.processes[process] || [];
-    my.processes[process].push(socket);
-
-    socket.on('disconnect', function() {
-      my.processes[process].forEach(function(so, i) {
-        if(so === socket) {
-          my.processes[process].splice(i, 1);
-        }
-      });
-      that.emit('update');
+  add_process = function(process, btn) {
+    my.processes[process] = my.processes[process] || {
+      first: new Date(),
+      btns:  []
+    };
+    my.processes[process].last = new Date();
+    my.processes[process].btns.push({
+      dte: new Date(),
+      btn: btn
     });
+
+    that.emit('update');
+  };
+
+  //
+  // ### check_processes
+  // Clean kill switch buttons
+  //
+  check_processes = function() {
+    for(var name in my.processes) {
+      if(my.processes.hasOwnProperty(name)) {
+        var deleted = 0;
+        my.processes[name].btns.forEach(function(button, i) {
+          /* Remove after 40 seconds so that the process is not considered as */
+          /* down between two requests                                        */
+          if(button.dte.getTime() < (Date.now() - 40 * 1000)) {
+            my.processes[name].btns.splice(i - deleted, 1);
+            deleted ++;
+          }
+        });
+      }
+    }
     that.emit('update');
   };
 
@@ -442,7 +466,8 @@ var environment = function(spec, my) {
     for(var name in my.processes) {
       if(my.processes.hasOwnProperty(name)) {
         var process = {
-          status: my.processes[name].length === 0 ? 'down' : 'up',
+          status: my.processes[name].btns.length === 0 ? 'down' : 'up',
+          last: my.processes[name].last,
           name: name
         };
         processes.push(process);
@@ -460,13 +485,16 @@ var environment = function(spec, my) {
   // ```
   //
   kill_process = function(name, cb_) {
-    if(!(my.processes[name] && my.processes[name].length > 0)) {
+    if(!(my.processes[name] && my.processes[name].btns.length > 0)) {
       return cb_(new Error('No process found with this name: ' + name))
     }
     else {
-      my.processes[name].forEach(function(socket) {
-        socket.emit('kill');
+      my.processes[name].btns.forEach(function(button) {
+        button.btn();
       });
+      my.processes[name].btns = [];
+      that.emit('update');
+
       return cb_();
     }
   };

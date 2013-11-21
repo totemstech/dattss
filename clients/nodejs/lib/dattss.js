@@ -11,7 +11,6 @@
 
 var fwk = require('fwk');
 var http = require('http');
-var io = require('socket.io-client');
 
 exports.CONFIG = fwk.populateConfig(require('../config.js').config);
 
@@ -41,6 +40,7 @@ var dattss = function(spec, my) {
   my.process   = spec.process;
 
   my.stopped = true;
+  my.backoff = 1000;
 
   /* accumulators */
   my.acc = {
@@ -60,6 +60,7 @@ var dattss = function(spec, my) {
   //
   // #### _private methods_
   //
+  var long_polling;  /* long_polling();   */
   var do_commit;     /* do_commit();      */
   var make_partials; /* make_partials();  */
 
@@ -187,6 +188,72 @@ var dattss = function(spec, my) {
     my.creq.end(JSON.stringify(commit));
   };
 
+  //
+  // ### long_polling
+  // Infinite long polling request used to register as a process. This allows
+  // to receive a kill-switch from the server
+  //
+  long_polling = function() {
+    if(my.req_opened) {
+      return;
+    }
+    my.req_opened = true;
+
+    var data = JSON.stringify({
+      auth:    my.auth,
+      process: my.process
+    });
+
+    var options = {
+      host: my.http_host,
+      port: my.http_port,
+      method: 'PUT',
+      path: '/process?auth=' + my.auth,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data)
+      }
+    };
+
+    var req = http.request(options, function(res) {
+      var body = '';
+
+      res.on('data', function(chunk) {
+        body += chunk;
+      });
+
+      res.on('end', function() {
+        /* If the response is a kill signal, kill the app */
+        if(body === my.auth + '-' + my.process) {
+          console.log('DaTtSs Kill signal received!');
+          process.exit(1);
+        }
+
+        my.req_opened = false;
+        setTimeout(long_polling, 100);
+      });
+    });
+
+    req.on('error', function(err) {
+      my.req_opened = false;
+
+      if(err.code === 'ECONNREFUSED') {
+        if(my.backoff < 16000) {
+          my.backoff = my.backoff * 2;
+        }
+
+        return setTimeout(long_polling, my.backoff);
+      }
+
+      if(err.code === 'ECONNRESET') {
+        my.backoff = 1000;
+        return setTimeout(long_polling, 100);
+      }
+    });
+
+    req.end(data);
+  };
+
   /****************************************************************************/
   /*                     PUBLIC STATISTICS CAPTURE INTERFACE                  */
   /****************************************************************************/
@@ -235,26 +302,11 @@ var dattss = function(spec, my) {
     my.itv = setInterval(do_commit, exports.CONFIG['DATTSS_PUSH_PERIOD'] * 1000);
     my.stopped = false;
 
-    /* If a process name has been specified, we connect to the socket. This */
+    /* If a process name has been specified, we connect to the server. This */
     /* is used to determine uptime and allow kill switch usage              */
     if(typeof my.process === 'string' &&
        my.process.trim() !== '') {
-      var socket = io.connect(
-        'http://' + my.http_host + ':' + my.http_port + '/process'
-      , {
-        'reconnect': true,
-        'reconnection delay': 500,
-        'max reconnection attempts': 10
-      });
-
-      socket.on('connect', function() {
-        socket.emit('authenticate', my.auth, my.process);
-
-        socket.on('kill', function() {
-          console.log('DaTtSs Kill signal received');
-          process.exit(1);
-        });
-      });
+      long_polling();
     }
   };
 

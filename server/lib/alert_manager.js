@@ -297,6 +297,8 @@ var alert_manager = function(spec, my) {
         my.check_itv = setInterval(check, 30 * 1000);
         my.clean_itv = setInterval(clean, 60 * 1000);
         my.batch_itv = setInterval(send, 30 * 1000);
+
+        return cb_();
       }
     });
   };

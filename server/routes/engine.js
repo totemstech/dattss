@@ -31,6 +31,35 @@ exports.put_agg = function(req, res, next) {
 };
 
 //
+// ### @PUT /process
+// Register a process with long-polling
+//
+exports.put_process = function(req, res, next) {
+  var auth = req.param('auth');
+  var process = req.param('process');
+
+  var uid = auth.split('.')[0];
+
+  var send = function(message) {
+    res.end(auth + '-' + process);
+
+    /* Avoid multiple calls */
+    send = function() {};
+
+    return true; /* Sent */
+  };
+
+  req.on('close', function() {
+    send = function() {};
+  });
+
+  /* Set the timeout */
+  req.setTimeout(10 * 1000);
+
+  factory.engine().add_process(uid, process, send);
+};
+
+//
 // ### @GET /status
 // Get the current status
 //

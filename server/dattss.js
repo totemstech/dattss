@@ -62,6 +62,8 @@ var setup = function() {
 
   /* ENGINE */
   app.put( '/agg',                                 require('./routes/engine.js').put_agg);
+  app.put( '/process',                             require('./routes/engine.js').put_process);
+
   app.get( '/s/status',                            require('./routes/engine.js').get_status);
   app.get( '/s/processes',                         require('./routes/engine.js').get_processes);
   app.del( '/s/process/:name',                     require('./routes/engine.js').del_process);

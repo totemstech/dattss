@@ -42,6 +42,7 @@ var engine = function(spec, my) {
   var agg;             /* agg(uid, data);               */
   var refresh_alerts;  /* refresh_alerts(uid, cb_);     */
   var current;         /* current(uid, cb_);            */
+  var add_process;     /* add_process(uid, name, cb);   */
   var processes;       /* processes(uid, cb_);          */
   var kill_process;    /* kill_process(uid, name, cb_); */
 
@@ -114,40 +115,6 @@ var engine = function(spec, my) {
     }
   };
 
-  //
-  // ### init_socket
-  // Initialized the socket
-  //
-  init_socket = function() {
-    /* Set socket connection used for processes */
-    var io = factory.socket().of('/process');
-
-    /* We authorize all connection but wait a 'authenticate' message */
-    io.authorization(function(data, cb_) {
-      return cb_(null, true);
-    });
-
-    io.on('connection', function(socket) {
-      /* if we do not receive the auth message in 30secondes, we close */
-      /* the socket                                                    */
-      var auth_timeout = setTimeout(function() {
-        socket.disconnect();
-      }, 30 * 1000);
-
-      socket.on('authenticate', function(auth_key, process) {
-        clearTimeout(auth_timeout);
-
-        var hash = /^([^.]+).(.*)$/.exec(auth_key);
-        if(hash && hash[2] === factory.hash([ hash[1] ])) {
-          my.envs[hash[1]].add_process(process, socket);
-        }
-        else {
-          socket.disconnect();
-        }
-      });
-    });
-  };
-
   /****************************************************************************/
   /*                             PUBLIC INTERFACE                             */
   /****************************************************************************/
@@ -179,8 +146,6 @@ var engine = function(spec, my) {
           factory.log().out('Engine started');
           my.crond_itv = setInterval(crond, factory.config()['DATTSS_CROND_PERIOD']);
         }
-
-        init_socket();
       }
     });
   };
@@ -330,6 +295,29 @@ var engine = function(spec, my) {
   };
 
   //
+  // ### add_process
+  // Add a process to a given user
+  // ```
+  // @uid  {string} the user ID
+  // @name {string} the process name
+  // @btn  {function()}
+  // ```
+  //
+  add_process = function(uid, name, btn) {
+    get_env(uid, function(err, env) {
+      if(err) {
+        /* DaTtSs */ factory.dattss().agg('engine.processes.error', '1c');
+        /* nothing else to do */
+        return;
+      }
+      else {
+        /* DaTtSs */ factory.dattss().agg('engine.processes.ok', '1c');
+        return env.add_process(name, btn);
+      }
+    });
+  };
+
+  //
   // ### processes
   // Compute processes for a given user
   // ```
@@ -376,6 +364,7 @@ var engine = function(spec, my) {
   fwk.method(that, 'agg', agg, _super);
   fwk.method(that, 'refresh_alerts', refresh_alerts, _super);
   fwk.method(that, 'current', current, _super);
+  fwk.method(that, 'add_process', add_process, _super);
   fwk.method(that, 'processes', processes, _super);
   fwk.method(that, 'kill_process', kill_process, _super);
 
