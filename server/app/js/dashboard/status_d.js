@@ -89,7 +89,12 @@ angular.module('dattss.directives').controller('StatusController',
             child: $scope.update([], value_upd.child)
           };
 
-          current.splice(i, 0, new_value);
+          if(current.length <= i) {
+            current.push(new_value);
+          }
+          else {
+            current.splice(i, 0, new_value);
+          }
         }
       });
     };
