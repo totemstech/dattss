@@ -74,7 +74,8 @@ angular.module('dattss.directives').controller('StatusController',
 
       update.forEach(function(value_upd, i) {
         /* Value already exists, we update it */
-        if(current[i].label === value_upd.label) {
+        if(current[i] &&
+           current[i].label === value_upd.label) {
           update_status(current[i].status, value_upd.status);
           $scope.update(current[i].child, value_upd.child);
         }
