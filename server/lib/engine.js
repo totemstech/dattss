@@ -51,6 +51,7 @@ var engine = function(spec, my) {
   //
   var crond;      /* crond();              */
   var get_env;    /* get_env(uid, cb_);    */
+  var update;     /* update(uid);          */
 
   //
   // #### _that_
@@ -104,13 +105,27 @@ var engine = function(spec, my) {
         }
         else {
           my.envs[uid].on('update', function() {
-            that.emit(uid + ':update', {
-              status: my.envs[uid].current(),
-              processes: my.envs[uid].processes()
-            });
+            return update(uid);
           });
           return cb_(null, my.envs[uid]);
         }
+      });
+    }
+  };
+
+  //
+  // ### update
+  // Emit an update if enough time elapsed since last one
+  // ```
+  // @uid  {string}   the user ID
+  // ```
+  //
+  update = function(uid) {
+    if(!my.updates[uid] || my.updates[uid] < Date.now() - 1000 * 5) {
+      my.updates[uid] = Date.now();
+      that.emit(uid + ':update', {
+        status: my.envs[uid].current(),
+        processes: my.envs[uid].processes()
       });
     }
   };
@@ -241,13 +256,7 @@ var engine = function(spec, my) {
       }
     });
 
-    if(!my.updates[uid] || my.updates[uid] < Date.now() - 1000 * 5) {
-      my.updates[uid] = Date.now();
-      that.emit(uid + ':update', {
-        status: my.envs[uid].current(),
-        processes: my.envs[uid].processes()
-      });
-    }
+    update(uid);
 
     return true;
   };
