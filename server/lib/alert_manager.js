@@ -118,7 +118,7 @@ var alert_manager = function(spec, my) {
       }
     }
 
-    return value;
+    return parseFloat(value);
   };
 
   //
@@ -172,7 +172,7 @@ var alert_manager = function(spec, my) {
                 break;
               }
               case '=': {
-                if(value === alert.val)
+                if(value == alert.val)
                   good = false;
                 break;
               }
